@@ -17,7 +17,9 @@ export async function get(req, res) {
   }
 
   const { lat, lng } = links.filter(link => link.slug === city)[0].geocoords;
-  if (!lat || !lng) {
+  const { name } = links.filter(link => link.slug === city)[0];
+
+  if (!lat || !lng || !name) {
     res.writeHead(404, {
       'Content-Type': 'application/json',
     });
@@ -49,6 +51,8 @@ export async function get(req, res) {
   res.writeHead(200, {
     'Content-Type': 'application/json',
   });
+
+  data.data.name = name;
 
   res.end(JSON.stringify({ data: data.data }));
 }

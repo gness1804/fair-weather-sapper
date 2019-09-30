@@ -4,7 +4,7 @@
     const data = await res.json();
 
     if (res.status === 200) {
-      return { data, cityName: params.city };
+      return { data, cityName: data.data.name };
     }
     return this.error(res.status, data.message);
   }
