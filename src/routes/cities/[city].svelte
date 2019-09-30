@@ -19,6 +19,6 @@
   <title>{cityName} Weather</title>
 </svelte:head>
 
-<h2>{cityName} Weather</h2>
+<h2 class="font-bold text-gray-600">{cityName} Weather</h2>
 
 <h3>The weather is {data.data.currently.summary}</h3>
