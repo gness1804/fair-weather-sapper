@@ -1,0 +1,6 @@
+node_modules
+*.config.js
+src/service-worker.js
+
+# came as demo files; will be deleted in time
+src/routes/blog
