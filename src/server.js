@@ -1,6 +1,8 @@
 import sirv from 'sirv';
 import polka from 'polka';
 import compression from 'compression';
+
+require('dotenv').config();
 /* eslint-disable import/no-extraneous-dependencies */
 import * as sapper from '@sapper/server';
 /* eslint-enable import/no-extraneous-dependencies */
