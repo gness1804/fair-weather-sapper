@@ -12,12 +12,18 @@
   export let cities;
 </script>
 
-<h2>Cities</h2>
+<h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
-<ul>
+<ul class="text-center">
   {#each cities as { slug, name }}
-    <li>
-      <a rel="prefetch" href="cities/{slug}">{name}</a>
+    <li class="mb-4">
+      <a
+        class="text-blue-600 hover:text-blue-400"
+        rel="prefetch"
+        title={name}
+        href="cities/{slug}">
+        {name}
+      </a>
     </li>
   {/each}
 </ul>
