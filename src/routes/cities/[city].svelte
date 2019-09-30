@@ -11,10 +11,14 @@
 </script>
 
 <script>
+  import getTempColor from '../../data/getTempColor';
+
   export let data;
   export let cityName;
 
   $: currentData = data.currently;
+  $: temp = Math.round(parseFloat(currentData.temperature));
+  $: tempColor = getTempColor(temp);
 </script>
 
 <svelte:head>
@@ -22,9 +26,9 @@
 </svelte:head>
 
 <div class="text-center">
-  <h2 class="font-bold text-gray-600">{cityName} Weather</h2>
+  <h2 class="font-bold text-gray-600 text-3xl mb-8">{cityName} Weather</h2>
 
-  <p>{Math.round(currentData.temperature)} &deg;</p>
+  <p class={`text-5xl text-${tempColor}`}>{temp} &deg; F</p>
 
   <h3>The weather is {currentData.summary}</h3>
 </div>

@@ -23,4 +23,4 @@ const getTempColor = temp => {
   return res;
 };
 
-export default getTempColor;
+module.exports = getTempColor;
