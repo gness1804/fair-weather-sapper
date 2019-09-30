@@ -1,24 +1,30 @@
 <script context="module">
   export async function preload({ params }) {
     const res = await this.fetch(`cities/${params.city}.json`);
-    const data = await res.json();
+    const parsedRes = await res.json();
 
     if (res.status === 200) {
-      return { data, cityName: data.data.name };
+      return { data: parsedRes.data, cityName: parsedRes.data.name };
     }
-    return this.error(res.status, data.message);
+    return this.error(res.status, parsedRes.message);
   }
 </script>
 
 <script>
   export let data;
   export let cityName;
+
+  $: currentData = data.currently;
 </script>
 
 <svelte:head>
   <title>{cityName} Weather</title>
 </svelte:head>
 
-<h2 class="font-bold text-gray-600">{cityName} Weather</h2>
+<div class="text-center">
+  <h2 class="font-bold text-gray-600">{cityName} Weather</h2>
 
-<h3>The weather is {data.data.currently.summary}</h3>
+  <p>{Math.round(currentData.temperature)} &deg;</p>
+
+  <h3>The weather is {currentData.summary}</h3>
+</div>
