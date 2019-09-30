@@ -67,5 +67,13 @@
         blog
       </a>
     </li>
+    <li>
+      <a
+        rel="prefetch"
+        class={segment === 'cities' ? 'selected' : ''}
+        href="cities">
+        cities
+      </a>
+    </li>
   </ul>
 </nav>
