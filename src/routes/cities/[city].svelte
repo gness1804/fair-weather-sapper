@@ -27,6 +27,13 @@
 
   $: dailyLowTemp = Math.round(parseFloat(dailyData.data[0].temperatureLow));
   $: dailyLowTempColor = getTempColor(dailyLowTemp);
+
+  $: sunriseTime = new Date(
+    parseFloat(dailyData.data[0].sunriseTime) * 1000,
+  ).toLocaleTimeString();
+  $: sunsetTime = new Date(
+    parseFloat(dailyData.data[0].sunsetTime) * 1000,
+  ).toLocaleTimeString();
 </script>
 
 <svelte:head>
@@ -44,6 +51,7 @@
   </p>
 
   <h3 class="text-2xl">Today:</h3>
+
   <div class="high-low-temps-container">
     <div class="high-temp">
       <img src="" alt="Up arrow." />
@@ -52,6 +60,17 @@
     <div class="low-temp">
       <img src="" alt="Down arrow." />
       <span class={`text-${dailyLowTempColor}`}>{dailyLowTemp} &deg;</span>
+    </div>
+  </div>
+
+  <div class="sunrise-sunset-container">
+    <div class="sunrise">
+      <img src="" alt="Sun rising." />
+      <span>{sunriseTime}</span>
+    </div>
+    <div class="sunset">
+      <img src="" alt="Sun setting." />
+      <span>{sunsetTime}</span>
     </div>
   </div>
 </div>
