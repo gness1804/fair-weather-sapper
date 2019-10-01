@@ -62,7 +62,8 @@
           <img src="arrow-up.png" alt="Up arrow." />
         </div>
         <span class={`text-${dailyHighTempColor} text-2xl`}>
-          {dailyHighTemp} &deg;
+          <span class="high-temp">{dailyHighTemp}</span>
+          &deg;
         </span>
       </div>
       <div class="low-temp flex items-center justify-center">
@@ -70,7 +71,8 @@
           <img src="arrow-down.png" alt="Down arrow." />
         </div>
         <span class={`text-${dailyLowTempColor} text-2xl`}>
-          {dailyLowTemp} &deg;
+          <span class="low-temp">{dailyLowTemp}</span>
+          &deg;
         </span>
       </div>
     </div>

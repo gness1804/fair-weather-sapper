@@ -17,10 +17,8 @@ describe('city page for Austin', () => {
   });
 
   it('shows the correct current temperature', () => {
-    const currentTemperature = Math.round(
-      parseFloat(data.data.currently.temperature),
-    );
-    cy.get('.current-temp').contains(currentTemperature);
+    const temp = Math.round(parseFloat(data.data.currently.temperature));
+    cy.get('.current-temp').contains(temp);
   });
 
   it('should display the current weather conditions.', () => {
@@ -28,5 +26,17 @@ describe('city page for Austin', () => {
     cy.get('.current-conditions-message').contains(
       `The weather is ${conditions}`,
     );
+  });
+
+  it('should display the high temp', () => {
+    const temp = Math.round(
+      parseFloat(data.data.daily.data[0].temperatureHigh),
+    );
+    cy.get('.high-temp').contains(temp);
+  });
+
+  it('should display the low temp', () => {
+    const temp = Math.round(parseFloat(data.data.daily.data[0].temperatureLow));
+    cy.get('.low-temp').contains(temp);
   });
 });
