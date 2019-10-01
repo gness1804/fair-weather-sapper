@@ -13,7 +13,9 @@
     "cy:open": "cypress open",
     "test": "run-p --race dev cy:run",
     "prettier": "prettier --write --plugin-search-dir=. ./**/*.svelte ./**/*.html ./**/*.js ./**/*.spec.js preCommit.js",
-    "lint": "node_modules/.bin/eslint --ext .js,.svelte src"
+    "prettier:spec": "prettier --write",
+    "lint": "node_modules/.bin/eslint --ext .js,.svelte src",
+    "seed": "node ./src/scripts/seedCityData.js"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^1.3.0",

@@ -41,4 +41,4 @@ const links = [
   },
 ];
 
-export default links;
+module.exports = links;
