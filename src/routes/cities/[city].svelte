@@ -12,6 +12,7 @@
 
 <script>
   import getTempColor from '../../data/getTempColor';
+  import makeDateHumanReadable from '../../helpers/makeDateHumanReadable';
 
   export let data;
   export let cityName;
@@ -28,12 +29,8 @@
   $: dailyLowTemp = Math.round(parseFloat(dailyData.data[0].temperatureLow));
   $: dailyLowTempColor = getTempColor(dailyLowTemp);
 
-  $: sunriseTime = new Date(parseFloat(dailyData.data[0].sunriseTime) * 1000)
-    .toLocaleTimeString()
-    .replace(/^(\d{1,2}):(\d{2}):\d{2}/, '$1:$2');
-  $: sunsetTime = new Date(parseFloat(dailyData.data[0].sunsetTime) * 1000)
-    .toLocaleTimeString()
-    .replace(/^(\d{1,2}):(\d{2}):\d{2}/, '$1:$2');
+  $: sunriseTime = makeDateHumanReadable(dailyData.data[0].sunriseTime);
+  $: sunsetTime = makeDateHumanReadable(dailyData.data[0].sunsetTime);
 </script>
 
 <svelte:head>
