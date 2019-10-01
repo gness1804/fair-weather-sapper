@@ -17,8 +17,16 @@
   export let cityName;
 
   $: currentData = data.currently;
-  $: temp = Math.round(parseFloat(currentData.temperature));
-  $: tempColor = getTempColor(temp);
+  $: dailyData = data.daily;
+
+  $: currentTemp = Math.round(parseFloat(currentData.temperature));
+  $: currentTempColor = getTempColor(currentTemp);
+
+  $: dailyHighTemp = Math.round(parseFloat(dailyData.data[0].temperatureHigh));
+  $: dailyHighTempColor = getTempColor(dailyHighTemp);
+
+  $: dailyLowTemp = Math.round(parseFloat(dailyData.data[0].temperatureLow));
+  $: dailyLowTempColor = getTempColor(dailyLowTemp);
 </script>
 
 <svelte:head>
@@ -28,10 +36,22 @@
 <div class="text-center">
   <h2 class="font-bold text-gray-600 text-3xl mb-8">{cityName} Weather</h2>
 
-  <p class={`text-5xl text-${tempColor} mb-6`}>{temp} &deg; F</p>
+  <p class={`text-5xl text-${currentTempColor} mb-6`}>{currentTemp} &deg; F</p>
 
-  <h3>
+  <p class="mb-6">
     The weather is {currentData.summary} with a {Math.round(currentData.precipProbability)}%
     chance of rain.
-  </h3>
+  </p>
+
+  <h3 class="text-2xl">Today:</h3>
+  <div class="high-low-temps-container">
+    <div class="high-temp">
+      <img src="" alt="Up arrow." />
+      <span class={`text-${dailyHighTempColor}`}>{dailyHighTemp} &deg;</span>
+    </div>
+    <div class="low-temp">
+      <img src="" alt="Down arrow." />
+      <span class={`text-${dailyLowTempColor}`}>{dailyLowTemp} &deg;</span>
+    </div>
+  </div>
 </div>
