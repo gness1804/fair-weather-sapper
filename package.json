@@ -9,8 +9,8 @@
     "build": "sapper build",
     "export": "sapper export",
     "start": "node __sapper__/build",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open",
+    "e2e": "cypress run",
+    "e2e:open": "cypress open",
     "test": "run-p --race dev cy:run",
     "prettier": "prettier --write --plugin-search-dir=. ./**/*.svelte ./**/*.html ./**/*.js ./**/*.spec.js preCommit.js",
     "prettier:spec": "prettier --write",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "babel-eslint": "9.0.0",
+    "cypress": "^3.4.1",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-cypress": "^2.6.1",
