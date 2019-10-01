@@ -28,12 +28,12 @@
   $: dailyLowTemp = Math.round(parseFloat(dailyData.data[0].temperatureLow));
   $: dailyLowTempColor = getTempColor(dailyLowTemp);
 
-  $: sunriseTime = new Date(
-    parseFloat(dailyData.data[0].sunriseTime) * 1000,
-  ).toLocaleTimeString();
-  $: sunsetTime = new Date(
-    parseFloat(dailyData.data[0].sunsetTime) * 1000,
-  ).toLocaleTimeString();
+  $: sunriseTime = new Date(parseFloat(dailyData.data[0].sunriseTime) * 1000)
+    .toLocaleTimeString()
+    .replace(/^(\d{1,2}):(\d{2}):\d{2}/, '$1:$2');
+  $: sunsetTime = new Date(parseFloat(dailyData.data[0].sunsetTime) * 1000)
+    .toLocaleTimeString()
+    .replace(/^(\d{1,2}):(\d{2}):\d{2}/, '$1:$2');
 </script>
 
 <svelte:head>
