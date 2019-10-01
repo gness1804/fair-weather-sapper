@@ -17,4 +17,13 @@ describe('Cities landing page.', () => {
       }
     });
   });
+
+  it('clicking on the Austin link should go to the Austin page.', () => {
+    cy.get('.cities-links a').each((elem, index) => {
+      if (index === 0) {
+        cy.get(elem).click();
+      }
+    });
+    cy.url().should('include', '/austin');
+  });
 });
