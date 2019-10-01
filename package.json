@@ -6,7 +6,7 @@
     "dev": "sapper dev",
     "watch:tailwind": "postcss static/tailwind.css -o static/index.css -w",
     "build:tailwind": "NODE_ENV=production postcss static/tailwind.css -o static/index.css",
-    "build": "npm run build:tailwind && sapper build",
+    "build": "sapper build",
     "export": "sapper export",
     "start": "node __sapper__/build",
     "cy:run": "cypress run",
