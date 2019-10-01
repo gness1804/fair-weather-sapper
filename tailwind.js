@@ -13,6 +13,7 @@ module.exports = {
       },
       width: {
         half: '50vw',
+        most: '70vw;',
       },
     },
   },

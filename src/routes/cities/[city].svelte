@@ -50,10 +50,10 @@
     chance of rain.
   </p>
 
-  <div class="today-container my-0 mx-auto w-half">
-    <h3 class="text-2xl">Today:</h3>
+  <div class="today-container my-0 mx-auto w-most md:w-half">
+    <h3 class="text-2xl mb-6">Today:</h3>
 
-    <div class="high-low-temps-container flex justify-between">
+    <div class="high-low-temps-container flex justify-between mb-6">
       <div class="high-temp flex items-center justify-center">
         <div class="h-6 w-6 mr-4">
           <img src="arrow-up.png" alt="Up arrow." />
@@ -74,16 +74,16 @@
 
     <div class="sunrise-sunset-container flex justify-between">
       <div class="sunrise flex items-center justify-center">
-        <div class="h-8 w-8 mr-4">
+        <div class="h-10 w-10 mr-2 md:mr-4">
           <img src="sunrise.png" alt="Sun rising." />
         </div>
-        <span class="text-2xl">{sunriseTime}</span>
+        <span class="text-base md:text-2xl">{sunriseTime}</span>
       </div>
       <div class="sunset flex items-center justify-center">
-        <div class="h-8 w-8 mr-4">
+        <div class="h-10 w-10 mr-2 md:mr-4">
           <img src="sunset.png" alt="Sun setting." />
         </div>
-        <span class="text-2xl">{sunsetTime}</span>
+        <span class="text-base md:text-2xl">{sunsetTime}</span>
       </div>
     </div>
 
