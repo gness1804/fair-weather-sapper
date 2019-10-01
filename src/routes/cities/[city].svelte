@@ -28,7 +28,10 @@
 <div class="text-center">
   <h2 class="font-bold text-gray-600 text-3xl mb-8">{cityName} Weather</h2>
 
-  <p class={`text-5xl text-${tempColor}`}>{temp} &deg; F</p>
+  <p class={`text-5xl text-${tempColor} mb-6`}>{temp} &deg; F</p>
 
-  <h3>The weather is {currentData.summary}</h3>
+  <h3>
+    The weather is {currentData.summary} with a {Math.round(currentData.precipProbability)}%
+    chance of rain.
+  </h3>
 </div>
