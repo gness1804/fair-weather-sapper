@@ -43,7 +43,10 @@
 <div class="text-center">
   <h2 class="font-bold text-gray-600 text-3xl mb-8">{cityName} Weather</h2>
 
-  <p class={`text-5xl text-${currentTempColor} mb-6`}>{currentTemp} &deg; F</p>
+  <p class={`text-5xl text-${currentTempColor} mb-6`}>
+    <span class="current-temp">{currentTemp}</span>
+    &deg; F
+  </p>
 
   <p class="mb-6">
     The weather is {currentData.summary} with a {Math.round(currentData.precipProbability)}%
