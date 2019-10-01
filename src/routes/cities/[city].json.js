@@ -1,5 +1,9 @@
 import axios from 'axios';
+import { readFile } from 'fs';
+import util from 'util';
 import links from './_cityLinks';
+
+const promisifiedReadFile = util.promisify(readFile);
 
 export async function get(req, res) {
   const { city } = req.params;
@@ -35,9 +39,18 @@ export async function get(req, res) {
 
   let data;
   try {
-    data = await axios.get(
-      `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${lng}`,
-    );
+    if (process.env.TESTING === 'true') {
+      data = JSON.parse(
+        await promisifiedReadFile(
+          `./src/routes/cities/_cityStaticData/${city}.json`,
+          'utf-8',
+        ),
+      );
+    } else {
+      data = await axios.get(
+        `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${lng}`,
+      );
+    }
   } catch (error) {
     res.writeHead(500, {
       'Content-Type': 'application/json',
