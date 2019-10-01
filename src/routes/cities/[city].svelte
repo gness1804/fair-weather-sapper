@@ -72,14 +72,18 @@
       </div>
     </div>
 
-    <div class="sunrise-sunset-container">
-      <div class="sunrise">
-        <img src="" alt="Sun rising." />
-        <span>{sunriseTime}</span>
+    <div class="sunrise-sunset-container flex justify-between">
+      <div class="sunrise flex items-center justify-center">
+        <div class="h-8 w-8 mr-4">
+          <img src="sunrise.png" alt="Sun rising." />
+        </div>
+        <span class="text-2xl">{sunriseTime}</span>
       </div>
-      <div class="sunset">
-        <img src="" alt="Sun setting." />
-        <span>{sunsetTime}</span>
+      <div class="sunset flex items-center justify-center">
+        <div class="h-8 w-8 mr-4">
+          <img src="sunset.png" alt="Sun setting." />
+        </div>
+        <span class="text-2xl">{sunsetTime}</span>
       </div>
     </div>
 
