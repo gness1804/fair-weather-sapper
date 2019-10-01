@@ -50,27 +50,38 @@
     chance of rain.
   </p>
 
-  <h3 class="text-2xl">Today:</h3>
+  <div class="today-container my-0 mx-auto w-half">
+    <h3 class="text-2xl">Today:</h3>
 
-  <div class="high-low-temps-container">
-    <div class="high-temp">
-      <img src="" alt="Up arrow." />
-      <span class={`text-${dailyHighTempColor}`}>{dailyHighTemp} &deg;</span>
+    <div class="high-low-temps-container flex justify-between">
+      <div class="high-temp flex items-center justify-center">
+        <div class="h-6 w-6 mr-4">
+          <img src="arrow-up.png" alt="Up arrow." />
+        </div>
+        <span class={`text-${dailyHighTempColor} text-2xl`}>
+          {dailyHighTemp} &deg;
+        </span>
+      </div>
+      <div class="low-temp flex items-center justify-center">
+        <div class="h-6 w-6 mr-4">
+          <img src="arrow-down.png" alt="Down arrow." />
+        </div>
+        <span class={`text-${dailyLowTempColor} text-2xl`}>
+          {dailyLowTemp} &deg;
+        </span>
+      </div>
     </div>
-    <div class="low-temp">
-      <img src="" alt="Down arrow." />
-      <span class={`text-${dailyLowTempColor}`}>{dailyLowTemp} &deg;</span>
-    </div>
-  </div>
 
-  <div class="sunrise-sunset-container">
-    <div class="sunrise">
-      <img src="" alt="Sun rising." />
-      <span>{sunriseTime}</span>
+    <div class="sunrise-sunset-container">
+      <div class="sunrise">
+        <img src="" alt="Sun rising." />
+        <span>{sunriseTime}</span>
+      </div>
+      <div class="sunset">
+        <img src="" alt="Sun setting." />
+        <span>{sunsetTime}</span>
+      </div>
     </div>
-    <div class="sunset">
-      <img src="" alt="Sun setting." />
-      <span>{sunsetTime}</span>
-    </div>
+
   </div>
 </div>

@@ -11,6 +11,9 @@ module.exports = {
         hot: '#f16732',
         boiling: '#f00',
       },
+      width: {
+        half: '50vw',
+      },
     },
   },
   variants: {},
