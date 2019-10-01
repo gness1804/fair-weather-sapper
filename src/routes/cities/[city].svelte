@@ -48,7 +48,7 @@
     &deg; F
   </p>
 
-  <p class="mb-6">
+  <p class="current-conditions-message mb-6">
     The weather is {currentData.summary} with a {Math.round(currentData.precipProbability)}%
     chance of rain.
   </p>

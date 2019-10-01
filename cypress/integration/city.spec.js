@@ -22,4 +22,11 @@ describe('city page for Austin', () => {
     );
     cy.get('.current-temp').contains(currentTemperature);
   });
+
+  it('should display the current weather conditions.', () => {
+    const conditions = data.data.currently.summary;
+    cy.get('.current-conditions-message').contains(
+      `The weather is ${conditions}`,
+    );
+  });
 });
