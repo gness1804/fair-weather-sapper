@@ -14,6 +14,7 @@ export async function get(req, res) {
         message: 'Not found',
       }),
     );
+    return;
   }
 
   const { lat, lng } = links.filter(link => link.slug === city)[0].geocoords;
@@ -29,6 +30,7 @@ export async function get(req, res) {
         message: 'Not found',
       }),
     );
+    return;
   }
 
   let data;
@@ -46,6 +48,7 @@ export async function get(req, res) {
         message: `Error fetching weather data: ${JSON.stringify(error)}`,
       }),
     );
+    return;
   }
 
   res.writeHead(200, {
