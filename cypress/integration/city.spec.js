@@ -1,5 +1,13 @@
 describe('city page for Austin', () => {
+  let data;
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
+
+  before(() => {
+    cy.readFile(cityDataFile).then(contents => {
+      data = contents;
+    });
+  });
+
   beforeEach(() => {
     cy.visit('/cities/austin');
   });
@@ -9,11 +17,9 @@ describe('city page for Austin', () => {
   });
 
   it('shows the correct current temperature', () => {
-    cy.readFile(cityDataFile).then(contents => {
-      const currentTemperature = Math.round(
-        parseFloat(contents.data.currently.temperature),
-      );
-      cy.get('.current-temp').contains(currentTemperature);
-    });
+    const currentTemperature = Math.round(
+      parseFloat(data.data.currently.temperature),
+    );
+    cy.get('.current-temp').contains(currentTemperature);
   });
 });
