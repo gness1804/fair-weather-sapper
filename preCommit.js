@@ -43,9 +43,9 @@ const checkFile = (fileName, data) =>
     if (data.match(/debugger/g) && data.match(/debugger/g).length) {
       reject(resetAndExit(`Error: debugger in ${fileName}. Exiting.`));
     }
-    if (data.match(/console/g) && data.match(/console/g).length) {
-      reject(resetAndExit(`Error: console statement in ${fileName}. Exiting.`));
-    }
+    // if (data.match(/console/g) && data.match(/console/g).length) {
+    //   reject(resetAndExit(`Error: console statement in ${fileName}. Exiting.`));
+    // }
     if (data.match(/it.only/g) && data.match(/it.only/g).length) {
       reject(resetAndExit(`Error: it.only in ${fileName}. Exiting.`));
     }
