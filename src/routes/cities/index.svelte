@@ -13,11 +13,13 @@
   import { onMount } from 'svelte';
   import axios from 'axios';
   import convertTemp from '../../helpers/convertTemp';
+  import getTempColor from '../../data/getTempColor';
 
   export let cities;
 
   let currentTemp;
   $: convertedTemp = convertTemp(currentTemp);
+  $: convertedTempColor = getTempColor(convertedTemp);
 
   const success = position => {
     const { latitude } = position.coords;
@@ -54,7 +56,7 @@
 
 <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
-<ul class="cities-links text-center">
+<ul class="cities-links text-center mb-12">
   {#each cities as { slug, name }}
     <li class="mb-4">
       <a
@@ -69,5 +71,10 @@
 </ul>
 
 {#if convertedTemp}
-  <p>{convertedTemp}</p>
+  <div class="text-center">
+    <p>Your current temperature is:</p>
+    <p class={`text-5xl text-${convertedTempColor} mb-6`}>
+      {convertedTemp} &deg; F
+    </p>
+  </div>
 {/if}

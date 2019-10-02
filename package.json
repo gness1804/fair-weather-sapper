@@ -12,6 +12,8 @@
     "e2e": "node ./src/scripts/cyRun.js",
     "e2e:open": "node ./src/scripts/cyOpen.js",
     "test": "run-p --race dev e2e",
+    "test:enable": "node ./src/scripts/enableTesting.js",
+    "test:disable": "node ./src/scripts/disableTesting.js",
     "unit": "mocha",
     "prettier": "prettier --write --plugin-search-dir=. ./**/*.svelte ./**/*.html ./**/*.js ./**/*.spec.js preCommit.js",
     "prettier:spec": "prettier --write",
