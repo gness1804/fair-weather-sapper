@@ -22,13 +22,29 @@
   const success = position => {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
-    axios.post('/call', { lat: latitude, lng: longitude }).then(res => {
-      currentTemp = res.data.temp;
-    });
+    axios
+      .post('/call', { lat: latitude, lng: longitude })
+      .then(res => {
+        if (res && res.data && res.data.temp) {
+          currentTemp = res.data.temp;
+        }
+      })
+      .catch(err => {
+        // eslint-disable-next-line no-console
+        console.error(`Error retrieving Dark Sky data from server: ${err}`);
+      });
+  };
+
+  const failure = reason => {
+    // eslint-disable-next-line no-console
+    console.error(
+      `Attempt to get user's current position failed: ${reason ||
+        'unable to retrieve user location.'}`,
+    );
   };
 
   onMount(async () => {
-    await navigator.geolocation.getCurrentPosition(success);
+    await navigator.geolocation.getCurrentPosition(success, failure);
   });
 </script>
 
