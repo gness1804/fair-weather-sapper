@@ -14,9 +14,8 @@ const getCurrentLocData = require('./middleware/getCurrentLocData');
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
-polka() // You can also use Express
+polka()
   .use(bodyParser.json())
-  // TODO: disable API call if in test mode
   .post('/call', getCurrentLocData)
   .use(
     compression({ threshold: 0 }),
