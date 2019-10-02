@@ -12,10 +12,12 @@
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
   import axios from 'axios';
+  import convertTemp from '../../helpers/convertTemp';
 
   export let cities;
 
   let currentTemp;
+  $: convertedTemp = convertTemp(currentTemp);
 
   const success = position => {
     const { latitude } = position.coords;
@@ -50,6 +52,6 @@
   {/each}
 </ul>
 
-{#if currentTemp}
-  <p>{currentTemp}</p>
+{#if convertedTemp}
+  <p>{convertedTemp}</p>
 {/if}

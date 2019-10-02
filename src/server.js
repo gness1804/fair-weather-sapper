@@ -17,6 +17,8 @@ const dev = NODE_ENV === 'development';
 
 polka() // You can also use Express
   .use(bodyParser.json())
+  // TODO: break into own file
+  // TODO: disable API call if in test mode
   .post('/call', async (req, res) => {
     const { lat, lng } = req.body;
     const url = `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${lng}`;
