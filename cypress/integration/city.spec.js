@@ -1,3 +1,5 @@
+const makeDateHumanReadable = require('../../src/helpers/makeDateHumanReadable');
+
 describe('city page for Austin', () => {
   let data;
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
@@ -38,5 +40,15 @@ describe('city page for Austin', () => {
   it('should display the low temp', () => {
     const temp = Math.round(parseFloat(data.data.daily.data[0].temperatureLow));
     cy.get('.low-temp').contains(temp);
+  });
+
+  it('should display the correct sunrise time', () => {
+    const time = makeDateHumanReadable(data.data.daily.data[0].sunriseTime);
+    cy.get('.sunrise-time').contains(time);
+  });
+
+  it('should display the correct sunset time', () => {
+    const time = makeDateHumanReadable(data.data.daily.data[0].sunsetTime);
+    cy.get('.sunset-time').contains(time);
   });
 });
