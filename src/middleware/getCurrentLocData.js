@@ -21,11 +21,13 @@ const getData = async (req, res) => {
   try {
     const _res = await fetch(url);
     const text = await _res.text();
-    const currentTemp = JSON.parse(text).currently.temperature;
+    const { temperature: currentTemp } = JSON.parse(text).currently;
+    const { summary } = JSON.parse(text).currently;
+
     res.writeHead(200, {
       'Content-Type': 'application/json',
     });
-    res.end(JSON.stringify({ temp: currentTemp }));
+    res.end(JSON.stringify({ temp: currentTemp, summary }));
   } catch (error) {
     res.writeHead(500, {
       'Content-Type': 'application/json',

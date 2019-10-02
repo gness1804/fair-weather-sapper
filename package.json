@@ -3,6 +3,7 @@
   "description": "Weather app using Sapper and Svelte.",
   "version": "0.0.1",
   "scripts": {
+    "pretest": "npm run test:enable",
     "dev": "sapper dev",
     "watch:tailwind": "postcss static/tailwind.css -o static/index.css -w",
     "build:tailwind": "NODE_ENV=production postcss static/tailwind.css -o static/index.css",
@@ -11,7 +12,7 @@
     "start": "node __sapper__/build",
     "e2e": "node ./src/scripts/cyRun.js",
     "e2e:open": "node ./src/scripts/cyOpen.js",
-    "test": "run-p --race dev e2e",
+    "test": "npm run unit && npm run e2e",
     "test:enable": "node ./src/scripts/enableTesting.js",
     "test:disable": "node ./src/scripts/disableTesting.js",
     "unit": "mocha",

@@ -18,6 +18,7 @@
   export let cities;
 
   let currentTemp;
+  let summary;
   $: convertedTemp = convertTemp(currentTemp);
   $: convertedTempColor = getTempColor(convertedTemp);
 
@@ -29,6 +30,7 @@
       .then(res => {
         if (res && res.data && res.data.temp) {
           currentTemp = res.data.temp;
+          summary = res.data.summary;
         }
       })
       .catch(err => {
@@ -70,11 +72,12 @@
   {/each}
 </ul>
 
-{#if convertedTemp}
+{#if convertedTemp && summary}
   <div class="text-center">
     <p>Your current temperature is:</p>
     <p class={`text-5xl text-${convertedTempColor} mb-6`}>
       {convertedTemp} &deg; F
     </p>
+    <p class="text-2xl">Your current weather is: {summary}</p>
   </div>
 {/if}
