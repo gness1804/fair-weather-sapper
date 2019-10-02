@@ -8,25 +8,16 @@ import * as sapper from '@sapper/server';
 /* eslint-enable import/no-extraneous-dependencies */
 
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
 
-require('dotenv').config();
+const getCurrentLocData = require('./middleware/getCurrentLocData');
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
 polka() // You can also use Express
   .use(bodyParser.json())
-  // TODO: break into own file
   // TODO: disable API call if in test mode
-  .post('/call', async (req, res) => {
-    const { lat, lng } = req.body;
-    const url = `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${lng}`;
-    const _res = await fetch(url);
-    const text = await _res.text();
-    const currentTemp = JSON.parse(text).currently.temperature;
-    res.end(JSON.stringify({ temp: currentTemp }));
-  })
+  .post('/call', getCurrentLocData)
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
