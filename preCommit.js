@@ -99,6 +99,7 @@ getCurrentBranch()
   .then(() => checkForWarnings())
   .then(() => promisifiedExec('npm run prettier'))
   .then(() => promisifiedExec('npm run lint'))
+  .then(() => promisifiedExec('npm run unit'))
   .then(() => promisifiedExec('npm run e2e'))
   .then(() => {
     process.stdout.write('Successfully passed pre-commit checks. \n');
