@@ -1,5 +1,8 @@
 <script>
+  import TestingBanner from './TestingBanner.svelte';
+
   export let segment;
+  const isTesting = process.env.TESTING === 'true';
 </script>
 
 <style>
@@ -47,6 +50,10 @@
     display: block;
   }
 </style>
+
+{#if isTesting}
+  <TestingBanner />
+{/if}
 
 <nav>
   <ul>
