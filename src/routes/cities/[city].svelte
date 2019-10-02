@@ -19,6 +19,7 @@
 
   $: currentData = data.currently;
   $: dailyData = data.daily;
+  $: timezone = data.timezone;
 
   $: currentTemp = Math.round(parseFloat(currentData.temperature));
   $: currentTempColor = getTempColor(currentTemp);
@@ -29,8 +30,11 @@
   $: dailyLowTemp = Math.round(parseFloat(dailyData.data[0].temperatureLow));
   $: dailyLowTempColor = getTempColor(dailyLowTemp);
 
-  $: sunriseTime = makeDateHumanReadable(dailyData.data[0].sunriseTime);
-  $: sunsetTime = makeDateHumanReadable(dailyData.data[0].sunsetTime);
+  $: sunriseTime = makeDateHumanReadable(
+    dailyData.data[0].sunriseTime,
+    timezone,
+  );
+  $: sunsetTime = makeDateHumanReadable(dailyData.data[0].sunsetTime, timezone);
 </script>
 
 <svelte:head>

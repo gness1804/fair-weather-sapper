@@ -43,12 +43,20 @@ describe('city page for Austin', () => {
   });
 
   it('should display the correct sunrise time', () => {
-    const time = makeDateHumanReadable(data.data.daily.data[0].sunriseTime);
+    const { timezone } = data.data;
+    const time = makeDateHumanReadable(
+      data.data.daily.data[0].sunriseTime,
+      timezone,
+    );
     cy.get('.sunrise-time').contains(time);
   });
 
   it('should display the correct sunset time', () => {
-    const time = makeDateHumanReadable(data.data.daily.data[0].sunsetTime);
+    const { timezone } = data.data;
+    const time = makeDateHumanReadable(
+      data.data.daily.data[0].sunsetTime,
+      timezone,
+    );
     cy.get('.sunset-time').contains(time);
   });
 });
