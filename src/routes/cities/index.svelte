@@ -14,7 +14,7 @@
 
 <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
-<ul class="text-center">
+<ul class="cities-links text-center">
   {#each cities as { slug, name }}
     <li class="mb-4">
       <a

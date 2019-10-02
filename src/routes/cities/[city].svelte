@@ -12,6 +12,7 @@
 
 <script>
   import getTempColor from '../../data/getTempColor';
+  import makeDateHumanReadable from '../../helpers/makeDateHumanReadable';
 
   export let data;
   export let cityName;
@@ -28,12 +29,8 @@
   $: dailyLowTemp = Math.round(parseFloat(dailyData.data[0].temperatureLow));
   $: dailyLowTempColor = getTempColor(dailyLowTemp);
 
-  $: sunriseTime = new Date(parseFloat(dailyData.data[0].sunriseTime) * 1000)
-    .toLocaleTimeString()
-    .replace(/^(\d{1,2}):(\d{2}):\d{2}/, '$1:$2');
-  $: sunsetTime = new Date(parseFloat(dailyData.data[0].sunsetTime) * 1000)
-    .toLocaleTimeString()
-    .replace(/^(\d{1,2}):(\d{2}):\d{2}/, '$1:$2');
+  $: sunriseTime = makeDateHumanReadable(dailyData.data[0].sunriseTime);
+  $: sunsetTime = makeDateHumanReadable(dailyData.data[0].sunsetTime);
 </script>
 
 <svelte:head>
@@ -43,9 +40,12 @@
 <div class="text-center">
   <h2 class="font-bold text-gray-600 text-3xl mb-8">{cityName} Weather</h2>
 
-  <p class={`text-5xl text-${currentTempColor} mb-6`}>{currentTemp} &deg; F</p>
+  <p class={`text-5xl text-${currentTempColor} mb-6`}>
+    <span class="current-temp">{currentTemp}</span>
+    &deg; F
+  </p>
 
-  <p class="mb-6">
+  <p class="current-conditions-message mb-6">
     The weather is {currentData.summary} with a {Math.round(currentData.precipProbability)}%
     chance of rain.
   </p>
@@ -59,7 +59,8 @@
           <img src="arrow-up.png" alt="Up arrow." />
         </div>
         <span class={`text-${dailyHighTempColor} text-2xl`}>
-          {dailyHighTemp} &deg;
+          <span class="high-temp">{dailyHighTemp}</span>
+          &deg;
         </span>
       </div>
       <div class="low-temp flex items-center justify-center">
@@ -67,7 +68,8 @@
           <img src="arrow-down.png" alt="Down arrow." />
         </div>
         <span class={`text-${dailyLowTempColor} text-2xl`}>
-          {dailyLowTemp} &deg;
+          <span class="low-temp">{dailyLowTemp}</span>
+          &deg;
         </span>
       </div>
     </div>
@@ -77,13 +79,13 @@
         <div class="h-10 w-10 mr-2 md:mr-4">
           <img src="sunrise.png" alt="Sun rising." />
         </div>
-        <span class="text-base md:text-xl">{sunriseTime}</span>
+        <span class="sunrise-time text-base md:text-xl">{sunriseTime}</span>
       </div>
       <div class="sunset flex items-center justify-center">
         <div class="h-10 w-10 mr-2 md:mr-4">
           <img src="sunset.png" alt="Sun setting." />
         </div>
-        <span class="text-base md:text-xl">{sunsetTime}</span>
+        <span class="sunset-time text-base md:text-xl">{sunsetTime}</span>
       </div>
     </div>
 
