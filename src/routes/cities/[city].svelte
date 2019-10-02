@@ -13,6 +13,7 @@
 <script>
   import getTempColor from '../../data/getTempColor';
   import makeDateHumanReadable from '../../helpers/makeDateHumanReadable';
+  import convertTemp from '../../helpers/convertTemp';
 
   export let data;
   export let cityName;
@@ -21,13 +22,13 @@
   $: dailyData = data.daily;
   $: timezone = data.timezone;
 
-  $: currentTemp = Math.round(parseFloat(currentData.temperature));
+  $: currentTemp = convertTemp(currentData.temperature);
   $: currentTempColor = getTempColor(currentTemp);
 
-  $: dailyHighTemp = Math.round(parseFloat(dailyData.data[0].temperatureHigh));
+  $: dailyHighTemp = convertTemp(dailyData.data[0].temperatureHigh);
   $: dailyHighTempColor = getTempColor(dailyHighTemp);
 
-  $: dailyLowTemp = Math.round(parseFloat(dailyData.data[0].temperatureLow));
+  $: dailyLowTemp = convertTemp(dailyData.data[0].temperatureLow);
   $: dailyLowTempColor = getTempColor(dailyLowTemp);
 
   $: sunriseTime = makeDateHumanReadable(
