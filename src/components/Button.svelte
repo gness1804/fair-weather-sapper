@@ -12,4 +12,8 @@
   };
 </script>
 
-<button on:click={handleClick} class={`button ${styleClass}`}>{text}</button>
+<button
+  on:click={handleClick}
+  class={`button p-2 bg-gray-400 hover:bg-gray-300 shadow ${styleClass}`}>
+  {text}
+</button>
