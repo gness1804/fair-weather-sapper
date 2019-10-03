@@ -10,6 +10,7 @@
 
 <script>
   import axios from 'axios';
+  import Button from '../../components/Button.svelte';
   import convertTemp from '../../helpers/convertTemp';
   import getTempColor from '../../data/getTempColor';
 
@@ -76,7 +77,10 @@
     {/each}
   </ul>
 
-  <button class="mb-10" on:click={getWeather}>Get My Weather</button>
+  <Button
+    text="Get My Weather"
+    styleClass="mb-10"
+    on:handleClick={getWeather} />
 
   {#if convertedTemp && summary}
     <div class="my-weather-results">
