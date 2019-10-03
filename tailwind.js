@@ -11,6 +11,7 @@ module.exports = {
         hot: '#f16732',
         boiling: '#f00',
         dirtyYellow: '#c9ca0b',
+        reddish: 'rgba(255, 62, 0, 0.1)',
       },
       width: {
         half: '50vw',
