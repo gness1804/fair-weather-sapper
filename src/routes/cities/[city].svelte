@@ -14,6 +14,7 @@
   import getTempColor from '../../data/getTempColor';
   import makeDateHumanReadable from '../../helpers/makeDateHumanReadable';
   import convertTemp from '../../helpers/convertTemp';
+  import getIcon from '../../helpers/getIcon';
 
   export let data;
   export let cityName;
@@ -21,6 +22,9 @@
   $: currentData = data.currently;
   $: dailyData = data.daily;
   $: timezone = data.timezone;
+
+  $: icon = currentData.icon;
+  $: iconSrc = getIcon(icon);
 
   $: currentTemp = convertTemp(currentData.temperature);
   $: currentTempColor = getTempColor(currentTemp);
@@ -44,6 +48,8 @@
 
 <div class="text-center">
   <h2 class="font-bold text-gray-600 text-3xl mb-8">{cityName} Weather</h2>
+
+  <img src={iconSrc} alt={icon} title={icon} class="my-0 mx-auto h-32 w-32" />
 
   <p class={`text-5xl text-${currentTempColor} mb-6`}>
     <span class="current-temp">{currentTemp}</span>
