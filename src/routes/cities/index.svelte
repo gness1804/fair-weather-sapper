@@ -10,6 +10,8 @@
 
 <script>
   import axios from 'axios';
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  import { onMount } from 'svelte';
   import Button from '../../components/Button.svelte';
   import convertTemp from '../../helpers/convertTemp';
   import getTempColor from '../../data/getTempColor';
@@ -31,6 +33,7 @@
         if (res && res.data && res.data.temp) {
           currentTemp = res.data.temp;
           summary = res.data.summary;
+          sessionStorage.setItem('showLocalWeather', 'true');
         }
         loading = false;
       })
@@ -54,6 +57,14 @@
     loading = true;
     await navigator.geolocation.getCurrentPosition(success, failure);
   };
+
+  onMount(async () => {
+    const showLocalWeather =
+      sessionStorage.getItem('showLocalWeather') === 'true';
+    if (showLocalWeather) {
+      await getWeather();
+    }
+  });
 </script>
 
 <svelte:head>
