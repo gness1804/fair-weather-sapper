@@ -5,7 +5,7 @@
   const isTesting = process.env.TESTING === 'true';
 
   const selected = 'font-bold bg-gray-200';
-  const linkStyle = 'block py-4 px-2 no-underline';
+  const linkStyle = 'block py-4 px-2 no-underline hover:bg-gray-100';
 </script>
 
 <style>
@@ -25,7 +25,7 @@
   <ul class="m-0 p-0">
     <li class="inline-block">
       <a
-        class={segment === undefined ? `${selected} ${linkStyle}` : ''}
+        class={`${segment === undefined ? `${selected}` : ''} ${linkStyle}`}
         href=".">
         home
       </a>
@@ -33,7 +33,7 @@
     <li class="inline-block">
       <a
         rel="prefetch"
-        class={segment === 'cities' ? `${selected} ${linkStyle}` : ''}
+        class={`${segment === 'cities' ? `${selected}` : ''} ${linkStyle}`}
         href="cities">
         cities
       </a>
