@@ -97,6 +97,7 @@
   <Button
     text="Get My Weather"
     styleClass="mb-10 get-my-weather-button"
+    disabled={convertedTemp && summary && icon}
     on:handleClick={getWeather} />
 
   {#if convertedTemp && summary && icon}
