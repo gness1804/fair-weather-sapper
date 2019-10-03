@@ -9,8 +9,6 @@
 </script>
 
 <script>
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  import { onMount } from 'svelte';
   import axios from 'axios';
   import convertTemp from '../../helpers/convertTemp';
   import getTempColor from '../../data/getTempColor';
@@ -47,37 +45,42 @@
     );
   };
 
-  onMount(async () => {
+  const getWeather = async () => {
     await navigator.geolocation.getCurrentPosition(success, failure);
-  });
+  };
 </script>
 
 <svelte:head>
   <title>Cities</title>
 </svelte:head>
 
-<h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
+<div class="cities text-center">
+  <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
-<ul class="cities-links text-center mb-12">
-  {#each cities as { slug, name }}
-    <li class="mb-4">
-      <a
-        class="text-blue-600 hover:text-blue-400"
-        rel="prefetch"
-        title={name}
-        href="cities/{slug}">
-        {name}
-      </a>
-    </li>
-  {/each}
-</ul>
+  <ul class="cities-links mb-12">
+    {#each cities as { slug, name }}
+      <li class="mb-4">
+        <a
+          class="text-blue-600 hover:text-blue-400"
+          rel="prefetch"
+          title={name}
+          href="cities/{slug}">
+          {name}
+        </a>
+      </li>
+    {/each}
+  </ul>
 
-{#if convertedTemp && summary}
-  <div class="text-center">
-    <p>Your current temperature is:</p>
-    <p class={`text-5xl text-${convertedTempColor} mb-6`}>
-      {convertedTemp} &deg; F
-    </p>
-    <p class="text-2xl">Your current weather is: {summary}</p>
-  </div>
-{/if}
+  <button class="mb-10" on:click={getWeather}>Get My Weather</button>
+
+  {#if convertedTemp && summary}
+    <div class="my-weather-results">
+      <p>Your current temperature is:</p>
+      <p class={`text-5xl text-${convertedTempColor} mb-6`}>
+        {convertedTemp} &deg; F
+      </p>
+      <p class="text-2xl">Your current weather is: {summary}</p>
+    </div>
+  {/if}
+
+</div>
