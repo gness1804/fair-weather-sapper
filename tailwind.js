@@ -10,6 +10,7 @@ module.exports = {
         ideal: '#159a16',
         hot: '#f16732',
         boiling: '#f00',
+        dirtyYellow: '#c9ca0b',
       },
       width: {
         half: '50vw',
