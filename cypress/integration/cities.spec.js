@@ -13,6 +13,12 @@ describe('Cities landing page.', () => {
     sessionStorage.clear();
   });
 
+  it('selected css styles for nav bar link should show up on this page', () => {
+    cy.get('nav a')
+      .contains('cities')
+      .should('have.class', 'font-bold');
+  });
+
   it('contains a list of city links', () => {
     cy.get('.cities-links a').each((elem, index, list) => {
       expect(list.length).to.equal(4);
@@ -59,5 +65,10 @@ describe('Cities landing page.', () => {
         cy.get(elem).contains(conditions);
       }
     });
+  });
+
+  it('button should be disabled once results come in', () => {
+    cy.get('.get-my-weather-button').click();
+    cy.get('.get-my-weather-button').should('have.attr', 'disabled');
   });
 });

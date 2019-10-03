@@ -21,13 +21,14 @@ const getData = async (req, res) => {
 
       const { temperature: currentTemp } = _res.data.currently;
       const { summary } = _res.data.currently;
+      const { icon } = _res.data.currently;
 
       res.writeHead(200, {
         'Content-Type': 'application/json',
       });
       // eslint-disable-next-line no-console
       console.info('Made call for weather data using JSON stub.');
-      res.end(JSON.stringify({ temp: currentTemp, summary }));
+      res.end(JSON.stringify({ temp: currentTemp, summary, icon }));
       return;
     } catch (error) {
       res.writeHead(500, {
@@ -51,11 +52,12 @@ const getData = async (req, res) => {
     const text = await _res.text();
     const { temperature: currentTemp } = JSON.parse(text).currently;
     const { summary } = JSON.parse(text).currently;
+    const { icon } = JSON.parse(text).currently;
 
     res.writeHead(200, {
       'Content-Type': 'application/json',
     });
-    res.end(JSON.stringify({ temp: currentTemp, summary }));
+    res.end(JSON.stringify({ temp: currentTemp, summary, icon }));
   } catch (error) {
     res.writeHead(500, {
       'Content-Type': 'application/json',
