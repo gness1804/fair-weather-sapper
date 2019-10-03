@@ -14,6 +14,7 @@
   import { onMount } from 'svelte';
   import Button from '../../components/Button.svelte';
   import convertTemp from '../../helpers/convertTemp';
+  import getIcon from '../../helpers/getIcon';
   import getTempColor from '../../data/getTempColor';
 
   export let cities;
@@ -21,8 +22,12 @@
   let loading = false;
   let currentTemp;
   let summary;
+  let icon;
+
   $: convertedTemp = convertTemp(currentTemp);
   $: convertedTempColor = getTempColor(convertedTemp);
+
+  $: iconSrc = getIcon(icon);
 
   const success = position => {
     const { latitude } = position.coords;
@@ -33,6 +38,7 @@
         if (res && res.data && res.data.temp) {
           currentTemp = res.data.temp;
           summary = res.data.summary;
+          icon = res.data.icon;
           sessionStorage.setItem('showLocalWeather', 'true');
         }
         loading = false;
@@ -93,8 +99,13 @@
     styleClass="mb-10 get-my-weather-button"
     on:handleClick={getWeather} />
 
-  {#if convertedTemp && summary}
+  {#if convertedTemp && summary && icon}
     <div class="my-weather-results">
+      <img
+        src={iconSrc}
+        alt={icon}
+        title={icon}
+        class="my-0 mx-auto h-28 w-28" />
       <p>Your current temperature is:</p>
       <p class={`text-5xl text-${convertedTempColor} mb-6`}>
         {convertedTemp} &deg; F
