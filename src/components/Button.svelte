@@ -15,7 +15,7 @@
 
 <button
   on:click={handleClick}
-  class={`button p-2 bg-gray-400 hover:bg-gray-300 shadow disabled:opacity-50 disabled:cursor-not-allowed ${styleClass}`}
+  class={`button p-2 bg-gray-400 hover:bg-gray-300 shadow ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${styleClass}`}
   {disabled}>
   {text}
 </button>
