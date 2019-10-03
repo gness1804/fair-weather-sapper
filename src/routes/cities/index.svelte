@@ -9,14 +9,16 @@
 </script>
 
 <script>
+  import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
-  import axios from 'axios';
+  import Button from '../../components/Button.svelte';
   import convertTemp from '../../helpers/convertTemp';
   import getTempColor from '../../data/getTempColor';
 
   export let cities;
 
+  let loading = false;
   let currentTemp;
   let summary;
   $: convertedTemp = convertTemp(currentTemp);
@@ -31,11 +33,14 @@
         if (res && res.data && res.data.temp) {
           currentTemp = res.data.temp;
           summary = res.data.summary;
+          sessionStorage.setItem('showLocalWeather', 'true');
         }
+        loading = false;
       })
       .catch(err => {
         // eslint-disable-next-line no-console
         console.error(`Error retrieving Dark Sky data from server: ${err}`);
+        loading = false;
       });
   };
 
@@ -45,10 +50,20 @@
       `Attempt to get user's current position failed: ${reason ||
         'unable to retrieve user location.'}`,
     );
+    loading = false;
+  };
+
+  const getWeather = async () => {
+    loading = true;
+    await navigator.geolocation.getCurrentPosition(success, failure);
   };
 
   onMount(async () => {
-    await navigator.geolocation.getCurrentPosition(success, failure);
+    const showLocalWeather =
+      sessionStorage.getItem('showLocalWeather') === 'true';
+    if (showLocalWeather) {
+      await getWeather();
+    }
   });
 </script>
 
@@ -56,28 +71,38 @@
   <title>Cities</title>
 </svelte:head>
 
-<h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
+<div class="cities text-center">
+  <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
-<ul class="cities-links text-center mb-12">
-  {#each cities as { slug, name }}
-    <li class="mb-4">
-      <a
-        class="text-blue-600 hover:text-blue-400"
-        rel="prefetch"
-        title={name}
-        href="cities/{slug}">
-        {name}
-      </a>
-    </li>
-  {/each}
-</ul>
+  <ul class="cities-links mb-12">
+    {#each cities as { slug, name }}
+      <li class="mb-4">
+        <a
+          class="text-blue-600 hover:text-blue-400"
+          rel="prefetch"
+          title={name}
+          href="cities/{slug}">
+          {name}
+        </a>
+      </li>
+    {/each}
+  </ul>
 
-{#if convertedTemp && summary}
-  <div class="text-center">
-    <p>Your current temperature is:</p>
-    <p class={`text-5xl text-${convertedTempColor} mb-6`}>
-      {convertedTemp} &deg; F
-    </p>
-    <p class="text-2xl">Your current weather is: {summary}</p>
-  </div>
-{/if}
+  <Button
+    text="Get My Weather"
+    styleClass="mb-10 get-my-weather-button"
+    on:handleClick={getWeather} />
+
+  {#if convertedTemp && summary}
+    <div class="my-weather-results">
+      <p>Your current temperature is:</p>
+      <p class={`text-5xl text-${convertedTempColor} mb-6`}>
+        {convertedTemp} &deg; F
+      </p>
+      <p class="text-2xl">Your current weather is: {summary}</p>
+    </div>
+  {:else if loading}
+    <p>Loading...</p>
+  {/if}
+
+</div>
