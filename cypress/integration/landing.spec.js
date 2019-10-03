@@ -1,6 +1,12 @@
-describe('Sapper template app', () => {
+describe('App landing page', () => {
   beforeEach(() => {
     cy.visit('/');
+  });
+
+  it('selected css styles for nav bar link should show up on this page', () => {
+    cy.get('nav a')
+      .contains('home')
+      .should('have.class', 'font-bold');
   });
 
   it('has the correct <h1>', () => {

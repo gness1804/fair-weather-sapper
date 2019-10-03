@@ -14,6 +14,12 @@ describe('city page for Austin', () => {
     cy.visit('/cities/austin');
   });
 
+  it('selected css styles for nav bar link should show up on this page', () => {
+    cy.get('nav a')
+      .contains('cities')
+      .should('have.class', 'font-bold');
+  });
+
   it('should have the proper title', () => {
     cy.contains('h2', 'Austin Weather');
   });
