@@ -1,62 +1,39 @@
 <script>
+  import TestingBanner from './TestingBanner.svelte';
+
   export let segment;
+  const isTesting = process.env.TESTING === 'true';
+
+  const selected = 'font-bold bg-gray-200';
+  const linkStyle = 'block py-4 px-2 no-underline hover:bg-gray-100';
 </script>
 
 <style>
-  nav {
-    border-bottom: 1px solid rgba(255, 62, 0, 0.1);
-    font-weight: 300;
-    padding: 0 1em;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-  }
-
   /* clearfix */
   ul::after {
     content: '';
     display: block;
     clear: both;
   }
-
-  li {
-    display: block;
-    float: left;
-  }
-
-  .selected {
-    position: relative;
-    display: inline-block;
-  }
-
-  .selected::after {
-    position: absolute;
-    content: '';
-    width: calc(100% - 1em);
-    height: 2px;
-    background-color: rgb(255, 62, 0);
-    display: block;
-    bottom: -1px;
-  }
-
-  a {
-    text-decoration: none;
-    padding: 1em 0.5em;
-    display: block;
-  }
 </style>
 
-<nav>
-  <ul>
-    <li>
-      <a class={segment === undefined ? 'selected' : ''} href=".">home</a>
+{#if isTesting}
+  <TestingBanner />
+{/if}
+
+<nav class="border-b border-reddish font-light py-0 px-4">
+  <ul class="m-0 p-0">
+    <li class="inline-block">
+      <a
+        class={`${segment === undefined ? `${selected}` : ''} ${linkStyle}`}
+        href=".">
+        home
+      </a>
     </li>
-    <li>
+    <li class="inline-block">
       <a
         rel="prefetch"
-        class={segment === 'cities' ? 'selected' : ''}
+        class={`${segment === 'cities' ? `${selected}` : ''} ${linkStyle}`}
         href="cities">
         cities
       </a>
