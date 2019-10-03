@@ -1,6 +1,7 @@
 describe('Cities landing page.', () => {
   beforeEach(() => {
     cy.visit('/cities');
+    sessionStorage.clear();
   });
 
   it('contains a list of city links', () => {
@@ -34,5 +35,14 @@ describe('Cities landing page.', () => {
       }
     });
     cy.url().should('include', '/paris');
+  });
+
+  it('clicking on the Get My Weather button shows current weather conditions', () => {
+    cy.get('.get-my-weather-button').click();
+    cy.get('.my-weather-results p').each((elem, index) => {
+      if (index === 0) {
+        expect(elem).to.have.text('Your current temperature is:');
+      }
+    });
   });
 });

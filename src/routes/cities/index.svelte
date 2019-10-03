@@ -90,7 +90,7 @@
 
   <Button
     text="Get My Weather"
-    styleClass="mb-10"
+    styleClass="mb-10 get-my-weather-button"
     on:handleClick={getWeather} />
 
   {#if convertedTemp && summary}
