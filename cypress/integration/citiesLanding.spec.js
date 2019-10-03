@@ -1,4 +1,13 @@
 describe('Cities landing page.', () => {
+  let data;
+  const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
+
+  before(() => {
+    cy.readFile(cityDataFile).then(contents => {
+      data = contents;
+    });
+  });
+
   beforeEach(() => {
     cy.visit('/cities');
     sessionStorage.clear();
@@ -38,10 +47,16 @@ describe('Cities landing page.', () => {
   });
 
   it('clicking on the Get My Weather button shows current weather conditions', () => {
+    const temp = Math.round(parseFloat(data.data.currently.temperature));
+    const conditions = data.data.currently.summary;
     cy.get('.get-my-weather-button').click();
     cy.get('.my-weather-results p').each((elem, index) => {
       if (index === 0) {
         expect(elem).to.have.text('Your current temperature is:');
+      } else if (index === 1) {
+        cy.get(elem).contains(temp);
+      } else if (index === 2) {
+        cy.get(elem).contains(conditions);
       }
     });
   });
