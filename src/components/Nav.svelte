@@ -5,7 +5,8 @@
   const isTesting = process.env.TESTING === 'true';
 
   const selected = 'font-bold bg-gray-200';
-  const linkStyle = 'block py-4 px-2 no-underline hover:bg-gray-100';
+  const linkStyle =
+    'block py-4 px-2 no-underline hover:bg-gray-100 hover:underline';
 </script>
 
 <style>
