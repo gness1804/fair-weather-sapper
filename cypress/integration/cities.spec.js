@@ -60,4 +60,9 @@ describe('Cities landing page.', () => {
       }
     });
   });
+
+  it('button should be disabled once results come in', () => {
+    cy.get('.get-my-weather-button').click();
+    cy.get('.get-my-weather-button').should('have.attr', 'disabled');
+  });
 });
