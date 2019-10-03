@@ -15,6 +15,7 @@
 
   export let cities;
 
+  let loading = false;
   let currentTemp;
   let summary;
   $: convertedTemp = convertTemp(currentTemp);
@@ -30,10 +31,12 @@
           currentTemp = res.data.temp;
           summary = res.data.summary;
         }
+        loading = false;
       })
       .catch(err => {
         // eslint-disable-next-line no-console
         console.error(`Error retrieving Dark Sky data from server: ${err}`);
+        loading = false;
       });
   };
 
@@ -43,9 +46,11 @@
       `Attempt to get user's current position failed: ${reason ||
         'unable to retrieve user location.'}`,
     );
+    loading = false;
   };
 
   const getWeather = async () => {
+    loading = true;
     await navigator.geolocation.getCurrentPosition(success, failure);
   };
 </script>
@@ -81,6 +86,8 @@
       </p>
       <p class="text-2xl">Your current weather is: {summary}</p>
     </div>
+  {:else if loading}
+    <p>Loading...</p>
   {/if}
 
 </div>
