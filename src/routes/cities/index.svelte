@@ -82,7 +82,7 @@
 
   <ul class="cities-links mb-12">
     {#each cities as { slug, name }}
-      <li class="mb-4">
+      <li class="mb-4 text-xl">
         <a
           class="text-blue-600 hover:text-blue-400"
           rel="prefetch"
