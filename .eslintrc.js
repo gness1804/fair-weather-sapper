@@ -40,6 +40,7 @@ module.exports = {
     'no-confusing-arrow': 'off',
     'implicit-arrow-linebreak': 'off',
     'function-paren-newline': 'off',
+    'object-curly-newline': 'off',
     // the following rules are not explicitly specific to svelte, but leaving them on causes problems with how svelte works.
     'import/no-mutable-exports': 'off',
     'import/first': 'off',
