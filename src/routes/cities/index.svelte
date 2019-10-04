@@ -23,6 +23,11 @@
   let summary;
   let icon;
 
+  let enteredLatitude;
+  let enteredLongitude;
+
+  const buttonStyle = 'p-2 bg-gray-400 hover:bg-gray-300 shadow';
+
   $: convertedTemp = convertTemp(currentTemp);
   $: convertedTempColor = getTempColor(convertedTemp);
 
@@ -81,6 +86,28 @@
 <div class="cities text-center">
   <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
+  <h3>Add New City:</h3>
+
+  <div class="location-input-container">
+    <label for="latitude-input">
+      <input
+        class="border-black border"
+        id="latitude-input"
+        type="number"
+        placeholder="Enter Latitude"
+        bind:value={enteredLatitude} />
+    </label>
+    <label for="longitude-input">
+      <input
+        class="border-black border"
+        id="longitude-input"
+        type="number"
+        placeholder="Enter Longitude"
+        bind:value={enteredLongitude} />
+    </label>
+    <button class={`${buttonStyle}`}>Add</button>
+  </div>
+
   <ul class="cities-links mb-12">
     {#each cities as { slug, name }}
       <li class="mb-4 text-xl">
@@ -97,7 +124,7 @@
 
   <button
     on:click={getWeather}
-    class={`get-my-weather-button mb-10 p-2 bg-gray-400 hover:bg-gray-300 shadow ${localDataIsPopulated ? 'opacity-50 cursor-not-allowed' : ''}`}
+    class={`get-my-weather-button mb-10 ${buttonStyle} ${localDataIsPopulated ? 'opacity-50 cursor-not-allowed' : ''}`}
     disabled={localDataIsPopulated}>
     Get My Weather
   </button>
