@@ -12,7 +12,6 @@
   import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
-  import Button from '../../components/Button.svelte';
   import convertTemp from '../../helpers/convertTemp';
   import getIcon from '../../helpers/getIcon';
   import getTempColor from '../../data/getTempColor';
@@ -28,6 +27,8 @@
   $: convertedTempColor = getTempColor(convertedTemp);
 
   $: iconSrc = getIcon(icon);
+
+  $: localDataIsPopulated = convertedTemp && summary && icon;
 
   const success = position => {
     const { latitude } = position.coords;
@@ -94,13 +95,14 @@
     {/each}
   </ul>
 
-  <Button
-    text="Get My Weather"
-    styleClass="mb-10 get-my-weather-button"
-    disabled={convertedTemp && summary && icon}
-    on:handleClick={getWeather} />
+  <button
+    on:click={getWeather}
+    class={`get-my-weather-button mb-10 p-2 bg-gray-400 hover:bg-gray-300 shadow ${localDataIsPopulated ? 'opacity-50 cursor-not-allowed' : ''}`}
+    disabled={localDataIsPopulated}>
+    Get My Weather
+  </button>
 
-  {#if convertedTemp && summary && icon}
+  {#if localDataIsPopulated}
     <div class="my-weather-results">
       <img
         src={iconSrc}
