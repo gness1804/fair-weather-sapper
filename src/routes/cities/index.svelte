@@ -12,9 +12,13 @@
   import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
+  import { v4 } from 'uuid';
   import convertTemp from '../../helpers/convertTemp';
   import getIcon from '../../helpers/getIcon';
+  import slugify from '../../helpers/slugify';
   import getTempColor from '../../data/getTempColor';
+
+  const _cities = require('cities.json');
 
   export let cities;
 
@@ -23,8 +27,7 @@
   let summary;
   let icon;
 
-  let enteredLatitude;
-  let enteredLongitude;
+  let enteredCity;
 
   const buttonStyle = 'p-2 bg-gray-400 hover:bg-gray-300 shadow';
 
@@ -70,6 +73,45 @@
     await navigator.geolocation.getCurrentPosition(success, failure);
   };
 
+  // TODO: right now, this only gets the first matching city from the big _cities array. Need to optimize so that user can choose from multiple candidate cities.
+  const addCity = () => {
+    if (!enteredCity) {
+      alert('Error: you must enter a city name. Please try again.');
+      return;
+    }
+    const city = _cities.filter(
+      _city => _city.name.toLowerCase() === enteredCity.toLowerCase(),
+    )[0];
+
+    if (!city) {
+      alert('Error: invalid city name. Please try again.');
+      return;
+    }
+
+    const { country, name, lat, lng } = city;
+
+    const newCityObj = {
+      id: v4(),
+      name,
+      slug: slugify(name),
+      country,
+      geocoords: {
+        lat,
+        lng,
+      },
+    };
+    if (localStorage.getItem('additionalCities')) {
+      const newCities = [
+        ...JSON.parse(localStorage.getItem('additionalCities')),
+        newCityObj,
+      ];
+      localStorage.setItem('additionalCities', JSON.stringify(newCities));
+    } else {
+      localStorage.setItem('additionalCities', JSON.stringify([newCityObj]));
+    }
+    enteredCity = '';
+  };
+
   onMount(async () => {
     const showLocalWeather =
       sessionStorage.getItem('showLocalWeather') === 'true';
@@ -89,23 +131,15 @@
   <h3>Add New City:</h3>
 
   <div class="location-input-container">
-    <label for="latitude-input">
+    <label for="city-input">
       <input
         class="border-black border"
-        id="latitude-input"
-        type="number"
-        placeholder="Enter Latitude"
-        bind:value={enteredLatitude} />
+        id="city-input"
+        type="text"
+        placeholder="Enter City Name"
+        bind:value={enteredCity} />
     </label>
-    <label for="longitude-input">
-      <input
-        class="border-black border"
-        id="longitude-input"
-        type="number"
-        placeholder="Enter Longitude"
-        bind:value={enteredLongitude} />
-    </label>
-    <button class={`${buttonStyle}`}>Add</button>
+    <button on:click={addCity} class={`${buttonStyle}`}>Add</button>
   </div>
 
   <ul class="cities-links mb-12">
