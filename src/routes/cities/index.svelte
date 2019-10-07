@@ -103,6 +103,8 @@
     };
     cities = [...cities, newCityObj];
     enteredCity = '';
+    selectedCity = null;
+    candidateCities = [];
     axios.post('/addCities', { city: newCityObj });
   };
 
@@ -122,28 +124,37 @@
 <div class="cities text-center">
   <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
-  <h3>Add New City:</h3>
+  <h3 class="mb-6 text-xl">Add New City:</h3>
 
-  <div class="location-input-container">
-    <label for="city-input">
-      <input
-        class="border-black border"
-        id="city-input"
-        type="text"
-        placeholder="Enter City Name"
-        on:blur={showCandidateCities}
-        bind:value={enteredCity} />
-    </label>
-    {#if candidateCities.length > 0}
-      <select bind:value={selectedCity}>
-        {#each candidateCities as candidate}
-          <option value={candidate}>
-            {candidate.name} - {candidate.country}
-          </option>
-        {/each}
-      </select>
-    {/if}
-    <button on:click={addCity} class={`${buttonStyle}`}>Add</button>
+  <div class="location-input-container mb-12">
+    <div
+      class="location-input-container-top-inputs flex flex-row justify-center
+      items-center mb-4">
+      <label for="city-input" class="mr-3">
+        <input
+          class="border-black border"
+          id="city-input"
+          type="text"
+          placeholder="Enter City Name"
+          on:blur={showCandidateCities}
+          bind:value={enteredCity} />
+      </label>
+      {#if candidateCities.length > 0}
+        <select bind:value={selectedCity}>
+          {#each candidateCities as candidate}
+            <option value={candidate}>
+              {candidate.name} - {candidate.country}
+            </option>
+          {/each}
+        </select>
+      {/if}
+    </div>
+    <button
+      on:click={addCity}
+      class={`${buttonStyle} ${!enteredCity ? 'opacity-50 cursor-not-allowed' : ''}`}
+      disabled={!enteredCity}>
+      Add
+    </button>
   </div>
 
   <ul class="cities-links mb-12">
