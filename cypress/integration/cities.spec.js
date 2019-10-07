@@ -108,4 +108,18 @@ describe('Cities landing page.', () => {
       }
     });
   });
+
+  it('entering in a city in the input field and then clicking on the Add button should add it to the list on the page', () => {
+    cy.get('#city-input')
+      .type('Detroit')
+      .blur();
+
+    cy.get('.add-city-button').click();
+    cy.get('.cities-links a').each((elem, index, list) => {
+      expect(list.length).to.equal(5);
+      if (index === 2) {
+        expect(elem).to.have.text('Detroit');
+      }
+    });
+  });
 });
