@@ -18,7 +18,7 @@
   import slugify from '../../helpers/slugify';
   import getTempColor from '../../data/getTempColor';
 
-  const _cities = require('cities.json');
+  const citiesFromJSON = require('cities.json');
 
   export let cities;
 
@@ -26,6 +26,8 @@
   let currentTemp;
   let summary;
   let icon;
+  let candidateCities = [];
+  let selectedCity;
 
   let enteredCity;
 
@@ -73,25 +75,23 @@
     await navigator.geolocation.getCurrentPosition(success, failure);
   };
 
-  // TODO: right now, this only gets the first matching city from the big _cities array. Need to optimize so that user can choose from multiple candidate cities.
-  const addCity = () => {
+  const showCandidateCities = () => {
     if (!enteredCity) {
+      return;
+    }
+    candidateCities = citiesFromJSON
+      .filter(_city => _city.name.toLowerCase() === enteredCity.toLowerCase())
+      .map(_city => Object.assign({}, _city, { id: v4() }));
+  };
+
+  const addCity = () => {
+    if (!selectedCity) {
       alert('Error: you must enter a city name. Please try again.');
       return;
     }
-    const city = _cities.filter(
-      _city => _city.name.toLowerCase() === enteredCity.toLowerCase(),
-    )[0];
-
-    if (!city) {
-      alert('Error: invalid city name. Please try again.');
-      return;
-    }
-
-    const { country, name, lat, lng } = city;
-
+    const { country, name, lat, lng, id } = selectedCity;
     const newCityObj = {
-      id: v4(),
+      id,
       name,
       slug: slugify(name),
       country,
@@ -100,18 +100,8 @@
         lng,
       },
     };
-    // if (localStorage.getItem('additionalCities')) {
-    //   const newCities = [
-    //     ...JSON.parse(localStorage.getItem('additionalCities')),
-    //     newCityObj,
-    //   ];
-    //   localStorage.setItem('additionalCities', JSON.stringify(newCities));
-    // } else {
-    //   localStorage.setItem('additionalCities', JSON.stringify([newCityObj]));
-    // }
     cities = [...cities, newCityObj];
     enteredCity = '';
-
     axios.post('/addCities', { city: newCityObj });
   };
 
@@ -140,8 +130,18 @@
         id="city-input"
         type="text"
         placeholder="Enter City Name"
+        on:blur={showCandidateCities}
         bind:value={enteredCity} />
     </label>
+    {#if candidateCities.length > 0}
+      <select bind:value={selectedCity}>
+        {#each candidateCities as candidate}
+          <option value={candidate}>
+            {candidate.name} - {candidate.country}
+          </option>
+        {/each}
+      </select>
+    {/if}
     <button on:click={addCity} class={`${buttonStyle}`}>Add</button>
   </div>
 
