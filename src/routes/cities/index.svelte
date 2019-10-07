@@ -142,7 +142,7 @@
       {#if candidateCities.length > 0}
         <select bind:value={selectedCity}>
           {#each candidateCities as candidate}
-            <option value={candidate}>
+            <option class="candidate-option" value={candidate}>
               {candidate.name} - {candidate.country}
             </option>
           {/each}
@@ -151,7 +151,7 @@
     </div>
     <button
       on:click={addCity}
-      class={`${buttonStyle} ${!enteredCity ? 'opacity-50 cursor-not-allowed' : ''}`}
+      class={`add-city-button ${buttonStyle} ${!enteredCity ? 'opacity-50 cursor-not-allowed' : ''}`}
       disabled={!enteredCity}>
       Add
     </button>

@@ -28,6 +28,11 @@ describe('Cities landing page.', () => {
   });
 
   beforeEach(() => {
+    cy.request({
+      url: '/resetCities',
+      failOnStatusCode: false,
+      method: 'POST',
+    });
     cy.visit('/cities', fakeLocation(48, 2));
     sessionStorage.clear();
   });
@@ -91,5 +96,16 @@ describe('Cities landing page.', () => {
     cy.get('.get-my-weather-button').then(elem =>
       cy.get(elem).should('have.attr', 'disabled'),
     );
+  });
+
+  it('entering in a city in the input field and then blurring input should populate the cities candidates field', () => {
+    cy.get('#city-input')
+      .type('Detroit')
+      .blur();
+    cy.get('.candidate-option').each((elem, index) => {
+      if (index === 0) {
+        cy.get(elem).contains('Detroit - US');
+      }
+    });
   });
 });

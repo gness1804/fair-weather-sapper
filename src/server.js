@@ -25,6 +25,10 @@ app
     app.locals.cities = [...app.locals.cities, city];
     return next();
   })
+  .post('/resetCities', (req, res, next) => {
+    app.locals.cities = [];
+    return next();
+  })
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
