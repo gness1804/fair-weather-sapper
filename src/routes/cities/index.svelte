@@ -29,7 +29,7 @@
   let icon;
   let candidateCities = [];
   let selectedCity;
-  let geolocErrorMssg;
+
   let enteredCity;
 
   const buttonStyle = 'p-2 bg-gray-400 hover:bg-gray-300 shadow';
@@ -52,7 +52,6 @@
           summary = res.data.summary;
           icon = res.data.icon;
           sessionStorage.setItem('showLocalWeather', 'true');
-          geolocErrorMssg = null;
         }
         loading = false;
       })
@@ -66,12 +65,9 @@
   const failure = reason => {
     // eslint-disable-next-line no-console
     console.error(
-      `Attempt to get user's current position failed: ${JSON.stringify(
-        reason,
-      ) || 'unable to retrieve user location.'}`,
+      `Attempt to get user's current position failed: ${reason ||
+        'unable to retrieve user location.'}`,
     );
-    geolocErrorMssg =
-      "There was a problem geolocating you. Please enable geolocation in your browser's settings.";
     loading = false;
   };
 
@@ -197,8 +193,6 @@
     </div>
   {:else if loading}
     <p>Loading...</p>
-  {:else if geolocErrorMssg}
-    <p>{geolocErrorMssg}</p>
   {/if}
 
 </div>
