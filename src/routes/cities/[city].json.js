@@ -21,8 +21,15 @@ export async function get(req, res) {
     return;
   }
 
-  const { lat, lng } = links.filter(link => link.slug === city)[0].geocoords;
-  const { name } = links.filter(link => link.slug === city)[0];
+  let newLinks = links;
+  const { cities } = req.app.locals;
+
+  if (cities.length > 0) {
+    newLinks = [...newLinks, ...cities];
+  }
+
+  const { lat, lng } = newLinks.filter(link => link.slug === city)[0].geocoords;
+  const { name } = newLinks.filter(link => link.slug === city)[0];
 
   if (!lat || !lng || !name) {
     res.writeHead(404, {

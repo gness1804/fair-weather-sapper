@@ -42,7 +42,7 @@
     const { latitude } = position.coords;
     const { longitude } = position.coords;
     axios
-      .post('/call', { lat: latitude, lng: longitude })
+      .post('/addPos', { lat: latitude, lng: longitude })
       .then(res => {
         if (res && res.data && res.data.temp) {
           currentTemp = res.data.temp;
@@ -100,16 +100,19 @@
         lng,
       },
     };
-    if (localStorage.getItem('additionalCities')) {
-      const newCities = [
-        ...JSON.parse(localStorage.getItem('additionalCities')),
-        newCityObj,
-      ];
-      localStorage.setItem('additionalCities', JSON.stringify(newCities));
-    } else {
-      localStorage.setItem('additionalCities', JSON.stringify([newCityObj]));
-    }
+    // if (localStorage.getItem('additionalCities')) {
+    //   const newCities = [
+    //     ...JSON.parse(localStorage.getItem('additionalCities')),
+    //     newCityObj,
+    //   ];
+    //   localStorage.setItem('additionalCities', JSON.stringify(newCities));
+    // } else {
+    //   localStorage.setItem('additionalCities', JSON.stringify([newCityObj]));
+    // }
+    cities = [...cities, newCityObj];
     enteredCity = '';
+
+    axios.post('/addCities', { city: newCityObj });
   };
 
   onMount(async () => {
