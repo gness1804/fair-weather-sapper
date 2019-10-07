@@ -16,6 +16,7 @@
   import convertTemp from '../../helpers/convertTemp';
   import getIcon from '../../helpers/getIcon';
   import slugify from '../../helpers/slugify';
+  import sortAlpha from '../../helpers/sortAlpha';
   import getTempColor from '../../data/getTempColor';
 
   const citiesFromJSON = require('cities.json');
@@ -146,7 +147,7 @@
   </div>
 
   <ul class="cities-links mb-12">
-    {#each cities as { slug, name }}
+    {#each sortAlpha(cities) as { slug, name }}
       <li class="mb-4 text-xl">
         <a
           class="text-blue-600 hover:text-blue-400"
