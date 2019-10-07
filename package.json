@@ -38,7 +38,6 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
     "node-fetch": "^2.6.0",
-    "polka": "next",
     "semver": "^6.3.0",
     "sirv": "^0.4.0",
     "uuid": "^3.3.3"
