@@ -27,9 +27,9 @@ describe('Cities landing page.', () => {
       } else if (index === 1) {
         expect(elem).to.have.text('Chicago');
       } else if (index === 2) {
-        expect(elem).to.have.text('Paris');
-      } else if (index === 3) {
         expect(elem).to.have.text('London');
+      } else if (index === 3) {
+        expect(elem).to.have.text('Paris');
       }
     });
   });
@@ -45,7 +45,7 @@ describe('Cities landing page.', () => {
 
   it('clicking on the Paris link should go to the Paris page.', () => {
     cy.get('.cities-links a').each((elem, index) => {
-      if (index === 2) {
+      if (index === 3) {
         cy.get(elem).click();
       }
     });
