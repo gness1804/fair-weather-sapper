@@ -2,6 +2,25 @@ describe('Cities landing page.', () => {
   let data;
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
 
+  // thanks to https://github.com/cypress-io/cypress/issues/2671
+  function fakeLocation(latitude, longitude) {
+    return {
+      onBeforeLoad(win) {
+        cy.stub(win.navigator.geolocation, 'getCurrentPosition', (cb, err) => {
+          if (latitude && longitude) {
+            return cb({
+              coords: {
+                latitude,
+                longitude,
+              },
+            });
+          }
+          throw err({ code: 1 }); // 1: rejected, 2: unable, 3: timeout
+        });
+      },
+    };
+  }
+
   before(() => {
     cy.readFile(cityDataFile).then(contents => {
       data = contents;
@@ -9,7 +28,7 @@ describe('Cities landing page.', () => {
   });
 
   beforeEach(() => {
-    cy.visit('/cities');
+    cy.visit('/cities', fakeLocation(48, 2));
     sessionStorage.clear();
   });
 
@@ -56,19 +75,21 @@ describe('Cities landing page.', () => {
     const temp = Math.round(parseFloat(data.data.currently.temperature));
     const conditions = data.data.currently.summary;
     cy.get('.get-my-weather-button').click();
-    cy.get('.my-weather-results p').each((elem, index) => {
-      if (index === 0) {
-        expect(elem).to.have.text('Your current temperature is:');
-      } else if (index === 1) {
-        cy.get(elem).contains(temp);
-      } else if (index === 2) {
-        cy.get(elem).contains(conditions);
-      }
-    });
+    cy.get('.current-temp-title').then(elem =>
+      expect(elem).to.have.text('Your current temperature is:'),
+    );
+    cy.get('.current-temp-value-display').then(elem =>
+      cy.get(elem).contains(temp),
+    );
+    cy.get('.conditions-display').then(elem =>
+      cy.get(elem).contains(conditions),
+    );
   });
 
   it('button should be disabled once results come in', () => {
     cy.get('.get-my-weather-button').click();
-    cy.get('.get-my-weather-button').should('have.attr', 'disabled');
+    cy.get('.get-my-weather-button').then(elem =>
+      cy.get(elem).should('have.attr', 'disabled'),
+    );
   });
 });

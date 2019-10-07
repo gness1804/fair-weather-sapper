@@ -185,11 +185,14 @@
         alt={icon}
         title={icon}
         class="my-0 mx-auto h-28 w-28" />
-      <p>Your current temperature is:</p>
-      <p class={`text-5xl text-${convertedTempColor} mb-6`}>
+      <p class="current-temp-title">Your current temperature is:</p>
+      <p
+        class={`current-temp-value-display text-5xl text-${convertedTempColor} mb-6`}>
         {convertedTemp} &deg; F
       </p>
-      <p class="text-2xl">Your current weather is: {summary}</p>
+      <p class="conditions-display text-2xl">
+        Your current weather is: {summary}
+      </p>
     </div>
   {:else if loading}
     <p>Loading...</p>
