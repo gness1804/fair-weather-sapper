@@ -122,4 +122,19 @@ describe('Cities landing page.', () => {
       }
     });
   });
+
+  it('entering in a city etc. and then going to the link should go to the new city page for that city', () => {
+    cy.get('#city-input')
+      .type('Detroit')
+      .blur();
+
+    cy.get('.add-city-button').click();
+
+    cy.get('.cities-links a').each((elem, index) => {
+      if (index === 2) {
+        cy.get(elem).click();
+      }
+    });
+    cy.url().should('include', '/detroit');
+  });
 });
