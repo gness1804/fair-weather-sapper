@@ -82,7 +82,7 @@ describe('Cities landing page.', () => {
   });
 
   it('entering in a city in the input field and then blurring input should populate the cities candidates field', () => {
-    cy.seedDetroit();
+    cy.seedCity('Detroit');
 
     cy.get('.candidate-option').each((elem, index) => {
       if (index === 0) {
@@ -94,7 +94,7 @@ describe('Cities landing page.', () => {
   it('entering in a city in the input field and then clicking on the Add button should add it to the list on the page', () => {
     let listContainsDetroit = false;
 
-    cy.seedDetroit();
+    cy.seedCity('Detroit');
 
     cy.get('.add-city-button').click();
 
@@ -116,7 +116,7 @@ describe('Cities landing page.', () => {
   });
 
   it('entering in a city etc. and then going to the link should go to the new city page for that city', () => {
-    cy.seedDetroit();
+    cy.seedCity('Detroit');
 
     cy.get('.add-city-button').click();
 
@@ -131,4 +131,67 @@ describe('Cities landing page.', () => {
     });
     cy.url().should('include', '/detroit');
   });
+
+  it('only custom-entered cities should have the red X for deleting a city', () => {
+    cy.seedCity('Detroit');
+
+    cy.get('.add-city-button').click();
+    cy.get('.delete-city-button')
+      .should('have.attr', 'title')
+      .and('contains', 'Delete Detroit');
+  });
+
+  it('deleting a city should remove it from the page', () => {
+    let listContainsDetroit = false;
+    cy.seedCity('Detroit');
+
+    cy.get('.add-city-button').click();
+    cy.get('.delete-city-button').click();
+
+    // test if the city was actually removed
+    cy.get('.cities-links a')
+      .each((elem, index, list) => {
+        expect(list.length).to.equal(4);
+        cy.get(elem)
+          .invoke('text')
+          .then(contents => {
+            if (contents === 'Detroit') {
+              listContainsDetroit = true;
+            }
+          });
+      })
+      .then(() => {
+        expect(listContainsDetroit).to.equal(false);
+      });
+  });
+
+  it('user should be able to add a new city after adding and deleting one', () => {
+    let listContainsBoston = false;
+    cy.seedCity('Detroit');
+
+    cy.get('.add-city-button').click();
+    cy.get('.delete-city-button').click();
+
+    cy.seedCity('Boston');
+    cy.get('.add-city-button').click();
+
+    cy.get('.cities-links a')
+      .each((elem, index, list) => {
+        expect(list.length).to.equal(5);
+        cy.get(elem)
+          .invoke('text')
+          .then(contents => {
+            if (contents === 'Boston') {
+              listContainsBoston = true;
+            }
+          });
+      })
+      .then(() => {
+        expect(listContainsBoston).to.equal(true);
+      });
+  });
+
+  // it('adding and deleting a city and then refreshing the page should keep the deleted city deleted; should not reappear', () => {
+
+  // });
 });

@@ -25,6 +25,12 @@ app
     app.locals.cities = [...app.locals.cities, city];
     return next();
   })
+  .post('/deleteCity', (req, res, next) => {
+    const { id } = req.body;
+    const filteredCities = app.locals.cities.filter(city => city.id !== id);
+    app.locals.cities = filteredCities;
+    return next();
+  })
   .post('/resetCities', (req, res, next) => {
     app.locals.cities = [];
     return next();

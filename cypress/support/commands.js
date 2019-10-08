@@ -25,9 +25,9 @@ Cypress.Commands.add('seedCitiesPage', () => {
 });
 
 // enters in Detroit for city on cities page
-Cypress.Commands.add('seedDetroit', () => {
+Cypress.Commands.add('seedCity', city => {
   cy.get('#city-input')
-    .type('Detroit')
+    .type(city)
     .blur();
 });
 
