@@ -2,25 +2,6 @@ describe('Cities landing page.', () => {
   let data;
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
 
-  // thanks to https://github.com/cypress-io/cypress/issues/2671
-  function fakeLocation(latitude, longitude) {
-    return {
-      onBeforeLoad(win) {
-        cy.stub(win.navigator.geolocation, 'getCurrentPosition', (cb, err) => {
-          if (latitude && longitude) {
-            return cb({
-              coords: {
-                latitude,
-                longitude,
-              },
-            });
-          }
-          throw err({ code: 1 }); // 1: rejected, 2: unable, 3: timeout
-        });
-      },
-    };
-  }
-
   before(() => {
     cy.readFile(cityDataFile).then(contents => {
       data = contents;
@@ -28,13 +9,7 @@ describe('Cities landing page.', () => {
   });
 
   beforeEach(() => {
-    cy.request({
-      url: '/resetCities',
-      failOnStatusCode: false,
-      method: 'POST',
-    });
-    cy.visit('/cities', fakeLocation(48, 2));
-    sessionStorage.clear();
+    cy.seedCitiesPage();
   });
 
   it('selected css styles for nav bar link should show up on this page', () => {
