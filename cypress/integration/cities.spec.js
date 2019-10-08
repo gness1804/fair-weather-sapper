@@ -34,19 +34,27 @@ describe('Cities landing page.', () => {
   });
 
   it('clicking on the Austin link should go to the Austin page.', () => {
-    cy.get('.cities-links a').each((elem, index) => {
-      if (index === 0) {
-        cy.get(elem).click();
-      }
+    cy.get('.cities-links a').each(elem => {
+      cy.get(elem)
+        .invoke('text')
+        .then(contents => {
+          if (contents === 'Austin') {
+            cy.get(elem).click();
+          }
+        });
     });
     cy.url().should('include', '/austin');
   });
 
   it('clicking on the Paris link should go to the Paris page.', () => {
-    cy.get('.cities-links a').each((elem, index) => {
-      if (index === 3) {
-        cy.get(elem).click();
-      }
+    cy.get('.cities-links a').each(elem => {
+      cy.get(elem)
+        .invoke('text')
+        .then(contents => {
+          if (contents === 'Paris') {
+            cy.get(elem).click();
+          }
+        });
     });
     cy.url().should('include', '/paris');
   });
