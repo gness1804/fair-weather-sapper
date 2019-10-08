@@ -1,7 +1,7 @@
 {
   "name": "fair-weather-2",
   "description": "Weather app using Sapper and Svelte.",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "scripts": {
     "pretest": "npm run test:enable",
     "dev": "sapper dev",
@@ -10,9 +10,8 @@
     "build": "sapper build",
     "export": "sapper export",
     "start": "node __sapper__/build",
-    "e2e": "node ./src/scripts/cyRun.js",
-    "e2e:open": "node ./src/scripts/cyOpen.js",
-    "test": "npm run unit && npm run e2e",
+    "e2e": "npm run test:enable && cypress run",
+    "e2e:open": "npm run test:enable && cypress open",
     "test:enable": "node ./src/scripts/enableTesting.js",
     "test:disable": "node ./src/scripts/disableTesting.js",
     "unit": "mocha",
@@ -30,15 +29,17 @@
     "@fullhuman/postcss-purgecss": "^1.3.0",
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
+    "cities.json": "^1.1.5",
     "commander": "^3.0.2",
     "compression": "^1.7.1",
     "dotenv": "^8.1.0",
+    "express": "^4.17.1",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
     "node-fetch": "^2.6.0",
-    "polka": "next",
     "semver": "^6.3.0",
-    "sirv": "^0.4.0"
+    "sirv": "^0.4.0",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "babel-eslint": "9.0.0",

@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 import sirv from 'sirv';
-import polka from 'polka';
+import express from 'express';
 import compression from 'compression';
 /* eslint-disable import/no-extraneous-dependencies */
 import * as sapper from '@sapper/server';
@@ -14,9 +14,21 @@ const getCurrentLocData = require('./middleware/getCurrentLocData');
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
-polka()
+const app = express();
+app.locals.cities = [];
+
+app
   .use(bodyParser.json())
-  .post('/call', getCurrentLocData)
+  .post('/addPos', getCurrentLocData)
+  .post('/addCities', (req, res, next) => {
+    const { city } = req.body;
+    app.locals.cities = [...app.locals.cities, city];
+    return next();
+  })
+  .post('/resetCities', (req, res, next) => {
+    app.locals.cities = [];
+    return next();
+  })
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
