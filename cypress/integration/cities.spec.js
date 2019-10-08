@@ -82,9 +82,8 @@ describe('Cities landing page.', () => {
   });
 
   it('entering in a city in the input field and then blurring input should populate the cities candidates field', () => {
-    cy.get('#city-input')
-      .type('Detroit')
-      .blur();
+    cy.seedDetroit();
+
     cy.get('.candidate-option').each((elem, index) => {
       if (index === 0) {
         cy.get(elem).contains('Detroit - US');
@@ -93,30 +92,42 @@ describe('Cities landing page.', () => {
   });
 
   it('entering in a city in the input field and then clicking on the Add button should add it to the list on the page', () => {
-    cy.get('#city-input')
-      .type('Detroit')
-      .blur();
+    let listContainsDetroit = false;
+
+    cy.seedDetroit();
 
     cy.get('.add-city-button').click();
-    cy.get('.cities-links a').each((elem, index, list) => {
-      expect(list.length).to.equal(5);
-      if (index === 2) {
-        expect(elem).to.have.text('Detroit');
-      }
-    });
+
+    // tests that at least one of these links contains 'Detroit'
+    cy.get('.cities-links a')
+      .each((elem, index, list) => {
+        expect(list.length).to.equal(5);
+        cy.get(elem)
+          .invoke('text')
+          .then(contents => {
+            if (contents === 'Detroit') {
+              listContainsDetroit = true;
+            }
+          });
+      })
+      .then(() => {
+        expect(listContainsDetroit).to.equal(true);
+      });
   });
 
   it('entering in a city etc. and then going to the link should go to the new city page for that city', () => {
-    cy.get('#city-input')
-      .type('Detroit')
-      .blur();
+    cy.seedDetroit();
 
     cy.get('.add-city-button').click();
 
-    cy.get('.cities-links a').each((elem, index) => {
-      if (index === 2) {
-        cy.get(elem).click();
-      }
+    cy.get('.cities-links a').each(elem => {
+      cy.get(elem)
+        .invoke('text')
+        .then(contents => {
+          if (contents === 'Detroit') {
+            cy.get(elem).click();
+          }
+        });
     });
     cy.url().should('include', '/detroit');
   });

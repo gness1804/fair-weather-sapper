@@ -24,6 +24,13 @@ Cypress.Commands.add('seedCitiesPage', () => {
   sessionStorage.clear();
 });
 
+// enters in Detroit for city on cities page
+Cypress.Commands.add('seedDetroit', () => {
+  cy.get('#city-input')
+    .type('Detroit')
+    .blur();
+});
+
 //
 //
 // -- This is a child command --
