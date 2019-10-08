@@ -158,7 +158,7 @@
   </div>
 
   <ul class="cities-links mb-12">
-    {#each sortAlpha(cities) as { slug, name }}
+    {#each sortAlpha(cities) as { slug, name, id }}
       <li class="mb-4 text-xl">
         <a
           class="text-blue-600 hover:text-blue-400"
@@ -167,6 +167,9 @@
           href="cities/{slug}">
           {name}
         </a>
+        {#if String(id).length > 2}
+          <span class="delete-city-button cursor-pointer text-red-700">X</span>
+        {/if}
       </li>
     {/each}
   </ul>

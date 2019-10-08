@@ -6,10 +6,11 @@ import cityLinks from './_cityLinks';
  * @returns {object[]} - cleaned up array of city objects
  * */
 const getNameAndSlug = arr =>
-  arr.map(({ name, slug }) => {
+  arr.map(({ name, slug, id }) => {
     return {
       name,
       slug,
+      id,
     };
   });
 
