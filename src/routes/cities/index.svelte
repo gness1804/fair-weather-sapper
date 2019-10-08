@@ -109,16 +109,25 @@
     enteredCity = '';
     selectedCity = null;
     candidateCities = [];
-    axios.post('/addCities', { city: newCityObj });
+    axios.post('/addCities', { city: newCityObj }).catch(err => {
+      // eslint-disable-next-line no-console
+      console.error(`Error adding a new city: ${err}`);
+    });
   };
 
   const deleteCity = id => {
-    axios.post('/deleteCity', { id });
+    axios.post('/deleteCity', { id }).catch(err => {
+      // eslint-disable-next-line no-console
+      console.error(`Error deleting a city: ${err}`);
+    });
     cities = cities.filter(_city => _city.id !== id);
   };
 
   const resetCities = () => {
-    axios.post('/resetCities');
+    axios.post('/resetCities').catch(err => {
+      // eslint-disable-next-line no-console
+      console.error(`Error deleting all cities: ${err}`);
+    });
     cities = cities.filter(_city => String(_city.id).length <= 2);
   };
 
