@@ -2,25 +2,6 @@ describe('Cities landing page.', () => {
   let data;
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
 
-  // thanks to https://github.com/cypress-io/cypress/issues/2671
-  function fakeLocation(latitude, longitude) {
-    return {
-      onBeforeLoad(win) {
-        cy.stub(win.navigator.geolocation, 'getCurrentPosition', (cb, err) => {
-          if (latitude && longitude) {
-            return cb({
-              coords: {
-                latitude,
-                longitude,
-              },
-            });
-          }
-          throw err({ code: 1 }); // 1: rejected, 2: unable, 3: timeout
-        });
-      },
-    };
-  }
-
   before(() => {
     cy.readFile(cityDataFile).then(contents => {
       data = contents;
@@ -28,13 +9,7 @@ describe('Cities landing page.', () => {
   });
 
   beforeEach(() => {
-    cy.request({
-      url: '/resetCities',
-      failOnStatusCode: false,
-      method: 'POST',
-    });
-    cy.visit('/cities', fakeLocation(48, 2));
-    sessionStorage.clear();
+    cy.seedCitiesPage();
   });
 
   it('selected css styles for nav bar link should show up on this page', () => {
@@ -59,19 +34,27 @@ describe('Cities landing page.', () => {
   });
 
   it('clicking on the Austin link should go to the Austin page.', () => {
-    cy.get('.cities-links a').each((elem, index) => {
-      if (index === 0) {
-        cy.get(elem).click();
-      }
+    cy.get('.cities-links a').each(elem => {
+      cy.get(elem)
+        .invoke('text')
+        .then(contents => {
+          if (contents === 'Austin') {
+            cy.get(elem).click();
+          }
+        });
     });
     cy.url().should('include', '/austin');
   });
 
   it('clicking on the Paris link should go to the Paris page.', () => {
-    cy.get('.cities-links a').each((elem, index) => {
-      if (index === 3) {
-        cy.get(elem).click();
-      }
+    cy.get('.cities-links a').each(elem => {
+      cy.get(elem)
+        .invoke('text')
+        .then(contents => {
+          if (contents === 'Paris') {
+            cy.get(elem).click();
+          }
+        });
     });
     cy.url().should('include', '/paris');
   });
@@ -99,9 +82,8 @@ describe('Cities landing page.', () => {
   });
 
   it('entering in a city in the input field and then blurring input should populate the cities candidates field', () => {
-    cy.get('#city-input')
-      .type('Detroit')
-      .blur();
+    cy.seedDetroit();
+
     cy.get('.candidate-option').each((elem, index) => {
       if (index === 0) {
         cy.get(elem).contains('Detroit - US');
@@ -110,30 +92,42 @@ describe('Cities landing page.', () => {
   });
 
   it('entering in a city in the input field and then clicking on the Add button should add it to the list on the page', () => {
-    cy.get('#city-input')
-      .type('Detroit')
-      .blur();
+    let listContainsDetroit = false;
+
+    cy.seedDetroit();
 
     cy.get('.add-city-button').click();
-    cy.get('.cities-links a').each((elem, index, list) => {
-      expect(list.length).to.equal(5);
-      if (index === 2) {
-        expect(elem).to.have.text('Detroit');
-      }
-    });
+
+    // tests that at least one of these links contains 'Detroit'
+    cy.get('.cities-links a')
+      .each((elem, index, list) => {
+        expect(list.length).to.equal(5);
+        cy.get(elem)
+          .invoke('text')
+          .then(contents => {
+            if (contents === 'Detroit') {
+              listContainsDetroit = true;
+            }
+          });
+      })
+      .then(() => {
+        expect(listContainsDetroit).to.equal(true);
+      });
   });
 
   it('entering in a city etc. and then going to the link should go to the new city page for that city', () => {
-    cy.get('#city-input')
-      .type('Detroit')
-      .blur();
+    cy.seedDetroit();
 
     cy.get('.add-city-button').click();
 
-    cy.get('.cities-links a').each((elem, index) => {
-      if (index === 2) {
-        cy.get(elem).click();
-      }
+    cy.get('.cities-links a').each(elem => {
+      cy.get(elem)
+        .invoke('text')
+        .then(contents => {
+          if (contents === 'Detroit') {
+            cy.get(elem).click();
+          }
+        });
     });
     cy.url().should('include', '/detroit');
   });
