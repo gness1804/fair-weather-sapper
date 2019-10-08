@@ -83,6 +83,7 @@
     candidateCities = citiesFromJSON
       .filter(_city => _city.name.toLowerCase() === enteredCity.toLowerCase())
       .map(_city => Object.assign({}, _city, { id: v4() }));
+    [selectedCity] = candidateCities;
   };
 
   const addCity = () => {
@@ -106,6 +107,11 @@
     selectedCity = null;
     candidateCities = [];
     axios.post('/addCities', { city: newCityObj });
+  };
+
+  const deleteCity = id => {
+    axios.post('/deleteCity', { id });
+    cities = cities.filter(_city => _city.id !== id);
   };
 
   onMount(async () => {
@@ -158,7 +164,7 @@
   </div>
 
   <ul class="cities-links mb-12">
-    {#each sortAlpha(cities) as { slug, name }}
+    {#each sortAlpha(cities) as { slug, name, id }}
       <li class="mb-4 text-xl">
         <a
           class="text-blue-600 hover:text-blue-400"
@@ -167,6 +173,14 @@
           href="cities/{slug}">
           {name}
         </a>
+        {#if String(id).length > 2}
+          <span
+            on:click={() => deleteCity(id)}
+            class="delete-city-button cursor-pointer text-red-700"
+            title={`Delete ${name}`}>
+            X
+          </span>
+        {/if}
       </li>
     {/each}
   </ul>
