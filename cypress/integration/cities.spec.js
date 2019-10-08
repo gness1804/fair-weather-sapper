@@ -19,18 +19,21 @@ describe('Cities landing page.', () => {
   });
 
   it('contains a list of city links', () => {
-    cy.get('.cities-links a').each((elem, index, list) => {
-      expect(list.length).to.equal(4);
-      if (index === 0) {
-        expect(elem).to.have.text('Austin');
-      } else if (index === 1) {
-        expect(elem).to.have.text('Chicago');
-      } else if (index === 2) {
-        expect(elem).to.have.text('London');
-      } else if (index === 3) {
-        expect(elem).to.have.text('Paris');
-      }
-    });
+    cy.get('.cities-links a')
+      .each((elem, index) => {
+        if (index === 0) {
+          expect(elem).to.have.text('Austin');
+        } else if (index === 1) {
+          expect(elem).to.have.text('Chicago');
+        } else if (index === 2) {
+          expect(elem).to.have.text('London');
+        } else if (index === 3) {
+          expect(elem).to.have.text('Paris');
+        }
+      })
+      .then(list => {
+        expect(list.length).to.equal(4);
+      });
   });
 
   it('clicking on the Austin link should go to the Austin page.', () => {
@@ -100,8 +103,7 @@ describe('Cities landing page.', () => {
 
     // tests that at least one of these links contains 'Detroit'
     cy.get('.cities-links a')
-      .each((elem, index, list) => {
-        expect(list.length).to.equal(5);
+      .each(elem => {
         cy.get(elem)
           .invoke('text')
           .then(contents => {
@@ -110,7 +112,8 @@ describe('Cities landing page.', () => {
             }
           });
       })
-      .then(() => {
+      .then(list => {
+        expect(list.length).to.equal(5);
         expect(listContainsDetroit).to.equal(true);
       });
   });
@@ -150,8 +153,7 @@ describe('Cities landing page.', () => {
 
     // test if the city was actually removed
     cy.get('.cities-links a')
-      .each((elem, index, list) => {
-        expect(list.length).to.equal(4);
+      .each(elem => {
         cy.get(elem)
           .invoke('text')
           .then(contents => {
@@ -160,7 +162,8 @@ describe('Cities landing page.', () => {
             }
           });
       })
-      .then(() => {
+      .then(list => {
+        expect(list.length).to.equal(4);
         expect(listContainsDetroit).to.equal(false);
       });
   });
@@ -176,8 +179,7 @@ describe('Cities landing page.', () => {
     cy.get('.add-city-button').click();
 
     cy.get('.cities-links a')
-      .each((elem, index, list) => {
-        expect(list.length).to.equal(5);
+      .each(elem => {
         cy.get(elem)
           .invoke('text')
           .then(contents => {
@@ -186,7 +188,8 @@ describe('Cities landing page.', () => {
             }
           });
       })
-      .then(() => {
+      .then(list => {
+        expect(list.length).to.equal(5);
         expect(listContainsBoston).to.equal(true);
       });
   });
@@ -201,8 +204,7 @@ describe('Cities landing page.', () => {
     cy.reload();
 
     cy.get('.cities-links a')
-      .each((elem, index, list) => {
-        expect(list.length).to.equal(4);
+      .each(elem => {
         cy.get(elem)
           .invoke('text')
           .then(contents => {
@@ -211,8 +213,9 @@ describe('Cities landing page.', () => {
             }
           });
       })
-      .then(() => {
+      .then(list => {
         expect(listContainsDetroit).to.equal(false);
+        expect(list.length).to.equal(4);
       });
   });
 });
