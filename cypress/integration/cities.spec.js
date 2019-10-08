@@ -191,7 +191,28 @@ describe('Cities landing page.', () => {
       });
   });
 
-  // it('adding and deleting a city and then refreshing the page should keep the deleted city deleted; should not reappear', () => {
+  it('adding and deleting a city and then refreshing the page should keep the deleted city deleted; should not reappear', () => {
+    let listContainsDetroit = false;
+    cy.seedCity('Detroit');
 
-  // });
+    cy.get('.add-city-button').click();
+    cy.get('.delete-city-button').click();
+
+    cy.reload();
+
+    cy.get('.cities-links a')
+      .each((elem, index, list) => {
+        expect(list.length).to.equal(4);
+        cy.get(elem)
+          .invoke('text')
+          .then(contents => {
+            if (contents === 'Detroit') {
+              listContainsDetroit = true;
+            }
+          });
+      })
+      .then(() => {
+        expect(listContainsDetroit).to.equal(false);
+      });
+  });
 });
