@@ -40,6 +40,9 @@
   $: iconSrc = getIcon(icon);
 
   $: localDataIsPopulated = convertedTemp && summary && icon;
+  $: thereAreUserEnteredCities = cities.find(
+    _city => String(_city.id).length > 2,
+  );
 
   const success = position => {
     const { latitude } = position.coords;
@@ -114,6 +117,11 @@
     cities = cities.filter(_city => _city.id !== id);
   };
 
+  const resetCities = () => {
+    axios.post('/resetCities');
+    cities = cities.filter(_city => String(_city.id).length <= 2);
+  };
+
   onMount(async () => {
     const showLocalWeather =
       sessionStorage.getItem('showLocalWeather') === 'true';
@@ -160,6 +168,12 @@
       class={`add-city-button ${buttonStyle} ${!enteredCity ? 'opacity-50 cursor-not-allowed' : ''}`}
       disabled={!enteredCity}>
       Add
+    </button>
+    <button
+      class={`reset-all-button ${buttonStyle} ${!thereAreUserEnteredCities ? 'opacity-50 cursor-not-allowed' : ''}`}
+      on:click={resetCities}
+      disabled={!thereAreUserEnteredCities}>
+      Reset to Defaults
     </button>
   </div>
 
