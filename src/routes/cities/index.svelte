@@ -40,6 +40,9 @@
   $: iconSrc = getIcon(icon);
 
   $: localDataIsPopulated = convertedTemp && summary && icon;
+  $: thereAreUserEnteredCities = cities.find(
+    _city => String(_city.id).length > 2,
+  );
 
   const success = position => {
     const { latitude } = position.coords;
@@ -106,12 +109,26 @@
     enteredCity = '';
     selectedCity = null;
     candidateCities = [];
-    axios.post('/addCities', { city: newCityObj });
+    axios.post('/addCities', { city: newCityObj }).catch(err => {
+      // eslint-disable-next-line no-console
+      console.error(`Error adding a new city: ${err}`);
+    });
   };
 
   const deleteCity = id => {
-    axios.post('/deleteCity', { id });
+    axios.post('/deleteCity', { id }).catch(err => {
+      // eslint-disable-next-line no-console
+      console.error(`Error deleting a city: ${err}`);
+    });
     cities = cities.filter(_city => _city.id !== id);
+  };
+
+  const resetCities = () => {
+    axios.post('/resetCities').catch(err => {
+      // eslint-disable-next-line no-console
+      console.error(`Error deleting all cities: ${err}`);
+    });
+    cities = cities.filter(_city => String(_city.id).length <= 2);
   };
 
   onMount(async () => {
@@ -160,6 +177,12 @@
       class={`add-city-button ${buttonStyle} ${!enteredCity ? 'opacity-50 cursor-not-allowed' : ''}`}
       disabled={!enteredCity}>
       Add
+    </button>
+    <button
+      class={`reset-all-button ${buttonStyle} ${!thereAreUserEnteredCities ? 'opacity-50 cursor-not-allowed' : ''}`}
+      on:click={resetCities}
+      disabled={!thereAreUserEnteredCities}>
+      Reset to Defaults
     </button>
   </div>
 

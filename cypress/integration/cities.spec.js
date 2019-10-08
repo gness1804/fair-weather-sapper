@@ -218,4 +218,33 @@ describe('Cities landing page.', () => {
         expect(list.length).to.equal(4);
       });
   });
+
+  it('Reset to Defaults button should be hidden without any user-added cities and then enabled with user-added cities', () => {
+    cy.get('.reset-all-button').then(elem => {
+      cy.get(elem).should('be.disabled');
+    });
+
+    cy.seedCity('Detroit');
+    cy.get('.add-city-button').click();
+
+    cy.get('.reset-all-button').then(elem => {
+      cy.get(elem).should('not.be.disabled');
+    });
+  });
+
+  it('click on the Reset to Defaults button removes all user-added cities', () => {
+    cy.seedCity('Detroit');
+    cy.get('.add-city-button').click();
+
+    cy.seedCity('Philadelphia');
+    cy.get('.add-city-button').click();
+    cy.get('.cities-links a').then(list => {
+      expect(list.length).to.equal(6);
+    });
+
+    cy.get('.reset-all-button').click();
+    cy.get('.cities-links a').then(list => {
+      expect(list.length).to.equal(4);
+    });
+  });
 });
