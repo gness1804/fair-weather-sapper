@@ -185,7 +185,6 @@
     {#each sortAlpha(cities) as { slug, name, id }}
       <li class="mb-4 text-xl">
         <a
-          class="text-blue-600 hover:text-blue-400"
           rel="prefetch"
           title={name}
           href="cities/{slug}">

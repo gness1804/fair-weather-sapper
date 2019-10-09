@@ -13,3 +13,11 @@ button:hover {
 button:disabled {
   @apply opacity-50 cursor-not-allowed;
 }
+
+a {
+  @apply text-blue-600;
+}
+
+a:hover {
+  @apply text-blue-400;
+}

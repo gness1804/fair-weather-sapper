@@ -8677,6 +8677,14 @@ button:disabled {
   cursor: not-allowed;
 }
 
+a {
+  color: #3182ce;
+}
+
+a:hover {
+  color: #63b3ed;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
