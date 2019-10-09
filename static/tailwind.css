@@ -21,3 +21,7 @@ a {
 a:hover {
   @apply text-blue-400;
 }
+
+input {
+  @apply border-black border;
+}

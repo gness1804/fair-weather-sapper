@@ -8685,6 +8685,11 @@ a:hover {
   color: #63b3ed;
 }
 
+input {
+  border-color: #000;
+  border-width: 1px;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

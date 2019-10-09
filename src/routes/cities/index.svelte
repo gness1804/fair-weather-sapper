@@ -153,7 +153,6 @@
       items-center mb-4">
       <label for="city-input" class="mr-3">
         <input
-          class="border-black border"
           id="city-input"
           type="text"
           placeholder="Enter City Name"
@@ -184,12 +183,7 @@
   <ul class="cities-links mb-12">
     {#each sortAlpha(cities) as { slug, name, id }}
       <li class="mb-4 text-xl">
-        <a
-          rel="prefetch"
-          title={name}
-          href="cities/{slug}">
-          {name}
-        </a>
+        <a rel="prefetch" title={name} href="cities/{slug}">{name}</a>
         {#if String(id).length > 2}
           <span
             on:click={() => deleteCity(id)}
