@@ -32,8 +32,6 @@
 
   let enteredCity;
 
-  const buttonStyle = 'p-2 bg-gray-400 hover:bg-gray-300 shadow';
-
   $: convertedTemp = convertTemp(currentTemp);
   $: convertedTempColor = getTempColor(convertedTemp);
 
@@ -172,14 +170,11 @@
         </select>
       {/if}
     </div>
-    <button
-      on:click={addCity}
-      class={`add-city-button ${buttonStyle} ${!enteredCity ? 'opacity-50 cursor-not-allowed' : ''}`}
-      disabled={!enteredCity}>
+    <button on:click={addCity} class="add-city-button" disabled={!enteredCity}>
       Add
     </button>
     <button
-      class={`reset-all-button ${buttonStyle} ${!thereAreUserEnteredCities ? 'opacity-50 cursor-not-allowed' : ''}`}
+      class="reset-all-button"
       on:click={resetCities}
       disabled={!thereAreUserEnteredCities}>
       Reset to Defaults
@@ -210,7 +205,7 @@
 
   <button
     on:click={getWeather}
-    class={`get-my-weather-button mb-10 ${buttonStyle} ${localDataIsPopulated ? 'opacity-50 cursor-not-allowed' : ''}`}
+    class="get-my-weather-button mb-10"
     disabled={localDataIsPopulated}>
     Get My Weather
   </button>
