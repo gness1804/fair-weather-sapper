@@ -10,7 +10,7 @@
   </h1>
 
   <a
-    class="block text-xl text-center text-blue-600 hover:text-blue-400"
+    class="block text-xl text-center"
     href="https://darksky.net/poweredby/"
     target="_blank">
     Powered by Dark Sky

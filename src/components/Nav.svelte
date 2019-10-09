@@ -6,7 +6,7 @@
 
   const selected = 'font-bold bg-gray-200';
   const linkStyle =
-    'block py-4 px-2 no-underline hover:bg-gray-100 hover:underline';
+    'text-black block py-4 px-2 no-underline hover:bg-gray-100 hover:underline hover:text-black';
 </script>
 
 <style>

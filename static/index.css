@@ -8661,6 +8661,35 @@ video {
   z-index: auto;
 }
 
+button {
+  padding: 0.5rem;
+  background-color: #cbd5e0;
+  background-color: #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+button:hover {
+  background-color: #edf2f7;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+a {
+  color: #3182ce;
+}
+
+a:hover {
+  color: #63b3ed;
+}
+
+input {
+  border-color: #000;
+  border-width: 1px;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
