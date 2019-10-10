@@ -24,11 +24,19 @@ Cypress.Commands.add('seedCitiesPage', () => {
   sessionStorage.clear();
 });
 
-// enters in Detroit for city on cities page
+// enters in data for city on cities page
 Cypress.Commands.add('seedCity', city => {
   cy.get('#city-input')
     .type(city)
     .blur();
+});
+
+Cypress.Commands.add('visitCustom', (country, city) => {
+  if (city) {
+    cy.visit(`/${country}/${city}/custom`);
+  } else {
+    cy.visit(`/${country}/custom`);
+  }
 });
 
 //
