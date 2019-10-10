@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 
 const getCurrentLocData = require('./middleware/getCurrentLocData');
 const getFilteredCities = require('./middleware/getFilteredCities');
+const getSuperFilteredCities = require('./middleware/getSuperFilteredCities');
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
@@ -21,6 +22,7 @@ app.locals.cities = [];
 app
   .use(bodyParser.json())
   .post('/filteredCities', getFilteredCities)
+  .post('/superFilteredCities', getSuperFilteredCities)
   .post('/addPos', getCurrentLocData)
   .post('/addCities', (req, res, next) => {
     const { city } = req.body;

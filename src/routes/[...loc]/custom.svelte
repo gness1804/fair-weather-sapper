@@ -15,6 +15,7 @@
   export let city;
 
   let selectedCityName;
+  let selectedCityObj;
 
   const goToCityPage = () => {
     sapper.goto(`/${country}/${selectedCityName.toLowerCase()}/custom`);
@@ -39,35 +40,73 @@
     }
   };
 
+  const getSuperFilteredCities = async () => {
+    try {
+      const res = await axios.post('/superFilteredCities', { country, city });
+      if (
+        res &&
+        res.data &&
+        res.data.filteredCities &&
+        res.data.filteredCities.length > 0
+      ) {
+        return res.data.filteredCities;
+      }
+      throw new Error(
+        'Bad data returned from server call to /superFilteredCities. Please enter a valid country and  city term and try again.',
+      );
+    } catch (error) {
+      throw new Error(`Error in server call to /superFilteredCities: ${error}`);
+    }
+  };
+
   const filteredCities = getFilteredCities();
+  const superFilteredCities = getSuperFilteredCities();
 </script>
 
 <div id="loc-landing-page">
   {#if city}
-    <h2 class="custom-page-header">{city}, {country} Results</h2>
+    <h2 class="custom-page-header">
+      Results for {city}, {country.toUpperCase()}
+    </h2>
   {:else}
     <h2 class="custom-page-header">Results for {country.toUpperCase()}</h2>
   {/if}
 
-  {#await filteredCities}
-    <p>Loading your cities...</p>
-  {:then data}
-    <label for="city-selector">Select a City:</label>
-    <input
-      id="city-selector"
-      list="cities-list"
-      name="city-selector"
-      bind:value={selectedCityName} />
-    <datalist id="cities-list">
-      {#each data as candidate}
-        <option value={candidate.name}>{candidate.name}</option>
-      {/each}
-    </datalist>
-    {#if selectedCityName}
-      <p class="selected-city-display">You selected: {selectedCityName}</p>
-      <button class="select-city-button" on:click={goToCityPage}>OK</button>
-    {/if}
-  {:catch error}
-    <p class="cities-error-message text-red-600">{error.message}</p>
-  {/await}
+  {#if city}
+    {#await superFilteredCities}
+      <p>Loading your cities...</p>
+    {:then data}
+      <select bind:value={selectedCityObj}>
+        {#each data as candidate}
+          <option class="candidate-option-custom" value={candidate}>
+            {candidate.name} - {candidate.lat} / {candidate.lng}
+          </option>
+        {/each}
+      </select>
+    {:catch error}
+      <p class="cities-error-message text-red-600">{error.message}</p>
+    {/await}
+  {:else}
+    {#await filteredCities}
+      <p>Loading your cities...</p>
+    {:then data}
+      <label for="city-selector">Select a City:</label>
+      <input
+        id="city-selector"
+        list="cities-list"
+        name="city-selector"
+        bind:value={selectedCityName} />
+      <datalist id="cities-list">
+        {#each data as candidate}
+          <option value={candidate.name}>{candidate.name}</option>
+        {/each}
+      </datalist>
+      {#if selectedCityName}
+        <p class="selected-city-display">You selected: {selectedCityName}</p>
+        <button class="select-city-button" on:click={goToCityPage}>OK</button>
+      {/if}
+    {:catch error}
+      <p class="cities-error-message text-red-600">{error.message}</p>
+    {/await}
+  {/if}
 </div>
