@@ -8,9 +8,17 @@
 <script>
   // eslint-disable-next-line import/no-extraneous-dependencies
   import axios from 'axios';
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  import * as sapper from '@sapper/app';
 
   export let country;
   export let city;
+
+  let selectedCityName;
+
+  const goToCityPage = () => {
+    sapper.goto(`/${country}/${selectedCityName.toLowerCase()}/custom`);
+  };
 
   const getFilteredCities = async () => {
     try {
@@ -44,7 +52,21 @@
   {#await filteredCities}
     <p>Loading your cities...</p>
   {:then data}
-    Yay, we have city data! {data}
+    <label for="city-selector">Select a City:</label>
+    <input
+      id="city-selector"
+      list="cities-list"
+      name="city-selector"
+      bind:value={selectedCityName} />
+    <datalist id="cities-list">
+      {#each data as candidate}
+        <option value={candidate.name}>{candidate.name}</option>
+      {/each}
+    </datalist>
+    {#if selectedCityName}
+      <p class="selected-city-display">You selected: {selectedCityName}</p>
+      <button class="select-city-button" on:click={goToCityPage}>OK</button>
+    {/if}
   {:catch error}
     <p class="cities-error-message text-red-600">{error.message}</p>
   {/await}

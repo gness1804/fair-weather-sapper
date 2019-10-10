@@ -7,6 +7,21 @@ describe('custom page', () => {
     });
   });
 
+  it('selecting a city from the dropdown list show the correct city', () => {
+    cy.visit('/us/custom');
+    cy.get('#city-selector').type('Columbus');
+    cy.get('.selected-city-display').then(elem =>
+      cy.get(elem).should('have.text', 'You selected: Columbus'),
+    );
+  });
+
+  it('selecting a city and pressing OK navigates to the new city page', () => {
+    cy.visit('/us/custom');
+    cy.get('#city-selector').type('Columbus');
+    cy.get('.select-city-button').click();
+    cy.url().should('include', '/us/columbus/custom');
+  });
+
   it('the /[country]/[city]/custom page works', () => {
     cy.visit('/us/boston/custom');
     cy.url().should('include', '/us/boston/custom');

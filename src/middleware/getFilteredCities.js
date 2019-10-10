@@ -5,6 +5,7 @@ const getFilteredCities = async (req, res) => {
   const filteredCities = cities.filter(
     _city => _city.country.toUpperCase() === country.toUpperCase(),
   );
+  // TODO: filter out duplicates
   res.writeHead(200, {
     'Content-Type': 'application/json',
   });
