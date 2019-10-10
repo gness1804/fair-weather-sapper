@@ -29,4 +29,11 @@ describe('custom page', () => {
       cy.get(elem).should('have.text', 'Results for boston, US');
     });
   });
+
+  it('selecting a city on the /[country]/[city]/custom page and clicking OK lands you on the results page for that city', () => {
+    cy.visit('/us/boston/custom');
+    cy.get('.city-selector-select').select('?lat=42.35843&lng=-71.05977');
+    cy.get('.go-to-results-button').click();
+    cy.url().should('include', '/results?lat=42.35843&lng=-71.05977');
+  });
 });

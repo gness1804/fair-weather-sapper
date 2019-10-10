@@ -15,10 +15,14 @@
   export let city;
 
   let selectedCityName;
-  let selectedCityObj;
+  let selectedCityQueryStr;
 
   const goToCityPage = () => {
     sapper.goto(`/${country}/${selectedCityName.toLowerCase()}/custom`);
+  };
+
+  const goToResults = () => {
+    sapper.goto(`/results${selectedCityQueryStr}`);
   };
 
   const getFilteredCities = async () => {
@@ -76,13 +80,20 @@
     {#await superFilteredCities}
       <p>Loading your cities...</p>
     {:then data}
-      <select bind:value={selectedCityObj}>
+      <select class="city-selector-select" bind:value={selectedCityQueryStr}>
         {#each data as candidate}
-          <option class="candidate-option-custom" value={candidate}>
+          <option
+            class="candidate-option-custom"
+            value={`?lat=${candidate.lat}&lng=${candidate.lng}`}>
             {candidate.name} - {candidate.lat} / {candidate.lng}
           </option>
         {/each}
       </select>
+      {#if selectedCityQueryStr}
+        <button class="go-to-results-button" on:click={goToResults}>
+          Go to Results
+        </button>
+      {/if}
     {:catch error}
       <p class="cities-error-message text-red-600">{error.message}</p>
     {/await}
