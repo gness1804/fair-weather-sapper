@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const getCurrentLocData = require('./middleware/getCurrentLocData');
 const getFilteredCities = require('./middleware/getFilteredCities');
 const getSuperFilteredCities = require('./middleware/getSuperFilteredCities');
+const getCustomWeather = require('./middleware/getCustomWeather');
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
@@ -24,6 +25,7 @@ app
   .post('/filteredCities', getFilteredCities)
   .post('/superFilteredCities', getSuperFilteredCities)
   .post('/addPos', getCurrentLocData)
+  .post('/getCustomWeather', getCustomWeather)
   .post('/addCities', (req, res, next) => {
     const { city } = req.body;
     app.locals.cities = [...app.locals.cities, city];
