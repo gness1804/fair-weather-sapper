@@ -1,17 +1,19 @@
 <script context="module">
-  // export function preload({
-  //   page: {
-  //     params: { parts },
-  //   },
-  // }) {
-  //   console.log('parts:', parts);
-  // }
+  export function preload({ params }) {
+    const [country, city] = params.loc;
+    return { country, city };
+  }
 </script>
 
 <script>
   export let country;
+  export let city;
 </script>
 
 <div id="loc-landing-page">
-  <h2>I am the loc landing page.</h2>
+  {#if city}
+    <h2 class="custom-page-header">{city}, {country} Results</h2>
+  {:else}
+    <h2 class="custom-page-header">Results for {country.toUpperCase()}</h2>
+  {/if}
 </div>
