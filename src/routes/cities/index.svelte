@@ -14,6 +14,7 @@
   import { onMount } from 'svelte';
   import { v4 } from 'uuid';
   import slugify from '../../helpers/slugify';
+  import LocalWeatherResults from '../../components/LocalWeatherResults.svelte';
 
   const citiesFromJSON = require('cities.json');
 
@@ -144,6 +145,7 @@
 <div class="cities text-center">
   <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
+  <!-- TODO: try to move this into new component to make the data for citiesFromJSON more performant -->
   <h3 class="mb-6 text-xl">Add New City:</h3>
 
   <div class="location-input-container mb-12">
@@ -202,23 +204,13 @@
     Get My Weather
   </button>
 
-  <!-- // TODO: break into own component -->
   {#if localDataIsPopulated}
-    <div class="my-weather-results">
-      <img
-        src={iconSrc}
-        alt={icon}
-        title={icon}
-        class="my-0 mx-auto h-28 w-28" />
-      <p class="current-temp-title">Your current temperature is:</p>
-      <p
-        class={`current-temp-value-display text-5xl text-${currentTempColor} mb-6`}>
-        {currentTemp} &deg; F
-      </p>
-      <p class="conditions-display text-2xl">
-        Your current weather is: {summary}
-      </p>
-    </div>
+    <LocalWeatherResults
+      {iconSrc}
+      {icon}
+      {currentTempColor}
+      {currentTemp}
+      {summary} />
   {:else if loading}
     <p>Loading...</p>
   {/if}
