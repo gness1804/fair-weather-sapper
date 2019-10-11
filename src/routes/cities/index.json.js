@@ -1,4 +1,5 @@
 import cityLinks from './_cityLinks';
+import sortAlpha from '../../helpers/sortAlpha';
 
 /**
  * Extracts the name and slug from a city object
@@ -27,5 +28,5 @@ export function get(req, res) {
     'Content-Type': 'application/json',
   });
 
-  res.end(JSON.stringify(content));
+  res.end(JSON.stringify(sortAlpha(content)));
 }

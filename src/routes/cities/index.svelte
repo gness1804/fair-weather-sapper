@@ -16,7 +16,6 @@
   import convertTemp from '../../helpers/convertTemp';
   import getIcon from '../../helpers/getIcon';
   import slugify from '../../helpers/slugify';
-  import sortAlpha from '../../helpers/sortAlpha';
   import getTempColor from '../../data/getTempColor';
 
   const citiesFromJSON = require('cities.json');
@@ -181,7 +180,7 @@
   </div>
 
   <ul class="cities-links mb-12">
-    {#each sortAlpha(cities) as { slug, name, id }}
+    {#each cities as { slug, name, id }}
       <li class="mb-4 text-xl">
         <a rel="prefetch" title={name} href="cities/{slug}">{name}</a>
         {#if String(id).length > 2}
