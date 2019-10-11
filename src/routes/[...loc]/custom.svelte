@@ -18,7 +18,9 @@
   let selectedCityQueryStr;
 
   const goToCityPage = () => {
-    sapper.goto(`/${country}/${selectedCityName.toLowerCase()}/custom`);
+    sapper
+      .goto(`/${country}/${selectedCityName.toLowerCase()}/custom`)
+      .then(window.location.reload());
   };
 
   const goToResults = () => {
@@ -40,11 +42,17 @@
         'Bad data returned from server call to /filteredCities. Please enter a valid city term and try again.',
       );
     } catch (error) {
+      if (error.message.includes('ECONNREFUSED')) {
+        return null;
+      }
       throw new Error(`Error in server call to /filteredCities: ${error}`);
     }
   };
 
   const getSuperFilteredCities = async () => {
+    if (!city) {
+      return null;
+    }
     try {
       const res = await axios.post('/superFilteredCities', { country, city });
       if (
@@ -59,6 +67,9 @@
         'Bad data returned from server call to /superFilteredCities. Please enter a valid country and  city term and try again.',
       );
     } catch (error) {
+      if (error.message.includes('ECONNREFUSED')) {
+        return null;
+      }
       throw new Error(`Error in server call to /superFilteredCities: ${error}`);
     }
   };

@@ -22,6 +22,7 @@ describe('custom page', () => {
       cy.get('#city-selector').type('Columbus');
       cy.get('.select-city-button').click();
       cy.url().should('include', '/us/columbus/custom');
+      cy.get('.city-selector-select').should('exist');
     });
   });
 

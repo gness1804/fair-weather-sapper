@@ -8,7 +8,7 @@
 <script>
   import axios from 'axios';
   import getTempColor from '../data/getTempColor';
-  import makeDateHumanReadable from '../helpers/makeDateHumanReadable';
+  // import makeDateHumanReadable from '../helpers/makeDateHumanReadable';
   import convertTemp from '../helpers/convertTemp';
   import getIcon from '../helpers/getIcon';
 
