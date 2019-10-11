@@ -13,30 +13,27 @@
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
   import { v4 } from 'uuid';
-  import convertTemp from '../../helpers/convertTemp';
-  import getIcon from '../../helpers/getIcon';
   import slugify from '../../helpers/slugify';
-  import getTempColor from '../../data/getTempColor';
 
   const citiesFromJSON = require('cities.json');
 
   export let cities;
 
   let loading = false;
-  let currentTemp;
-  let summary;
+
   let icon;
+  let iconSrc;
+  let currentTemp;
+  let currentTempColor;
+  let summary;
+
   let candidateCities = [];
   let selectedCity;
 
   let enteredCity;
 
-  $: convertedTemp = convertTemp(currentTemp);
-  $: convertedTempColor = getTempColor(convertedTemp);
-
-  $: iconSrc = getIcon(icon);
-
-  $: localDataIsPopulated = convertedTemp && summary && icon;
+  $: localDataIsPopulated =
+    icon && iconSrc && currentTemp && currentTempColor && summary;
   $: thereAreUserEnteredCities = cities.find(
     _city => String(_city.id).length > 2,
   );
@@ -47,10 +44,13 @@
     axios
       .post('/addPos', { lat: latitude, lng: longitude })
       .then(res => {
-        if (res && res.data && res.data.temp) {
-          currentTemp = res.data.temp;
-          summary = res.data.summary;
+        if (res && res.data) {
           icon = res.data.icon;
+          iconSrc = res.data.iconSrc;
+          currentTemp = res.data.currentTemp;
+          currentTempColor = res.data.currentTempColor;
+          summary = res.data.summary;
+
           sessionStorage.setItem('showLocalWeather', 'true');
         }
         loading = false;
@@ -202,6 +202,7 @@
     Get My Weather
   </button>
 
+  <!-- // TODO: break into own component -->
   {#if localDataIsPopulated}
     <div class="my-weather-results">
       <img
@@ -211,8 +212,8 @@
         class="my-0 mx-auto h-28 w-28" />
       <p class="current-temp-title">Your current temperature is:</p>
       <p
-        class={`current-temp-value-display text-5xl text-${convertedTempColor} mb-6`}>
-        {convertedTemp} &deg; F
+        class={`current-temp-value-display text-5xl text-${currentTempColor} mb-6`}>
+        {currentTemp} &deg; F
       </p>
       <p class="conditions-display text-2xl">
         Your current weather is: {summary}
