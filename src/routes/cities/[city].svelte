@@ -4,60 +4,36 @@
     const parsedRes = await res.json();
 
     if (res.status === 200) {
-      return { data: parsedRes.data, cityName: parsedRes.data.name };
+      return { data: parsedRes };
     }
     return this.error(res.status, parsedRes.message);
   }
 </script>
 
 <script>
-  import getTempColor from '../../data/getTempColor';
-  import makeDateHumanReadable from '../../helpers/makeDateHumanReadable';
-  import convertTemp from '../../helpers/convertTemp';
-  import getIcon from '../../helpers/getIcon';
-
   export let data;
-  export let cityName;
-
-  $: currentData = data.currently;
-  $: dailyData = data.daily;
-  $: timezone = data.timezone;
-
-  $: icon = currentData.icon;
-  $: iconSrc = getIcon(icon);
-
-  $: currentTemp = convertTemp(currentData.temperature);
-  $: currentTempColor = getTempColor(currentTemp);
-
-  $: dailyHighTemp = convertTemp(dailyData.data[0].temperatureHigh);
-  $: dailyHighTempColor = getTempColor(dailyHighTemp);
-
-  $: dailyLowTemp = convertTemp(dailyData.data[0].temperatureLow);
-  $: dailyLowTempColor = getTempColor(dailyLowTemp);
-
-  $: sunriseTime = makeDateHumanReadable(
-    dailyData.data[0].sunriseTime,
-    timezone,
-  );
-  $: sunsetTime = makeDateHumanReadable(dailyData.data[0].sunsetTime, timezone);
 </script>
 
 <svelte:head>
-  <title>{cityName} Weather</title>
+  <title>{data.name} Weather</title>
 </svelte:head>
 
 <div class="text-center">
-  <h2 class="font-bold text-gray-600 text-3xl mb-8">{cityName} Weather</h2>
+  <h2 class="font-bold text-gray-600 text-3xl mb-8">{data.name} Weather</h2>
 
-  <img src={iconSrc} alt={icon} title={icon} class="my-0 mx-auto h-32 w-32" />
+  <img
+    src={data.iconSrc}
+    alt={data.icon}
+    title={data.icon}
+    class="my-0 mx-auto h-32 w-32" />
 
-  <p class={`text-5xl text-${currentTempColor} mb-6`}>
-    <span class="current-temp">{currentTemp}</span>
+  <p class={`text-5xl text-${data.currentTempColor} mb-6`}>
+    <span class="current-temp">{data.currentTemp}</span>
     &deg; F
   </p>
 
   <p class="current-conditions-message mb-6">
-    The weather is {currentData.summary} with a {Math.round(currentData.precipProbability)}%
+    The weather is {data.summary} with a {Math.round(data.precipProbability)}%
     chance of rain.
   </p>
 
@@ -69,8 +45,8 @@
         <div class="h-6 w-6 mr-4">
           <img src="arrow-up.png" alt="Up arrow." />
         </div>
-        <span class={`text-${dailyHighTempColor} text-2xl`}>
-          <span class="high-temp">{dailyHighTemp}</span>
+        <span class={`text-${data.dailyHighTempColor} text-2xl`}>
+          <span class="high-temp">{data.dailyHighTemp}</span>
           &deg;
         </span>
       </div>
@@ -78,8 +54,8 @@
         <div class="h-6 w-6 mr-4">
           <img src="arrow-down.png" alt="Down arrow." />
         </div>
-        <span class={`text-${dailyLowTempColor} text-2xl`}>
-          <span class="low-temp">{dailyLowTemp}</span>
+        <span class={`text-${data.dailyLowTempColor} text-2xl`}>
+          <span class="low-temp">{data.dailyLowTemp}</span>
           &deg;
         </span>
       </div>
@@ -90,13 +66,15 @@
         <div class="h-10 w-10 mr-2 md:mr-4">
           <img src="sunrise.png" alt="Sun rising." />
         </div>
-        <span class="sunrise-time text-base md:text-xl">{sunriseTime}</span>
+        <span class="sunrise-time text-base md:text-xl">
+          {data.sunriseTime}
+        </span>
       </div>
       <div class="sunset flex items-center justify-center">
         <div class="h-10 w-10 mr-2 md:mr-4">
           <img src="sunset.png" alt="Sun setting." />
         </div>
-        <span class="sunset-time text-base md:text-xl">{sunsetTime}</span>
+        <span class="sunset-time text-base md:text-xl">{data.sunsetTime}</span>
       </div>
     </div>
 
