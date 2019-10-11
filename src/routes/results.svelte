@@ -7,6 +7,10 @@
 
 <script>
   import axios from 'axios';
+  import getTempColor from '../data/getTempColor';
+  import makeDateHumanReadable from '../helpers/makeDateHumanReadable';
+  import convertTemp from '../helpers/convertTemp';
+  import getIcon from '../helpers/getIcon';
 
   export let lat;
   export let lng;
@@ -29,6 +33,10 @@
   const weatherResults = getCustomWeather();
 </script>
 
+<svelte:head>
+  <title>Results</title>
+</svelte:head>
+
 <div class="results-page text-center">
   <h2 class="results-header">Your Results</h2>
 </div>
@@ -36,7 +44,24 @@
 {#await weatherResults}
   <p>Loading your results. Please be patient...</p>
 {:then results}
-  {JSON.stringify(results)}
+  <img
+    src={getIcon(results.currently.icon)}
+    alt={results.currently.icon}
+    title={results.currently.icon}
+    class="my-0 mx-auto h-32 w-32" />
+
+  <p
+    class={`text-5xl text-${getTempColor(results.currently.temperature)} mb-6`}>
+    <span class="current-temp">
+      {convertTemp(results.currently.temperature)}
+    </span>
+    &deg; F
+  </p>
+
+  <p class="current-conditions-message mb-6">
+    The weather is {results.currently.summary} with a {Math.round(results.currently.precipProbability)}%
+    chance of rain.
+  </p>
 {:catch error}
   <p class="weather-results-error-message text-red-600">{error.message}</p>
 {/await}
