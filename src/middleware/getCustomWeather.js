@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
 
-// TODO: add stub for JSON call for fake data
 const getCustomWeather = async (req, res) => {
   const { lat, lng } = req.body;
   try {
