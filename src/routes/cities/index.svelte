@@ -2,8 +2,8 @@
   export function preload() {
     return this.fetch('cities.json')
       .then(res => res.json())
-      .then(cities => {
-        return { cities };
+      .then(res => {
+        return { cities: res.cities, citiesFromJSON: res.citiesFromJSON };
       });
   }
 </script>
@@ -12,13 +12,11 @@
   import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
-  import { v4 } from 'uuid';
   import slugify from '../../helpers/slugify';
   import LocalWeatherResults from '../../components/LocalWeatherResults.svelte';
 
-  const citiesFromJSON = require('cities.json');
-
   export let cities;
+  export let citiesFromJSON;
 
   let loading = false;
 
@@ -81,9 +79,9 @@
     if (!enteredCity) {
       return;
     }
-    candidateCities = citiesFromJSON
-      .filter(_city => _city.name.toLowerCase() === enteredCity.toLowerCase())
-      .map(_city => Object.assign({}, _city, { id: v4() }));
+    candidateCities = citiesFromJSON.filter(
+      _city => _city.name.toLowerCase() === enteredCity.toLowerCase(),
+    );
     [selectedCity] = candidateCities;
   };
 

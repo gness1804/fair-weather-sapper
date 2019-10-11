@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Boston",
+    "country": "US",
+    "lat": 42.360081,
+    "lng": -71.058884
+  },
+  {
+    "name": "Munich",
+    "country": "DE",
+    "lat": 48.13913,
+    "lng": 11.58022
+  },
+  {
+    "name": "Amsterdam",
+    "country": "NL",
+    "lat": 52.373169,
+    "lng": 4.89066
+  },
+  {
+    "name": "Detroit",
+    "country": "US",
+    "lat": 42.331429,
+    "lng": -83.045753
+  },
+  {
+    "name": "",
+    "country": "",
+    "lat": "",
+    "lng": ""
+  },
+  {
+    "name": "",
+    "country": "",
+    "lat": "",
+    "lng": ""
+  },
+  {
+    "name": "",
+    "country": "",
+    "lat": "",
+    "lng": ""
+  },
+  {
+    "name": "",
+    "country": "",
+    "lat": "",
+    "lng": ""
+  },
+  {
+    "name": "",
+    "country": "",
+    "lat": "",
+    "lng": ""
+  },
+  {
+    "name": "",
+    "country": "",
+    "lat": "",
+    "lng": ""
+  }
+]

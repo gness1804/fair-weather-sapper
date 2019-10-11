@@ -1,5 +1,9 @@
+import { v4 } from 'uuid';
 import cityLinks from './_cityLinks';
 import sortAlpha from '../../helpers/sortAlpha';
+
+// TODO: finish filling out this dataset
+const citiesFromJSON = require('./extendedCityData.json');
 
 /**
  * Extracts the name and slug from a city object
@@ -24,9 +28,18 @@ export function get(req, res) {
     content = [...content, ...formattedCities];
   }
 
+  const citiesFromJSONWithIds = citiesFromJSON.map(_city =>
+    Object.assign({}, _city, { id: v4() }),
+  );
+
   res.writeHead(200, {
     'Content-Type': 'application/json',
   });
 
-  res.end(JSON.stringify(sortAlpha(content)));
+  res.end(
+    JSON.stringify({
+      cities: sortAlpha(content),
+      citiesFromJSON: citiesFromJSONWithIds,
+    }),
+  );
 }

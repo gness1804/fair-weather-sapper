@@ -236,7 +236,7 @@ describe('Cities landing page.', () => {
     cy.seedCity('Detroit');
     cy.get('.add-city-button').click();
 
-    cy.seedCity('Philadelphia');
+    cy.seedCity('Munich');
     cy.get('.add-city-button').click();
     cy.get('.cities-links a').then(list => {
       expect(list.length).to.equal(6);
