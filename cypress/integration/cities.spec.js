@@ -1,3 +1,5 @@
+const isTesting = process.env.TESTING === 'true';
+
 describe('Cities landing page.', () => {
   let data;
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
@@ -62,19 +64,23 @@ describe('Cities landing page.', () => {
     cy.url().should('include', '/paris');
   });
 
-  it('clicking on the Get My Weather button shows current weather conditions', () => {
-    const temp = Math.round(parseFloat(data.data.currently.temperature));
-    const conditions = data.data.currently.summary;
-    cy.get('.get-my-weather-button').click();
-    cy.get('.current-temp-title').then(elem =>
-      expect(elem).to.have.text('Your current temperature is:'),
-    );
-    cy.get('.current-temp-value-display').then(elem =>
-      cy.get(elem).contains(temp),
-    );
-    cy.get('.conditions-display').then(elem =>
-      cy.get(elem).contains(conditions),
-    );
+  it('clicking on the Get My Weather button shows current weather conditions', function() {
+    if (!isTesting) {
+      this.skip();
+    } else {
+      const temp = Math.round(parseFloat(data.data.currently.temperature));
+      const conditions = data.data.currently.summary;
+      cy.get('.get-my-weather-button').click();
+      cy.get('.current-temp-title').then(elem =>
+        expect(elem).to.have.text('Your current temperature is:'),
+      );
+      cy.get('.current-temp-value-display').then(elem =>
+        cy.get(elem).contains(temp),
+      );
+      cy.get('.conditions-display').then(elem =>
+        cy.get(elem).contains(conditions),
+      );
+    }
   });
 
   it('button should be disabled once results come in', () => {
