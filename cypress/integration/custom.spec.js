@@ -17,13 +17,21 @@ describe('custom country and city search', () => {
   it('should show the correct country data for the US', () => {
     cy.visit('/us/custom');
     cy.get('.cities-result-table').should('exist');
+
     cy.get('.cities-result-table-name').should('have.length', 6);
     cy.get('.cities-result-table-name')
       .first()
       .should('have.text', 'Austin');
+    cy.get('.cities-result-table-name')
+      .eq(2)
+      .should('have.text', 'Boston');
+
     cy.get('.cities-result-table-state').should('have.length', 6);
     cy.get('.cities-result-table-state')
       .first()
       .should('have.text', 'TX');
+    cy.get('.cities-result-table-state')
+      .eq(2)
+      .should('have.text', 'MA');
   });
 });
