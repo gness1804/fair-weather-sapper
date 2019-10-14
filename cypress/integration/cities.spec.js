@@ -96,7 +96,7 @@ describe('Cities landing page.', () => {
       .first()
       .should('have.text', 'Amsterdam')
       .next()
-      .should('have.text', 'Blacksburg (VA)')
+      .should('have.text', 'Blacksburg')
       .next()
       .should('have.text', 'Boston');
   });
