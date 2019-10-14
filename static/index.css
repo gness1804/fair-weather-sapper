@@ -8694,6 +8694,20 @@ input {
   border-color: #e53e3e;
 }
 
+td {
+  border-width: 1px;
+  border-color: #000;
+  padding: 0.25rem;
+}
+
+tr:first-child td {
+  font-weight: 700;
+}
+
+tr:not(:first-child):nth-child(odd) {
+  background-color: #edf2f7;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
