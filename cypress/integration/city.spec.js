@@ -1,9 +1,9 @@
 const makeDateHumanReadable = require('../../src/helpers/makeDateHumanReadable');
 
-const isTesting = process.env.TESTING === 'true';
-
 describe('city page for Austin', () => {
   let data;
+  const isTesting = Cypress.env('TESTING') === 'true';
+
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
 
   before(() => {

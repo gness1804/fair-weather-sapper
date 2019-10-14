@@ -1,6 +1,6 @@
-const isTesting = process.env.TESTING === 'true';
-
 describe('Cities landing page.', () => {
+  const isTesting = Cypress.env('TESTING') === 'true';
+
   let data;
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
 
