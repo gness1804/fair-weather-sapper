@@ -14,6 +14,7 @@
   import { onMount } from 'svelte';
   import slugify from '../../helpers/slugify';
   import LocalWeatherResults from '../../components/LocalWeatherResults.svelte';
+  import sortAlpha from '../../helpers/sortAlpha';
 
   export let cities;
   export let citiesFromJSON;
@@ -165,7 +166,7 @@
           bind:value={enteredCity} />
       </label>
       <datalist id="cities-list">
-        {#each citiesFromJSON as city}
+        {#each sortAlpha(citiesFromJSON) as city}
           <option value={city.name}>{city.name}</option>
         {/each}
       </datalist>
@@ -201,7 +202,7 @@
   </div>
 
   <ul class="cities-links mb-12">
-    {#each cities as { slug, name, id }}
+    {#each sortAlpha(cities) as { slug, name, id }}
       <li class="mb-4 text-xl">
         <a rel="prefetch" title={name} href="cities/{slug}">{name}</a>
         {#if String(id).length > 2}

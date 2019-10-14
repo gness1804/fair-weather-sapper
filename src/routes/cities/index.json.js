@@ -1,6 +1,5 @@
 import { v4 } from 'uuid';
 import cityLinks from './_cityLinks';
-import sortAlpha from '../../helpers/sortAlpha';
 
 const citiesFromJSON = require('./extendedCityData.json');
 
@@ -37,8 +36,8 @@ export function get(req, res) {
 
   res.end(
     JSON.stringify({
-      cities: sortAlpha(content),
-      citiesFromJSON: sortAlpha(citiesFromJSONWithIds),
+      cities: content,
+      citiesFromJSON: citiesFromJSONWithIds,
     }),
   );
 }
