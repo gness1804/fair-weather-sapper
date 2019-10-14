@@ -1,4 +1,6 @@
 describe('Cities landing page.', () => {
+  const isTesting = Cypress.env('TESTING') === 'true';
+
   let data;
   const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
 
@@ -62,19 +64,23 @@ describe('Cities landing page.', () => {
     cy.url().should('include', '/paris');
   });
 
-  it('clicking on the Get My Weather button shows current weather conditions', () => {
-    const temp = Math.round(parseFloat(data.data.currently.temperature));
-    const conditions = data.data.currently.summary;
-    cy.get('.get-my-weather-button').click();
-    cy.get('.current-temp-title').then(elem =>
-      expect(elem).to.have.text('Your current temperature is:'),
-    );
-    cy.get('.current-temp-value-display').then(elem =>
-      cy.get(elem).contains(temp),
-    );
-    cy.get('.conditions-display').then(elem =>
-      cy.get(elem).contains(conditions),
-    );
+  it('clicking on the Get My Weather button shows current weather conditions', function() {
+    if (!isTesting) {
+      this.skip();
+    } else {
+      const temp = Math.round(parseFloat(data.data.currently.temperature));
+      const conditions = data.data.currently.summary;
+      cy.get('.get-my-weather-button').click();
+      cy.get('.current-temp-title').then(elem =>
+        expect(elem).to.have.text('Your current temperature is:'),
+      );
+      cy.get('.current-temp-value-display').then(elem =>
+        cy.get(elem).contains(temp),
+      );
+      cy.get('.conditions-display').then(elem =>
+        cy.get(elem).contains(conditions),
+      );
+    }
   });
 
   it('button should be disabled once results come in', () => {
@@ -84,14 +90,40 @@ describe('Cities landing page.', () => {
     );
   });
 
-  it('entering in a city in the input field and then blurring input should populate the cities candidates field', () => {
+  it('cities datalist should appear for cities input', () => {
+    cy.get('#cities-list option')
+      .should('have.length', 10)
+      .first()
+      .should('have.text', 'Amsterdam')
+      .next()
+      .should('have.text', 'Blacksburg (VA)')
+      .next()
+      .should('have.text', 'Boston');
+  });
+
+  it('entering in a valid city in the input field and then blurring input should populate the cities candidates field', () => {
     cy.seedCity('Detroit');
 
+    cy.get('.candidate-cities-select').should('exist');
     cy.get('.candidate-option').each((elem, index) => {
       if (index === 0) {
         cy.get(elem).contains('Detroit - US');
       }
     });
+  });
+
+  it('entering a city not on the cities JSON list and then blurring input show an error message to the user', () => {
+    cy.seedCity('Ann Arbor');
+
+    // error message should appear
+    cy.get('.candidate-cities-select').should('not.exist');
+    cy.get('.candidate-cities-error-message').should('exist');
+
+    // the cities entry input field should have error class
+    cy.get('#city-input').should('have.class', 'error-box');
+
+    // the Add button should be disabled with invalid input
+    cy.get('.add-city-button').should('be.disabled');
   });
 
   it('entering in a city in the input field and then clicking on the Add button should add it to the list on the page', () => {
@@ -236,7 +268,7 @@ describe('Cities landing page.', () => {
     cy.seedCity('Detroit');
     cy.get('.add-city-button').click();
 
-    cy.seedCity('Philadelphia');
+    cy.seedCity('Munich');
     cy.get('.add-city-button').click();
     cy.get('.cities-links a').then(list => {
       expect(list.length).to.equal(6);

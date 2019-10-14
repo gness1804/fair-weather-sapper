@@ -1,14 +1,11 @@
 {
-  "plugins": [
-    "cypress"
-  ],
+  "plugins": ["cypress"],
   "env": {
     "cypress/globals": true
   },
-  "extends": [
-    "plugin:cypress/recommended"
-  ],
+  "extends": ["plugin:cypress/recommended"],
   "rules": {
-    "prefer-arrow-callback": "off"
+    "prefer-arrow-callback": "off",
+    "space-before-function-paren": "off"
   }
 }

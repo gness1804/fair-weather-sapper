@@ -2,8 +2,8 @@
   export function preload() {
     return this.fetch('cities.json')
       .then(res => res.json())
-      .then(cities => {
-        return { cities };
+      .then(res => {
+        return { cities: res.cities, citiesFromJSON: res.citiesFromJSON };
       });
   }
 </script>
@@ -12,32 +12,29 @@
   import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
-  import { v4 } from 'uuid';
-  import convertTemp from '../../helpers/convertTemp';
-  import getIcon from '../../helpers/getIcon';
   import slugify from '../../helpers/slugify';
+  import LocalWeatherResults from '../../components/LocalWeatherResults.svelte';
   import sortAlpha from '../../helpers/sortAlpha';
-  import getTempColor from '../../data/getTempColor';
-
-  const citiesFromJSON = require('cities.json');
 
   export let cities;
+  export let citiesFromJSON;
 
   let loading = false;
-  let currentTemp;
-  let summary;
+
   let icon;
+  let iconSrc;
+  let currentTemp;
+  let currentTempColor;
+  let summary;
+
   let candidateCities = [];
   let selectedCity;
 
   let enteredCity;
+  let showCandidateCitiesError = false;
 
-  $: convertedTemp = convertTemp(currentTemp);
-  $: convertedTempColor = getTempColor(convertedTemp);
-
-  $: iconSrc = getIcon(icon);
-
-  $: localDataIsPopulated = convertedTemp && summary && icon;
+  $: localDataIsPopulated =
+    icon && iconSrc && currentTemp && currentTempColor && summary;
   $: thereAreUserEnteredCities = cities.find(
     _city => String(_city.id).length > 2,
   );
@@ -48,10 +45,13 @@
     axios
       .post('/addPos', { lat: latitude, lng: longitude })
       .then(res => {
-        if (res && res.data && res.data.temp) {
-          currentTemp = res.data.temp;
-          summary = res.data.summary;
+        if (res && res.data) {
           icon = res.data.icon;
+          iconSrc = res.data.iconSrc;
+          currentTemp = res.data.currentTemp;
+          currentTempColor = res.data.currentTempColor;
+          summary = res.data.summary;
+
           sessionStorage.setItem('showLocalWeather', 'true');
         }
         loading = false;
@@ -81,10 +81,13 @@
     if (!enteredCity) {
       return;
     }
-    candidateCities = citiesFromJSON
-      .filter(_city => _city.name.toLowerCase() === enteredCity.toLowerCase())
-      .map(_city => Object.assign({}, _city, { id: v4() }));
+    candidateCities = citiesFromJSON.filter(
+      _city => _city.name.toLowerCase() === enteredCity.toLowerCase(),
+    );
     [selectedCity] = candidateCities;
+    if (!selectedCity) {
+      showCandidateCitiesError = true;
+    }
   };
 
   const addCity = () => {
@@ -154,13 +157,28 @@
       <label for="city-input" class="mr-3">
         <input
           id="city-input"
+          class={showCandidateCitiesError ? 'error-box' : ''}
           type="text"
+          list="cities-list"
           placeholder="Enter City Name"
+          on:focus={() => (showCandidateCitiesError = false)}
           on:blur={showCandidateCities}
           bind:value={enteredCity} />
       </label>
+      <datalist id="cities-list">
+        {#each sortAlpha(citiesFromJSON) as city}
+          <option value={city.name}>{city.name}</option>
+        {/each}
+      </datalist>
+      {#if showCandidateCitiesError}
+        <p class="candidate-cities-error-message text-red-600">
+          Error: invalid city. Please select one from the list in the input
+          field.
+        </p>
+      {/if}
+
       {#if candidateCities.length > 0}
-        <select bind:value={selectedCity}>
+        <select class="candidate-cities-select" bind:value={selectedCity}>
           {#each candidateCities as candidate}
             <option class="candidate-option" value={candidate}>
               {candidate.name} - {candidate.country}
@@ -169,7 +187,10 @@
         </select>
       {/if}
     </div>
-    <button on:click={addCity} class="add-city-button" disabled={!enteredCity}>
+    <button
+      on:click={addCity}
+      class="add-city-button"
+      disabled={!enteredCity || showCandidateCitiesError}>
       Add
     </button>
     <button
@@ -204,21 +225,12 @@
   </button>
 
   {#if localDataIsPopulated}
-    <div class="my-weather-results">
-      <img
-        src={iconSrc}
-        alt={icon}
-        title={icon}
-        class="my-0 mx-auto h-28 w-28" />
-      <p class="current-temp-title">Your current temperature is:</p>
-      <p
-        class={`current-temp-value-display text-5xl text-${convertedTempColor} mb-6`}>
-        {convertedTemp} &deg; F
-      </p>
-      <p class="conditions-display text-2xl">
-        Your current weather is: {summary}
-      </p>
-    </div>
+    <LocalWeatherResults
+      {iconSrc}
+      {icon}
+      {currentTempColor}
+      {currentTemp}
+      {summary} />
   {:else if loading}
     <p>Loading...</p>
   {/if}

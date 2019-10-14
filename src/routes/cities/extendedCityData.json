@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Boston",
+    "country": "US",
+    "lat": 42.360081,
+    "lng": -71.058884
+  },
+  {
+    "name": "Munich",
+    "country": "DE",
+    "lat": 48.13913,
+    "lng": 11.58022
+  },
+  {
+    "name": "Amsterdam",
+    "country": "NL",
+    "lat": 52.373169,
+    "lng": 4.89066
+  },
+  {
+    "name": "Detroit",
+    "country": "US",
+    "lat": 42.331429,
+    "lng": -83.045753
+  },
+  {
+    "name": "Mexico City",
+    "country": "MX",
+    "lat": 19.246469,
+    "lng": -99.101349
+  },
+  {
+    "name": "Dakar",
+    "country": "SN",
+    "lat": 14.69823,
+    "lng": -17.43713
+  },
+  {
+    "name": "Denver",
+    "country": "US",
+    "lat": 39.739235,
+    "lng": -104.99025
+  },
+  {
+    "name": "Blacksburg (VA)",
+    "country": "US",
+    "lat": 37.22578,
+    "lng": -80.41012
+  },
+  {
+    "name": "Tours",
+    "country": "FR",
+    "lat": 47.390289,
+    "lng": 0.68885
+  },
+  {
+    "name": "Sevilla",
+    "country": "ES",
+    "lat": 37.382641,
+    "lng": -5.9963
+  }
+]

@@ -25,3 +25,7 @@ a:hover {
 input {
   @apply border-black border;
 }
+
+.error-box {
+  @apply border-red-600;
+}

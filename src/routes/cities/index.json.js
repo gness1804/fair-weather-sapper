@@ -1,4 +1,7 @@
+import { v4 } from 'uuid';
 import cityLinks from './_cityLinks';
+
+const citiesFromJSON = require('./extendedCityData.json');
 
 /**
  * Extracts the name and slug from a city object
@@ -23,9 +26,18 @@ export function get(req, res) {
     content = [...content, ...formattedCities];
   }
 
+  const citiesFromJSONWithIds = citiesFromJSON.map(city =>
+    Object.assign({}, city, { id: v4() }),
+  );
+
   res.writeHead(200, {
     'Content-Type': 'application/json',
   });
 
-  res.end(JSON.stringify(content));
+  res.end(
+    JSON.stringify({
+      cities: content,
+      citiesFromJSON: citiesFromJSONWithIds,
+    }),
+  );
 }

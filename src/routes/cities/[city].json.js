@@ -2,10 +2,15 @@ import axios from 'axios';
 import { readFile } from 'fs';
 import util from 'util';
 import links from './_cityLinks';
+import getIcon from '../../helpers/getIcon';
+import getTempColor from '../../data/getTempColor';
+import makeDateHumanReadable from '../../helpers/makeDateHumanReadable';
+import convertTemp from '../../helpers/convertTemp';
 
 const promisifiedReadFile = util.promisify(readFile);
 
 export async function get(req, res) {
+  const result = {};
   const { city } = req.params;
 
   if (!city) {
@@ -71,11 +76,34 @@ export async function get(req, res) {
     return;
   }
 
+  const {
+    data: { currently, daily, timezone },
+  } = data;
+
+  const {
+    temperatureHigh,
+    temperatureLow,
+    sunriseTime,
+    sunsetTime,
+  } = daily.data[0];
+
+  result.name = name;
+  result.icon = currently.icon;
+  result.iconSrc = getIcon(currently.icon);
+  result.currentTemp = convertTemp(currently.temperature);
+  result.currentTempColor = getTempColor(currently.temperature);
+  result.summary = currently.summary;
+  result.precipProbability = currently.precipProbability;
+  result.dailyHighTemp = convertTemp(temperatureHigh);
+  result.dailyLowTemp = convertTemp(temperatureLow);
+  result.dailyHighTempColor = getTempColor(temperatureHigh);
+  result.dailyLowTempColor = getTempColor(temperatureLow);
+  result.sunriseTime = makeDateHumanReadable(sunriseTime, timezone);
+  result.sunsetTime = makeDateHumanReadable(sunsetTime, timezone);
+
   res.writeHead(200, {
     'Content-Type': 'application/json',
   });
 
-  data.data.name = name;
-
-  res.end(JSON.stringify({ data: data.data }));
+  res.end(JSON.stringify(result));
 }
