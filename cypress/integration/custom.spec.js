@@ -34,4 +34,19 @@ describe('custom country and city search', () => {
       .eq(2)
       .should('have.text', 'MA');
   });
+
+  it('should show correct country data for France (FR)', () => {
+    cy.visit('/fr/custom');
+    cy.get('.cities-result-table').should('exist');
+
+    cy.get('.cities-result-table-name').should('have.length', 2);
+    cy.get('.cities-result-table-name')
+      .first()
+      .should('have.text', 'Paris');
+    cy.get('.cities-result-table-name')
+      .eq(1)
+      .should('have.text', 'Tours');
+
+    cy.get('.cities-result-table-state').should('not.exist');
+  });
 });

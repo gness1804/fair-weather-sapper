@@ -49,6 +49,28 @@
           {/each}
         </tbody>
       </table>
+    {:else}
+      <table class="cities-result-table">
+        <thead>
+          <tr>
+            <th>Cities:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>Latitude</td>
+            <td>Longitude</td>
+          </tr>
+          {#each countryData as { name, lat, lng }}
+            <tr>
+              <td class="cities-result-table-name">{name}</td>
+              <td class="cities-result-table-lat">{Number(lat).toFixed(2)}</td>
+              <td class="cities-result-table-lng">{Number(lng).toFixed(2)}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
     {/if}
   {:else}
     <p class="country-error-message text-red-600">
