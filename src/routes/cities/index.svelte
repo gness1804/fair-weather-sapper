@@ -147,7 +147,6 @@
 <div class="cities text-center">
   <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
-  <!-- TODO: try to move this into new component to make the data for citiesFromJSON more performant -->
   <h3 class="mb-6 text-xl">Add New City:</h3>
 
   <div class="location-input-container mb-12">
