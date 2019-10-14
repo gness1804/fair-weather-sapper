@@ -24,39 +24,39 @@
     "lng": -83.045753
   },
   {
-    "name": "",
-    "country": "",
-    "lat": "",
-    "lng": ""
+    "name": "Mexico City",
+    "country": "MX",
+    "lat": 19.246469,
+    "lng": -99.101349
   },
   {
-    "name": "",
-    "country": "",
-    "lat": "",
-    "lng": ""
+    "name": "Dakar",
+    "country": "SN",
+    "lat": 14.69823,
+    "lng": -17.43713
   },
   {
-    "name": "",
-    "country": "",
-    "lat": "",
-    "lng": ""
+    "name": "Denver",
+    "country": "US",
+    "lat": 39.739235,
+    "lng": -104.99025
   },
   {
-    "name": "",
-    "country": "",
-    "lat": "",
-    "lng": ""
+    "name": "Blacksburg (VA)",
+    "country": "US",
+    "lat": 37.22578,
+    "lng": -80.41012
   },
   {
-    "name": "",
-    "country": "",
-    "lat": "",
-    "lng": ""
+    "name": "Tours",
+    "country": "FR",
+    "lat": 47.390289,
+    "lng": 0.68885
   },
   {
-    "name": "",
-    "country": "",
-    "lat": "",
-    "lng": ""
+    "name": "Sevilla",
+    "country": "ES",
+    "lat": 37.382641,
+    "lng": -5.9963
   }
 ]

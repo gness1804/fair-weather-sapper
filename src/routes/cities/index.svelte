@@ -158,6 +158,7 @@
           on:blur={showCandidateCities}
           bind:value={enteredCity} />
       </label>
+      <!-- TODO: add datalist with all the candidate cities -->
       {#if candidateCities.length > 0}
         <select bind:value={selectedCity}>
           {#each candidateCities as candidate}
