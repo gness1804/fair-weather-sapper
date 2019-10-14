@@ -2,6 +2,7 @@
   {
     "name": "Boston",
     "country": "US",
+    "state": "MA",
     "lat": 42.360081,
     "lng": -71.058884
   },
@@ -20,6 +21,7 @@
   {
     "name": "Detroit",
     "country": "US",
+    "state": "MI",
     "lat": 42.331429,
     "lng": -83.045753
   },
@@ -38,11 +40,13 @@
   {
     "name": "Denver",
     "country": "US",
+    "state": "CO",
     "lat": 39.739235,
     "lng": -104.99025
   },
   {
-    "name": "Blacksburg (VA)",
+    "name": "Blacksburg",
+    "state": "VA",
     "country": "US",
     "lat": 37.22578,
     "lng": -80.41012
