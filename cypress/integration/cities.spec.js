@@ -101,14 +101,29 @@ describe('Cities landing page.', () => {
       .should('have.text', 'Boston');
   });
 
-  it('entering in a city in the input field and then blurring input should populate the cities candidates field', () => {
+  it('entering in a valid city in the input field and then blurring input should populate the cities candidates field', () => {
     cy.seedCity('Detroit');
 
+    cy.get('.candidate-cities-select').should('exist');
     cy.get('.candidate-option').each((elem, index) => {
       if (index === 0) {
         cy.get(elem).contains('Detroit - US');
       }
     });
+  });
+
+  it('entering a city not on the cities JSON list and then blurring input show an error message to the user', () => {
+    cy.seedCity('Ann Arbor');
+
+    // error message should appear
+    cy.get('.candidate-cities-select').should('not.exist');
+    cy.get('.candidate-cities-error-message').should('exist');
+
+    // the cities entry input field should have error class
+    cy.get('#city-input').should('have.class', 'error-box');
+
+    // the Add button should be disabled with invalid input
+    cy.get('.add-city-button').should('be.disabled');
   });
 
   it('entering in a city in the input field and then clicking on the Add button should add it to the list on the page', () => {

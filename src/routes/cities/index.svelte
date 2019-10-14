@@ -30,6 +30,7 @@
   let selectedCity;
 
   let enteredCity;
+  let showCandidateCitiesError = false;
 
   $: localDataIsPopulated =
     icon && iconSrc && currentTemp && currentTempColor && summary;
@@ -83,6 +84,9 @@
       _city => _city.name.toLowerCase() === enteredCity.toLowerCase(),
     );
     [selectedCity] = candidateCities;
+    if (!selectedCity) {
+      showCandidateCitiesError = true;
+    }
   };
 
   const addCity = () => {
@@ -153,9 +157,11 @@
       <label for="city-input" class="mr-3">
         <input
           id="city-input"
+          class={showCandidateCitiesError ? 'error-box' : ''}
           type="text"
           list="cities-list"
           placeholder="Enter City Name"
+          on:focus={() => (showCandidateCitiesError = false)}
           on:blur={showCandidateCities}
           bind:value={enteredCity} />
       </label>
@@ -164,9 +170,15 @@
           <option value={city.name}>{city.name}</option>
         {/each}
       </datalist>
+      {#if showCandidateCitiesError}
+        <p class="candidate-cities-error-message text-red-600">
+          Error: invalid city. Please select one from the list in the input
+          field.
+        </p>
+      {/if}
 
       {#if candidateCities.length > 0}
-        <select bind:value={selectedCity}>
+        <select class="candidate-cities-select" bind:value={selectedCity}>
           {#each candidateCities as candidate}
             <option class="candidate-option" value={candidate}>
               {candidate.name} - {candidate.country}
@@ -175,7 +187,10 @@
         </select>
       {/if}
     </div>
-    <button on:click={addCity} class="add-city-button" disabled={!enteredCity}>
+    <button
+      on:click={addCity}
+      class="add-city-button"
+      disabled={!enteredCity || showCandidateCitiesError}>
       Add
     </button>
     <button
