@@ -84,6 +84,17 @@ describe('Cities landing page.', () => {
     );
   });
 
+  it('cities datalist should appear for cities input', () => {
+    cy.get('#cities-list option')
+      .should('have.length', 10)
+      .first()
+      .should('have.text', 'Amsterdam')
+      .next()
+      .should('have.text', 'Blacksburg (VA)')
+      .next()
+      .should('have.text', 'Boston');
+  });
+
   it('entering in a city in the input field and then blurring input should populate the cities candidates field', () => {
     cy.seedCity('Detroit');
 

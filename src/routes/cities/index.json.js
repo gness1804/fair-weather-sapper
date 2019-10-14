@@ -2,7 +2,6 @@ import { v4 } from 'uuid';
 import cityLinks from './_cityLinks';
 import sortAlpha from '../../helpers/sortAlpha';
 
-// TODO: finish filling out this dataset
 const citiesFromJSON = require('./extendedCityData.json');
 
 /**
@@ -28,8 +27,8 @@ export function get(req, res) {
     content = [...content, ...formattedCities];
   }
 
-  const citiesFromJSONWithIds = citiesFromJSON.map(_city =>
-    Object.assign({}, _city, { id: v4() }),
+  const citiesFromJSONWithIds = citiesFromJSON.map(city =>
+    Object.assign({}, city, { id: v4() }),
   );
 
   res.writeHead(200, {
@@ -39,7 +38,7 @@ export function get(req, res) {
   res.end(
     JSON.stringify({
       cities: sortAlpha(content),
-      citiesFromJSON: citiesFromJSONWithIds,
+      citiesFromJSON: sortAlpha(citiesFromJSONWithIds),
     }),
   );
 }

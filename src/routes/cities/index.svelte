@@ -154,11 +154,17 @@
         <input
           id="city-input"
           type="text"
+          list="cities-list"
           placeholder="Enter City Name"
           on:blur={showCandidateCities}
           bind:value={enteredCity} />
       </label>
-      <!-- TODO: add datalist with all the candidate cities -->
+      <datalist id="cities-list">
+        {#each citiesFromJSON as city}
+          <option value={city.name}>{city.name}</option>
+        {/each}
+      </datalist>
+
       {#if candidateCities.length > 0}
         <select bind:value={selectedCity}>
           {#each candidateCities as candidate}
