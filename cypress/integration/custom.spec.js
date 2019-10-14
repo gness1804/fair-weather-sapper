@@ -49,4 +49,13 @@ describe('custom country and city search', () => {
 
     cy.get('.cities-result-table-state').should('not.exist');
   });
+
+  it('clicking on the city link in the table will go to the corresponding city page', () => {
+    cy.visit('/us/custom');
+
+    cy.get('.cities-result-table-name-link-wrapper')
+      .first()
+      .click();
+    cy.url().should('include', '/cities/austin');
+  });
 });

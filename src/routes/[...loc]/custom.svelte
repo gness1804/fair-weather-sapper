@@ -15,6 +15,8 @@
   export let countryData = [];
   export let country = 'Country Search';
   export let stateData = [];
+
+  $: isAmerica = country.toUpperCase() === 'US';
 </script>
 
 <svelte:head>
@@ -30,26 +32,29 @@
     <table class="cities-result-table border-2 border-gray-600 mx-auto my-0">
       <thead class="bg-gray-400">
         <tr>
-          <th
-            class="text-xl"
-            colspan={country.toUpperCase() === 'US' ? '4' : '3'}>
-            Cities:
-          </th>
+          <th class="text-xl" colspan={isAmerica ? '4' : '3'}>Cities:</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Name</td>
-          {#if country.toUpperCase() === 'US'}
+          {#if isAmerica}
             <td>State</td>
           {/if}
           <td>Latitude</td>
           <td>Longitude</td>
         </tr>
-        {#each countryData as { name, state, lat, lng }}
+        <!-- TODO: add slug programmatically to data in [country].json -->
+        {#each countryData as { name, state, lat, lng, slug }}
           <tr>
-            <td class="cities-result-table-name">{name}</td>
-            {#if country.toUpperCase() === 'US'}
+            <td class="cities-result-table-name">
+              <a
+                class="cities-result-table-name-link-wrapper"
+                href={`/cities/${slug}`}>
+                {name}
+              </a>
+            </td>
+            {#if isAmerica}
               <td class="cities-result-table-state">{state}</td>
             {/if}
             <td class="cities-result-table-lat">{Number(lat).toFixed(2)}</td>
