@@ -29,3 +29,15 @@ input {
 .error-box {
   @apply border-red-600;
 }
+
+td {
+  @apply border border-black p-1;
+}
+
+tr:first-child td {
+  @apply font-bold;
+}
+
+tr:not(:first-child):nth-child(odd) {
+  @apply bg-gray-200;
+}
