@@ -44,8 +44,8 @@
           <td>Latitude</td>
           <td>Longitude</td>
         </tr>
-        <!-- TODO: add slug programmatically to data in [country].json -->
-        {#each countryData as { name, state, lat, lng, slug }}
+
+        {#each countryData as { name, state, slug, geocoords: { lat, lng } }}
           <tr>
             <td class="cities-result-table-name">
               <a

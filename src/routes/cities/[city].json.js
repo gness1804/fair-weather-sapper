@@ -3,9 +3,12 @@ import { readFile } from 'fs';
 import util from 'util';
 import links from './_cityLinks';
 import getIcon from '../../helpers/getIcon';
+import normalizeData from '../../helpers/normalizeData';
 import getTempColor from '../../data/getTempColor';
 import makeDateHumanReadable from '../../helpers/makeDateHumanReadable';
 import convertTemp from '../../helpers/convertTemp';
+
+const extendedCities = require('./extendedCityData.json');
 
 const promisifiedReadFile = util.promisify(readFile);
 
@@ -27,11 +30,13 @@ export async function get(req, res) {
   }
 
   let newLinks = links;
-  const { cities } = req.app.locals;
+  const { cities: citiesFromServer } = req.app.locals;
 
-  if (cities.length > 0) {
-    newLinks = [...newLinks, ...cities];
+  if (citiesFromServer.length > 0) {
+    newLinks = [...newLinks, ...citiesFromServer];
   }
+
+  newLinks = normalizeData([...extendedCities, ...newLinks]);
 
   const { lat, lng } = newLinks.filter(link => link.slug === city)[0].geocoords;
   const { name } = newLinks.filter(link => link.slug === city)[0];
