@@ -124,15 +124,15 @@ describe('custom country and state search pages', () => {
     });
 
     it('clicking on the city link in the table will go to the corresponding city page', () => {
-      cy.visit('/us/ma/custom');
+      cy.visit('/us/il/custom');
 
       cy.get('.cities-result-table-name-link-wrapper')
         .first()
         .click();
-      cy.url().should('include', '/cities/boston');
+      cy.url().should('include', '/cities/chicago');
       cy.get('.city-page-header')
         .should('exist')
-        .and('have.text', 'Boston Weather');
+        .and('have.text', 'Chicago Weather');
     });
   });
 });
