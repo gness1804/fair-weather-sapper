@@ -3,10 +3,6 @@
 
   export let segment;
   const isTesting = process.env.TESTING === 'true';
-
-  const selected = 'font-bold bg-gray-200';
-  const linkStyle =
-    'text-black block py-4 px-2 no-underline hover:bg-gray-100 hover:underline hover:text-black';
 </script>
 
 <style>
@@ -26,7 +22,7 @@
   <ul class="m-0 p-0">
     <li class="inline-block">
       <a
-        class={`${segment === undefined ? `${selected}` : ''} ${linkStyle}`}
+        class={`nav-bar-link ${segment === undefined ? 'selected' : ''}`}
         href=".">
         home
       </a>
@@ -34,7 +30,7 @@
     <li class="inline-block">
       <a
         rel="prefetch"
-        class={`${segment === 'cities' ? `${selected}` : ''} ${linkStyle}`}
+        class={`nav-bar-link ${segment === 'cities' ? 'selected' : ''}`}
         href="cities">
         cities
       </a>

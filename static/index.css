@@ -8708,6 +8708,27 @@ tr:not(:first-child):nth-child(odd) {
   background-color: #edf2f7;
 }
 
+.nav-bar-link {
+  color: #000;
+  display: block;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  text-decoration: none;
+}
+
+.nav-bar-link:hover {
+  text-decoration: underline;
+  color: #000;
+  background-color: #f7fafc;
+}
+
+.selected {
+  font-weight: 700;
+  background-color: #edf2f7;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
