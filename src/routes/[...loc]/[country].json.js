@@ -1,7 +1,7 @@
-import origCities from './cities/_cityLinks';
-import normalizeData from '../helpers/normalizeData';
+import origCities from '../cities/_cityLinks';
+import normalizeData from '../../helpers/normalizeData';
 
-const extendedCities = require('./cities/extendedCityData.json');
+const extendedCities = require('../cities/extendedCityData.json');
 
 export function get(req, res) {
   const { country } = req.params;

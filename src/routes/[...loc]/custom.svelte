@@ -1,8 +1,29 @@
 <script context="module">
   export async function preload({ params }) {
-    const [country] = params.loc;
-    const countryRes = await this.fetch(`${country}.json`);
+    const [country, state] = params.loc;
+
+    const countryRes = await this.fetch(`[..loc]/${country}.json`);
     const parsedCountryRes = await countryRes.json();
+
+    if (state) {
+      const stateRes = await this.fetch(`[..loc]/st-${state}.json`);
+      const parsedStateRes = await stateRes.json();
+
+      if (countryRes.status === 200 && stateRes.status === 200) {
+        return {
+          countryData: parsedCountryRes,
+          country,
+          stateData: parsedStateRes,
+          stateName: state,
+        };
+      }
+      return this.error(
+        countryRes.status,
+        parsedCountryRes.message,
+        stateRes.status,
+        parsedStateRes.message,
+      );
+    }
 
     if (countryRes.status === 200) {
       return { countryData: parsedCountryRes, country };
@@ -15,6 +36,7 @@
   export let countryData = [];
   export let country = 'Country Search';
   export let stateData = [];
+  export let stateName;
 
   $: isAmerica = country.toUpperCase() === 'US';
 </script>
@@ -24,9 +46,15 @@
 </svelte:head>
 
 <div class="custom-page">
-  <p class="country-results-for-message font-bold text-2xl text-center mb-6">
-    Results for {country.toUpperCase()}
-  </p>
+  {#if stateName}
+    <p class="state-results-for-message font-bold text-2xl text-center mb-6">
+      Results for {stateName.toUpperCase()}, {country.toUpperCase()}
+    </p>
+  {:else}
+    <p class="country-results-for-message font-bold text-2xl text-center mb-6">
+      Results for {country.toUpperCase()}
+    </p>
+  {/if}
 
   {#if countryData.length > 0}
     <table class="cities-result-table border-2 border-gray-600 mx-auto my-0">
