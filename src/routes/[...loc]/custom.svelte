@@ -58,11 +58,20 @@
     </p>
   {/if}
 
-  {#if countryData.length > 0}
+  {#if stateName}
+    {#if stateData.length > 0}
+      <CitiesTable isAmerica data={stateData} />
+    {:else}
+      <p class="state-error-message text-red-600">
+        Error: invalid state name. Please try again.
+      </p>
+    {/if}
+  {:else if countryData.length > 0}
     <CitiesTable {isAmerica} data={countryData} />
   {:else}
     <p class="country-error-message text-red-600">
-      Error: invalid country code. Please try again.
+      Error: invalid country name. Please try again.
     </p>
   {/if}
+
 </div>

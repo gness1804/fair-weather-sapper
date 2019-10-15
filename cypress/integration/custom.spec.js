@@ -12,7 +12,7 @@ describe('custom country and state search pages', () => {
       cy.visit('/qq/custom');
       cy.get('.country-error-message')
         .should('exist')
-        .and('have.text', 'Error: invalid country code. Please try again.');
+        .and('have.text', 'Error: invalid country name. Please try again.');
     });
 
     it('should show the correct country data for the US', () => {
@@ -82,6 +82,13 @@ describe('custom country and state search pages', () => {
       cy.get('.state-results-for-message')
         .should('exist')
         .and('have.text', 'Results for TX, US');
+    });
+
+    it('Should show an error message for an invalid state', () => {
+      cy.visit('/us/foo/custom');
+      cy.get('.state-error-message')
+        .should('exist')
+        .and('have.text', 'Error: invalid state name. Please try again.');
     });
   });
 });
