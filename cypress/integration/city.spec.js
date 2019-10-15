@@ -18,9 +18,9 @@ describe('city page for Austin', () => {
 
   describe('css validation', () => {
     it('selected css styles for nav bar link should show up on this page', () => {
-      cy.get('nav a')
+      cy.get('.nav-bar-link')
         .contains('cities')
-        .should('have.class', 'font-bold');
+        .should('have.class', 'selected');
     });
 
     it('should have the proper title', () => {
