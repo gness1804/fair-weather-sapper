@@ -21,46 +21,32 @@ describe('Cities landing page.', () => {
   });
 
   it('contains a list of city links', () => {
+    cy.get('.cities-links a').should('have.length', 4);
     cy.get('.cities-links a')
-      .each((elem, index) => {
-        if (index === 0) {
-          expect(elem).to.have.text('Austin');
-        } else if (index === 1) {
-          expect(elem).to.have.text('Chicago');
-        } else if (index === 2) {
-          expect(elem).to.have.text('London');
-        } else if (index === 3) {
-          expect(elem).to.have.text('Paris');
-        }
-      })
-      .then(list => {
-        expect(list.length).to.equal(4);
-      });
+      .first()
+      .should('have.text', 'Austin');
+    cy.get('.cities-links a')
+      .eq(1)
+      .should('have.text', 'Chicago');
+    cy.get('.cities-links a')
+      .eq(2)
+      .should('have.text', 'London');
+    cy.get('.cities-links a')
+      .eq(3)
+      .should('have.text', 'Paris');
   });
 
   it('clicking on the Austin link should go to the Austin page.', () => {
-    cy.get('.cities-links a').each(elem => {
-      cy.get(elem)
-        .invoke('text')
-        .then(contents => {
-          if (contents === 'Austin') {
-            cy.get(elem).click();
-          }
-        });
-    });
+    cy.get('.cities-links a')
+      .first()
+      .click();
     cy.url().should('include', '/austin');
   });
 
   it('clicking on the Paris link should go to the Paris page.', () => {
-    cy.get('.cities-links a').each(elem => {
-      cy.get(elem)
-        .invoke('text')
-        .then(contents => {
-          if (contents === 'Paris') {
-            cy.get(elem).click();
-          }
-        });
-    });
+    cy.get('.cities-links a')
+      .eq(3)
+      .click();
     cy.url().should('include', '/paris');
   });
 
@@ -105,11 +91,9 @@ describe('Cities landing page.', () => {
     cy.seedCity('Detroit');
 
     cy.get('.candidate-cities-select').should('exist');
-    cy.get('.candidate-option').each((elem, index) => {
-      if (index === 0) {
-        cy.get(elem).contains('Detroit - US');
-      }
-    });
+    cy.get('.candidate-option')
+      .first()
+      .should('contain', 'Detroit - US');
   });
 
   it('entering a city not on the cities JSON list and then blurring input show an error message to the user', () => {
