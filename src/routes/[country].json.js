@@ -1,6 +1,5 @@
-import { v4 } from 'uuid';
 import origCities from './cities/_cityLinks';
-import sortAlpha from '../helpers/sortAlpha';
+import normalizeData from '../helpers/normalizeData';
 
 const extendedCities = require('./cities/extendedCityData.json');
 
@@ -19,23 +18,11 @@ export function get(req, res) {
     );
     return;
   }
-  const filteredCities = sortAlpha([...origCities, ...extendedCities])
-    .map(city => {
-      if (!city.id) {
-        return Object.assign({}, city, { id: v4() });
-      }
-      return city;
-    })
-    .map(city => {
-      if (city.geocoords) {
-        return Object.assign({}, city, {
-          lat: +city.geocoords.lat,
-          lng: +city.geocoords.lng,
-        });
-      }
-      return city;
-    })
-    .filter(city => city.country.toLowerCase() === country.toLowerCase());
+
+  const filteredCities = normalizeData([
+    ...origCities,
+    ...extendedCities,
+  ]).filter(city => city.country.toLowerCase() === country.toLowerCase());
 
   res.writeHead(200, {
     'Content-Type': 'application/json',

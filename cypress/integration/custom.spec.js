@@ -58,4 +58,16 @@ describe('custom country and city search', () => {
       .click();
     cy.url().should('include', '/cities/austin');
   });
+
+  it('clicking on the city link in the table will go to the corresponding city page (for extended data city)', () => {
+    cy.visit('/us/custom');
+
+    cy.get('.cities-result-table-name-link-wrapper')
+      .eq(5)
+      .click();
+    cy.url().should('include', '/cities/detroit');
+    cy.get('.city-page-header')
+      .should('exist')
+      .and('have.text', 'Detroit Weather');
+  });
 });
