@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Boston",
+    "country": "US",
+    "state": "MA",
+    "lat": 42.360081,
+    "lng": -71.058884
+  },
+  {
+    "name": "Munich",
+    "country": "DE",
+    "lat": 48.13913,
+    "lng": 11.58022
+  }
+]

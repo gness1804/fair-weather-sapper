@@ -3,7 +3,6 @@ const { v4 } = require('uuid');
 const sortAlpha = require('./sortAlpha');
 const slugify = require('./slugify');
 
-// TODO: add tests for this function
 /**
  * Normalizes extendedCityData to match the shape of the _cityLinks data
  * @param arr {object[]} - the original array of cities.
