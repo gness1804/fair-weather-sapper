@@ -74,6 +74,19 @@ describe('custom country and state search pages', () => {
         .should('exist')
         .and('have.text', 'Detroit Weather');
     });
+
+    it('clicking on a state link will go to the page for that state', () => {
+      cy.visit('/us/custom');
+
+      cy.get('.cities-result-table-state-link-wrapper')
+        .first()
+        .click();
+
+      cy.url().should('include', '/us/tx/custom');
+      cy.get('.state-results-for-message')
+        .should('exist')
+        .and('have.text', 'Results for TX, US');
+    });
   });
 
   describe('state custom page', () => {
@@ -90,5 +103,7 @@ describe('custom country and state search pages', () => {
         .should('exist')
         .and('have.text', 'Error: invalid state name. Please try again.');
     });
+
+    // TODO: add tests here that mirror those in the above section
   });
 });

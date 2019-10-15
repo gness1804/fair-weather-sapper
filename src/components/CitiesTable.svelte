@@ -13,7 +13,6 @@
     <tr>
       <td>Name</td>
       {#if isAmerica}
-        <!-- TODO: add state link here. -->
         <td>State</td>
       {/if}
       <td>Latitude</td>
@@ -30,7 +29,13 @@
           </a>
         </td>
         {#if isAmerica}
-          <td class="cities-result-table-state">{state}</td>
+          <td class="cities-result-table-state">
+            <a
+              class="cities-result-table-state-link-wrapper"
+              href={`/us/${state.toLowerCase()}/custom`}>
+              {state}
+            </a>
+          </td>
         {/if}
         <td class="cities-result-table-lat">{Number(lat).toFixed(2)}</td>
         <td class="cities-result-table-lng">{Number(lng).toFixed(2)}</td>
