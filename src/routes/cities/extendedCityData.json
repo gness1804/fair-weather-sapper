@@ -62,5 +62,12 @@
     "country": "ES",
     "lat": 37.382641,
     "lng": -5.9963
+  },
+  {
+    "name": "College Station",
+    "country": "US",
+    "state": "TX",
+    "lat": 30.595529,
+    "lng": -96.307104
   }
 ]

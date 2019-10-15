@@ -92,7 +92,7 @@ describe('Cities landing page.', () => {
 
   it('cities datalist should appear for cities input', () => {
     cy.get('#cities-list option')
-      .should('have.length', 10)
+      .should('have.length', 11)
       .first()
       .should('have.text', 'Amsterdam')
       .next()

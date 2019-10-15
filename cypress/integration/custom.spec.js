@@ -19,7 +19,7 @@ describe('custom country and state search pages', () => {
       cy.visit('/us/custom');
       cy.get('.cities-result-table').should('exist');
 
-      cy.get('.cities-result-table-name').should('have.length', 6);
+      cy.get('.cities-result-table-name').should('have.length', 7);
       cy.get('.cities-result-table-name')
         .first()
         .should('have.text', 'Austin');
@@ -27,7 +27,7 @@ describe('custom country and state search pages', () => {
         .eq(2)
         .should('have.text', 'Boston');
 
-      cy.get('.cities-result-table-state').should('have.length', 6);
+      cy.get('.cities-result-table-state').should('have.length', 7);
       cy.get('.cities-result-table-state')
         .first()
         .should('have.text', 'TX');
@@ -67,7 +67,7 @@ describe('custom country and state search pages', () => {
       cy.visit('/us/custom');
 
       cy.get('.cities-result-table-name-link-wrapper')
-        .eq(5)
+        .eq(6)
         .click();
       cy.url().should('include', '/cities/detroit');
       cy.get('.city-page-header')
@@ -104,6 +104,35 @@ describe('custom country and state search pages', () => {
         .and('have.text', 'Error: invalid state name. Please try again.');
     });
 
-    // TODO: add tests here that mirror those in the above section
+    it('should show the correct state data for TX', () => {
+      cy.visit('/us/tx/custom');
+      cy.get('.cities-result-table').should('exist');
+
+      cy.get('.cities-result-table-name').should('have.length', 2);
+      cy.get('.cities-result-table-name')
+        .first()
+        .should('have.text', 'Austin');
+
+      cy.get('.cities-result-table-name')
+        .eq(1)
+        .should('have.text', 'College Station');
+
+      cy.get('.cities-result-table-state').should('have.length', 2);
+      cy.get('.cities-result-table-state')
+        .first()
+        .should('have.text', 'TX');
+    });
+
+    it('clicking on the city link in the table will go to the corresponding city page', () => {
+      cy.visit('/us/ma/custom');
+
+      cy.get('.cities-result-table-name-link-wrapper')
+        .first()
+        .click();
+      cy.url().should('include', '/cities/boston');
+      cy.get('.city-page-header')
+        .should('exist')
+        .and('have.text', 'Boston Weather');
+    });
   });
 });
