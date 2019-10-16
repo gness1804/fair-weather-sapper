@@ -38,7 +38,11 @@ app
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
-    sapper.middleware(),
+    sapper.middleware({
+      session: req => ({
+        tempType: req.tempType || 'F',
+      }),
+    }),
   )
   .listen(PORT, err => {
     /* eslint-disable no-console */
