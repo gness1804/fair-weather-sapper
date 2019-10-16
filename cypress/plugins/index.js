@@ -19,3 +19,21 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
   return config;
 };
+
+// see https://github.com/cypress-io/cypress/issues/2024
+// automatically opens Chrome dev tools on browser launch for 'cypress open'
+// eslint-disable-next-line no-unused-vars
+module.exports = (on, config) => {
+  // eslint-disable-next-line consistent-return
+  on('before:browser:launch', (browser = {}, args) => {
+    if (
+      browser.name === 'chrome' ||
+      browser.name === 'chromium' ||
+      browser.name === 'canary'
+    ) {
+      args.push('--auto-open-devtools-for-tabs');
+
+      return args;
+    }
+  });
+};
