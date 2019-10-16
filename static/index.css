@@ -8729,8 +8729,12 @@ tr:not(:first-child):nth-child(odd) {
   background-color: #edf2f7;
 }
 
-.hidden {
+.hide {
   display: none;
+}
+
+.country-links-list-wrapper:hover {
+  cursor: pointer;
 }
 
 @media (min-width: 640px) {

@@ -54,6 +54,10 @@ tr:not(:first-child):nth-child(odd) {
   @apply font-bold bg-gray-200;
 }
 
-.hidden {
+.hide {
   @apply hidden;
+}
+
+.country-links-list-wrapper:hover {
+  @apply cursor-pointer;
 }
