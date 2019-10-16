@@ -23,7 +23,24 @@ describe('App landing page', () => {
   });
 
   it('list of countries should show up properly', () => {
-    cy.get('.countries-list').invoke('show');
+    cy.get('.countries-list')
+      .should('be.hidden')
+      .invoke('show');
     cy.get('.countries-list li').should('have.length', 8);
+  });
+
+  it('clicking on a country link opens the /[country]/custom page for that country', () => {
+    cy.get('.countries-list').invoke('show');
+    cy.get('.countries-list li a')
+      .contains('MX')
+      .click();
+
+    cy.get('.countries-list').invoke('hide');
+    cy.url().should('include', '/mx/custom');
+    cy.get('.country-results-for-message').should(
+      'have.text',
+      'Results for MX',
+    );
+    cy.get('.cities-result-table').should('exist');
   });
 });
