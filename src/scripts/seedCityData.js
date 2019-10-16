@@ -5,12 +5,17 @@ const { writeFile } = require('fs');
 const { exec } = require('child_process');
 const util = require('util');
 const axios = require('axios');
-const links = require('../routes/cities/_cityLinks');
+const normalizeData = require('../helpers/normalizeData');
+
+let links = require('../routes/cities/_cityLinks');
+
+const extendedCities = require('../routes/cities/extendedCityData.json');
 
 const promisifiedWriteFile = util.promisify(writeFile);
 const promisifiedExec = util.promisify(exec);
 
 const seedData = async () => {
+  links = normalizeData([...links, ...extendedCities]);
   // eslint-disable-next-line no-unused-vars
   for (const link of links) {
     const {
@@ -19,6 +24,7 @@ const seedData = async () => {
     } = link;
 
     const file = `./src/routes/cities/_cityStaticData/${city}.json`;
+
     const data = await axios.get(
       `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${lng}`,
     );
