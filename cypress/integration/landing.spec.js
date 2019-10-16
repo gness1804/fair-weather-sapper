@@ -44,4 +44,16 @@ describe('App landing page', () => {
       .click();
     cy.url().should('include', '/cities');
   });
+
+  it('going to another page and then clicking on the home nav link navigates to home', () => {
+    cy.get('.nav-bar-link')
+      .contains('cities')
+      .click();
+
+    cy.get('.nav-bar-link')
+      .contains('home')
+      .click();
+
+    cy.url().should('eq', `${Cypress.config().baseUrl}/`);
+  });
 });
