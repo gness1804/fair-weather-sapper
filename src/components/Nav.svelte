@@ -3,6 +3,7 @@
   import sortAlpha from '../helpers/sortAlpha';
 
   export let segment;
+
   const isTesting = process.env.TESTING === 'true';
 
   const countries = [
@@ -67,11 +68,19 @@
     class="country-links-list-wrapper"
     on:mouseover={handleMouseover}
     on:mouseout={handleMouseout}>
-    <p>Choose a Country:</p>
+    <p
+      class={`choose-a-country-label ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}>
+      Choose a Country:
+    </p>
     <ul class="countries-list hide absolute z-50 mt-0 h-0">
       {#each sortAlpha(countries) as { code, name }}
         <li on:mouseover={handleMouseover}>
-          <a rel="preload" href={`${code.toLowerCase()}/custom`}>{name}</a>
+          <a
+            class={`country-nav-link ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
+            rel="preload"
+            href={`${code.toLowerCase()}/custom`}>
+            {name}
+          </a>
         </li>
       {/each}
     </ul>
