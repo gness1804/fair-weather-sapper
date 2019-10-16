@@ -1,5 +1,23 @@
 describe('custom country and state search pages', () => {
   describe('country custom page', () => {
+    it('The "Choose a Country" header is highlighted on this page', () => {
+      cy.visit('/mx/custom');
+      cy.get('.choose-a-country-label').should('have.class', 'selected-lite');
+    });
+
+    it('the country-specific link in the dropdown in the nav menu should be highlighted on this page', () => {
+      cy.visit('/mx/custom');
+      cy.get('.countries-list').invoke('show');
+      cy.get('.country-nav-link')
+        .contains('Mexico')
+        .should('have.class', 'selected-lite');
+
+      cy.get('.country-nav-link')
+        .contains('France')
+        .should('not.have.class', 'selected-lite');
+      cy.get('.countries-list').invoke('hide');
+    });
+
     it('Should show the "Results For..." heading corresponding to the correct country', () => {
       cy.visit('/fr/custom');
       cy.get('.country-results-for-message').should(
@@ -90,6 +108,19 @@ describe('custom country and state search pages', () => {
   });
 
   describe('state custom page', () => {
+    it('the country-specific link for US in the dropdown in the nav menu should be highlighted on this page', () => {
+      cy.visit('/us/tx/custom');
+      cy.get('.countries-list').invoke('show');
+      cy.get('.country-nav-link')
+        .contains('United States')
+        .should('have.class', 'selected-lite');
+
+      cy.get('.country-nav-link')
+        .contains('France')
+        .should('not.have.class', 'selected-lite');
+      cy.get('.countries-list').invoke('hide');
+    });
+
     it('Should show the "Results For..." heading corresponding to the correct US state', () => {
       cy.visit('/us/tx/custom');
       cy.get('.state-results-for-message')

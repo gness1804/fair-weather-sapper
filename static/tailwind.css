@@ -41,3 +41,39 @@ tr:first-child td {
 tr:not(:first-child):nth-child(odd) {
   @apply bg-gray-200;
 }
+
+.nav-bar-link {
+  @apply text-black block py-4 px-2 no-underline;
+}
+
+.nav-bar-link:hover {
+  @apply underline text-black bg-gray-100;
+}
+
+.selected {
+  @apply font-bold bg-gray-200;
+}
+
+.selected-lite {
+  @apply font-bold;
+}
+
+.hide {
+  @apply hidden;
+}
+
+.country-links-list-wrapper:hover {
+  @apply cursor-pointer;
+}
+
+.country-links-list-link:hover {
+  @apply underline;
+}
+
+.countries-list li:nth-child(odd) {
+  @apply bg-gray-200;
+}
+
+.countries-list li:nth-child(even) {
+  @apply shadow;
+}

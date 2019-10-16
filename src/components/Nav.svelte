@@ -1,12 +1,33 @@
 <script>
   import TestingBanner from './TestingBanner.svelte';
+  import sortAlpha from '../helpers/sortAlpha';
 
   export let segment;
+
   const isTesting = process.env.TESTING === 'true';
 
-  const selected = 'font-bold bg-gray-200';
-  const linkStyle =
-    'text-black block py-4 px-2 no-underline hover:bg-gray-100 hover:underline hover:text-black';
+  const countries = [
+    { code: 'US', name: 'United States' },
+    { code: 'FR', name: 'France' },
+    { code: 'DE', name: 'Germany' },
+    { code: 'NL', name: 'Netherlands' },
+    { code: 'MX', name: 'Mexico' },
+    { code: 'SN', name: 'Senegal' },
+    { code: 'ES', name: 'Spain' },
+    { code: 'UK', name: 'United Kingdom' },
+  ];
+
+  const handleMouseover = () => {
+    if (typeof document !== 'undefined') {
+      document.querySelector('.countries-list').classList.remove('hide');
+    }
+  };
+
+  const handleMouseout = () => {
+    if (typeof document !== 'undefined') {
+      document.querySelector('.countries-list').classList.add('hide');
+    }
+  };
 </script>
 
 <style>
@@ -22,11 +43,13 @@
   <TestingBanner />
 {/if}
 
-<nav class="border-b border-reddish font-light py-0 px-4">
-  <ul class="m-0 p-0">
+<nav
+  class="border-b border-reddish font-light py-0 px-4 flex items-center
+  justify-between">
+  <ul class="hero-links-left m-0 p-0">
     <li class="inline-block">
       <a
-        class={`${segment === undefined ? `${selected}` : ''} ${linkStyle}`}
+        class={`nav-bar-link ${segment === undefined ? 'selected' : ''}`}
         href=".">
         home
       </a>
@@ -34,10 +57,32 @@
     <li class="inline-block">
       <a
         rel="prefetch"
-        class={`${segment === 'cities' ? `${selected}` : ''} ${linkStyle}`}
+        class={`nav-bar-link ${segment === 'cities' ? 'selected' : ''}`}
         href="cities">
         cities
       </a>
     </li>
   </ul>
+
+  <div
+    class="country-links-list-wrapper"
+    on:mouseover={handleMouseover}
+    on:mouseout={handleMouseout}>
+    <p
+      class={`choose-a-country-label country-links-list-link ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}>
+      Choose a Country:
+    </p>
+    <ul class="countries-list hide absolute z-50 mt-0 h-0">
+      {#each sortAlpha(countries) as { code, name }}
+        <li class="p-1" on:mouseover={handleMouseover}>
+          <a
+            class={`country-nav-link country-links-list-link ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
+            rel="preload"
+            href={`${code.toLowerCase()}/custom`}>
+            {name}
+          </a>
+        </li>
+      {/each}
+    </ul>
+  </div>
 </nav>
