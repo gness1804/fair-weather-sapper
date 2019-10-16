@@ -85,8 +85,9 @@ describe('custom country and state search pages', () => {
       cy.visit('/us/custom');
 
       cy.get('.cities-result-table-name-link-wrapper')
-        .eq(6)
+        .contains('Detroit')
         .click();
+
       cy.url().should('include', '/cities/detroit');
       cy.get('.city-page-header')
         .should('exist')
@@ -97,7 +98,7 @@ describe('custom country and state search pages', () => {
       cy.visit('/us/custom');
 
       cy.get('.cities-result-table-state-link-wrapper')
-        .first()
+        .contains('TX')
         .click();
 
       cy.url().should('include', '/us/tx/custom');
@@ -149,17 +150,18 @@ describe('custom country and state search pages', () => {
         .should('have.text', 'College Station');
 
       cy.get('.cities-result-table-state').should('have.length', 2);
-      cy.get('.cities-result-table-state')
-        .first()
-        .should('have.text', 'TX');
+      cy.get('.cities-result-table-state').each(elem =>
+        cy.get(elem).should('have.text', 'TX'),
+      );
     });
 
     it('clicking on the city link in the table will go to the corresponding city page', () => {
       cy.visit('/us/il/custom');
 
       cy.get('.cities-result-table-name-link-wrapper')
-        .first()
+        .contains('Chicago')
         .click();
+
       cy.url().should('include', '/cities/chicago');
       cy.get('.city-page-header')
         .should('exist')

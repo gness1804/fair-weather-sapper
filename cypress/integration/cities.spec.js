@@ -38,15 +38,17 @@ describe('Cities landing page.', () => {
 
   it('clicking on the Austin link should go to the Austin page.', () => {
     cy.get('.cities-links a')
-      .first()
+      .contains('Austin')
       .click();
+
     cy.url().should('include', '/austin');
   });
 
   it('clicking on the Paris link should go to the Paris page.', () => {
     cy.get('.cities-links a')
-      .eq(3)
+      .contains('Paris')
       .click();
+
     cy.url().should('include', '/paris');
   });
 
@@ -111,27 +113,15 @@ describe('Cities landing page.', () => {
   });
 
   it('entering in a city in the input field and then clicking on the Add button should add it to the list on the page', () => {
-    let listContainsDetroit = false;
-
     cy.seedCity('Detroit');
 
     cy.get('.add-city-button').click();
 
-    // tests that at least one of these links contains 'Detroit'
     cy.get('.cities-links a')
-      .each(elem => {
-        cy.get(elem)
-          .invoke('text')
-          .then(contents => {
-            if (contents === 'Detroit') {
-              listContainsDetroit = true;
-            }
-          });
-      })
-      .then(list => {
-        expect(list.length).to.equal(5);
-        expect(listContainsDetroit).to.equal(true);
-      });
+      .contains('Detroit')
+      .should('exist');
+
+    cy.get('.cities-links a').should('have.length', 5);
   });
 
   it('entering in a city etc. and then going to the link should go to the new city page for that city', () => {
@@ -139,29 +129,26 @@ describe('Cities landing page.', () => {
 
     cy.get('.add-city-button').click();
 
-    cy.get('.cities-links a').each(elem => {
-      cy.get(elem)
-        .invoke('text')
-        .then(contents => {
-          if (contents === 'Detroit') {
-            cy.get(elem).click();
-          }
-        });
-    });
+    cy.get('.cities-links a')
+      .contains('Detroit')
+      .click();
+
     cy.url().should('include', '/detroit');
+    cy.get('.city-page-header').should('have.text', 'Detroit Weather');
   });
 
   it('only custom-entered cities should have the red X for deleting a city', () => {
     cy.seedCity('Detroit');
 
     cy.get('.add-city-button').click();
+
     cy.get('.delete-city-button')
-      .should('have.attr', 'title')
+      .should('have.length', 1)
+      .and('have.attr', 'title')
       .and('contains', 'Delete Detroit');
   });
 
   it('deleting a city should remove it from the page', () => {
-    let listContainsDetroit = false;
     cy.seedCity('Detroit');
 
     cy.get('.add-city-button').click();
@@ -169,23 +156,13 @@ describe('Cities landing page.', () => {
 
     // test if the city was actually removed
     cy.get('.cities-links a')
-      .each(elem => {
-        cy.get(elem)
-          .invoke('text')
-          .then(contents => {
-            if (contents === 'Detroit') {
-              listContainsDetroit = true;
-            }
-          });
-      })
-      .then(list => {
-        expect(list.length).to.equal(4);
-        expect(listContainsDetroit).to.equal(false);
-      });
+      .contains('Detroit')
+      .should('not.exist');
+
+    cy.get('.cities-links a').should('have.length', 4);
   });
 
   it('user should be able to add a new city after adding and deleting one', () => {
-    let listContainsBoston = false;
     cy.seedCity('Detroit');
 
     cy.get('.add-city-button').click();
@@ -195,23 +172,13 @@ describe('Cities landing page.', () => {
     cy.get('.add-city-button').click();
 
     cy.get('.cities-links a')
-      .each(elem => {
-        cy.get(elem)
-          .invoke('text')
-          .then(contents => {
-            if (contents === 'Boston') {
-              listContainsBoston = true;
-            }
-          });
-      })
-      .then(list => {
-        expect(list.length).to.equal(5);
-        expect(listContainsBoston).to.equal(true);
-      });
+      .contains('Boston')
+      .should('exist');
+
+    cy.get('.cities-links a').should('have.length', 5);
   });
 
   it('adding and deleting a city and then refreshing the page should keep the deleted city deleted; should not reappear', () => {
-    let listContainsDetroit = false;
     cy.seedCity('Detroit');
 
     cy.get('.add-city-button').click();
@@ -220,32 +187,19 @@ describe('Cities landing page.', () => {
     cy.reload();
 
     cy.get('.cities-links a')
-      .each(elem => {
-        cy.get(elem)
-          .invoke('text')
-          .then(contents => {
-            if (contents === 'Detroit') {
-              listContainsDetroit = true;
-            }
-          });
-      })
-      .then(list => {
-        expect(listContainsDetroit).to.equal(false);
-        expect(list.length).to.equal(4);
-      });
+      .contains('Detroit')
+      .should('not.exist');
+
+    cy.get('.cities-links a').should('have.length', 4);
   });
 
   it('Reset to Defaults button should be hidden without any user-added cities and then enabled with user-added cities', () => {
-    cy.get('.reset-all-button').then(elem => {
-      cy.get(elem).should('be.disabled');
-    });
+    cy.get('.reset-all-button').should('be.disabled');
 
     cy.seedCity('Detroit');
     cy.get('.add-city-button').click();
 
-    cy.get('.reset-all-button').then(elem => {
-      cy.get(elem).should('not.be.disabled');
-    });
+    cy.get('.reset-all-button').should('not.be.disabled');
   });
 
   it('click on the Reset to Defaults button removes all user-added cities', () => {
@@ -254,13 +208,11 @@ describe('Cities landing page.', () => {
 
     cy.seedCity('Munich');
     cy.get('.add-city-button').click();
-    cy.get('.cities-links a').then(list => {
-      expect(list.length).to.equal(6);
-    });
+
+    cy.get('.cities-links a').should('have.length', 6);
 
     cy.get('.reset-all-button').click();
-    cy.get('.cities-links a').then(list => {
-      expect(list.length).to.equal(4);
-    });
+
+    cy.get('.cities-links a').should('have.length', 4);
   });
 });
