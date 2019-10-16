@@ -74,7 +74,7 @@
     </p>
     <ul class="countries-list hide absolute z-50 mt-0 h-0">
       {#each sortAlpha(countries) as { code, name }}
-        <li on:mouseover={handleMouseover}>
+        <li class="p-1" on:mouseover={handleMouseover}>
           <a
             class={`country-nav-link country-links-list-link ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
             rel="preload"

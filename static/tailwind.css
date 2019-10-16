@@ -69,3 +69,11 @@ tr:not(:first-child):nth-child(odd) {
 .country-links-list-link:hover {
   @apply underline;
 }
+
+.countries-list li:nth-child(odd) {
+  @apply bg-gray-200;
+}
+
+.countries-list li:nth-child(even) {
+  @apply shadow;
+}
