@@ -32,10 +32,10 @@ describe('App landing page', () => {
   it('clicking on a country link opens the /[country]/custom page for that country', () => {
     cy.get('.countries-list').invoke('show');
     cy.get('.countries-list li a')
-      .contains('MX')
+      .contains('Mexico')
       .click();
 
-    cy.get('.countries-list').invoke('hide');
+    // cy.get('.countries-list').invoke('hide');
     cy.url().should('include', '/mx/custom');
     cy.get('.country-results-for-message').should(
       'have.text',

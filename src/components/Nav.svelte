@@ -1,10 +1,20 @@
 <script>
   import TestingBanner from './TestingBanner.svelte';
+  import sortAlpha from '../helpers/sortAlpha';
 
   export let segment;
   const isTesting = process.env.TESTING === 'true';
 
-  const countries = ['US', 'FR', 'DE', 'NL', 'MX', 'SN', 'ES', 'UK'];
+  const countries = [
+    { code: 'US', name: 'United States' },
+    { code: 'FR', name: 'France' },
+    { code: 'DE', name: 'Germany' },
+    { code: 'NL', name: 'Netherlands' },
+    { code: 'MX', name: 'Mexico' },
+    { code: 'SN', name: 'Senegal' },
+    { code: 'ES', name: 'Spain' },
+    { code: 'UK', name: 'United Kingdom' },
+  ];
 </script>
 
 <style>
@@ -51,10 +61,10 @@
 
   <div class="country-links-list-wrapper">
     <p>Choose a Country:</p>
-    <ul class="countries-list absolute z-50">
-      {#each countries.sort() as country}
+    <ul class="countries-list absolute z-50 mt-3">
+      {#each sortAlpha(countries) as { code, name }}
         <li>
-          <a href={`${country.toLowerCase()}/custom`}>{country}</a>
+          <a rel="preload" href={`${code.toLowerCase()}/custom`}>{name}</a>
         </li>
       {/each}
     </ul>
