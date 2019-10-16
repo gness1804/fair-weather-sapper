@@ -69,14 +69,14 @@
     on:mouseover={handleMouseover}
     on:mouseout={handleMouseout}>
     <p
-      class={`choose-a-country-label ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}>
+      class={`choose-a-country-label country-links-list-link ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}>
       Choose a Country:
     </p>
     <ul class="countries-list hide absolute z-50 mt-0 h-0">
       {#each sortAlpha(countries) as { code, name }}
         <li on:mouseover={handleMouseover}>
           <a
-            class={`country-nav-link ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
+            class={`country-nav-link country-links-list-link ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
             rel="preload"
             href={`${code.toLowerCase()}/custom`}>
             {name}

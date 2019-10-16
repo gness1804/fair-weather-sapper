@@ -65,3 +65,7 @@ tr:not(:first-child):nth-child(odd) {
 .country-links-list-wrapper:hover {
   @apply cursor-pointer;
 }
+
+.country-links-list-link:hover {
+  @apply underline;
+}

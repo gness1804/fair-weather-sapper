@@ -8741,6 +8741,10 @@ tr:not(:first-child):nth-child(odd) {
   cursor: pointer;
 }
 
+.country-links-list-link:hover {
+  text-decoration: underline;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
