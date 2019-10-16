@@ -15,6 +15,18 @@
     { code: 'ES', name: 'Spain' },
     { code: 'UK', name: 'United Kingdom' },
   ];
+
+  const handleMouseover = () => {
+    if (typeof document !== 'undefined') {
+      document.querySelector('.countries-list').classList.remove('hidden');
+    }
+  };
+
+  const handleMouseout = () => {
+    if (typeof document !== 'undefined') {
+      document.querySelector('.countries-list').classList.add('hidden');
+    }
+  };
 </script>
 
 <style>
@@ -23,14 +35,6 @@
     content: '';
     display: block;
     clear: both;
-  }
-
-  .countries-list {
-    display: none;
-  }
-
-  .country-links-list-wrapper:hover .countries-list {
-    display: block;
   }
 </style>
 
@@ -59,11 +63,14 @@
     </li>
   </ul>
 
-  <div class="country-links-list-wrapper">
+  <div
+    class="country-links-list-wrapper"
+    on:mouseover={handleMouseover}
+    on:mouseout={handleMouseout}>
     <p>Choose a Country:</p>
-    <ul class="countries-list absolute z-50 mt-3">
+    <ul class="countries-list hidden absolute z-50 mt-0 h-0">
       {#each sortAlpha(countries) as { code, name }}
-        <li>
+        <li on:mouseover={handleMouseover}>
           <a rel="preload" href={`${code.toLowerCase()}/custom`}>{name}</a>
         </li>
       {/each}

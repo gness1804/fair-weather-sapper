@@ -53,3 +53,7 @@ tr:not(:first-child):nth-child(odd) {
 .selected {
   @apply font-bold bg-gray-200;
 }
+
+.hidden {
+  @apply hidden;
+}

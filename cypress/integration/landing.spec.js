@@ -15,13 +15,6 @@ describe('App landing page', () => {
       .then(elem => expect(elem).to.contain('Fair Weather'));
   });
 
-  it('navigates to /cities', () => {
-    cy.get('.nav-bar-link')
-      .contains('cities')
-      .click();
-    cy.url().should('include', '/cities');
-  });
-
   it('list of countries should show up properly', () => {
     cy.get('.countries-list')
       .should('be.hidden')
@@ -42,5 +35,12 @@ describe('App landing page', () => {
       'Results for MX',
     );
     cy.get('.cities-result-table').should('exist');
+  });
+
+  it('navigates to /cities', () => {
+    cy.get('.nav-bar-link')
+      .contains('cities')
+      .click();
+    cy.url().should('include', '/cities');
   });
 });
