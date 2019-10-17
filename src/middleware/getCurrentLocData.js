@@ -5,6 +5,7 @@ const { readFile } = require('fs');
 const util = require('util');
 const getIcon = require('../helpers/getIcon');
 const convertTemp = require('../helpers/convertTemp');
+const changeTempType = require('../helpers/changeTempType');
 const getTempColor = require('../data/getTempColor');
 
 const promisifiedReadFile = util.promisify(readFile);
@@ -62,6 +63,10 @@ const getData = async (req, res) => {
   result.icon = currently.icon;
   result.iconSrc = getIcon(currently.icon);
   result.currentTemp = convertTemp(currently.temperature);
+  result.currentTempCelsius = changeTempType(
+    convertTemp(currently.temperature),
+    'C',
+  );
   result.currentTempColor = getTempColor(currently.temperature);
   result.summary = currently.summary;
   res.writeHead(200, {

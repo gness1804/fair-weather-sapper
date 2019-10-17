@@ -15,7 +15,6 @@
   import slugify from '../../helpers/slugify';
   import LocalWeatherResults from '../../components/LocalWeatherResults.svelte';
   import sortAlpha from '../../helpers/sortAlpha';
-  import changeTempType from '../../helpers/changeTempType';
   import { tempType } from '../../stores/mainStore';
 
   export let cities;
@@ -26,6 +25,7 @@
   let icon;
   let iconSrc;
   let currentTemp;
+  let currentTempCelsius;
   let currentTempColor;
   let summary;
 
@@ -36,7 +36,12 @@
   let showCandidateCitiesError = false;
 
   $: localDataIsPopulated =
-    icon && iconSrc && currentTemp && currentTempColor && summary;
+    icon &&
+    iconSrc &&
+    currentTemp &&
+    currentTempCelsius &&
+    currentTempColor &&
+    summary;
   $: thereAreUserEnteredCities = cities.find(
     _city => String(_city.id).length > 2,
   );
@@ -51,6 +56,7 @@
           icon = res.data.icon;
           iconSrc = res.data.iconSrc;
           currentTemp = res.data.currentTemp;
+          currentTempCelsius = res.data.currentTempCelsius;
           currentTempColor = res.data.currentTempColor;
           summary = res.data.summary;
 
@@ -231,7 +237,7 @@
       {iconSrc}
       {icon}
       {currentTempColor}
-      currentTemp={changeTempType(currentTemp, $tempType)}
+      currentTemp={$tempType === 'C' ? currentTempCelsius : currentTemp}
       {summary}
       tempType={$tempType} />
   {:else if loading}
