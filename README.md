@@ -1,6 +1,6 @@
 # Fair Weather for Sapper
 
-Version: 2.1.1
+Version: 2.1.2
 
 [Check it out live!](https://fair-weather-2.grahamnessler.now.sh)
 
