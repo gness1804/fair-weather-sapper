@@ -1,7 +1,7 @@
 {
   "name": "fair-weather-2",
   "description": "Weather app using Sapper and Svelte.",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "scripts": {
     "pretest": "npm run test:enable",
     "dev": "sapper dev",
