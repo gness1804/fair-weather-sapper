@@ -101,6 +101,30 @@ describe('city page for Austin', () => {
       cy.get('.current-temp').contains(temp);
     });
 
-    // TODO: add new tests for other temp displays
+    it('switching from F to C changes the high temp from F to C', () => {
+      if (!isTesting) {
+        this.skip();
+      }
+      cy.get('.temp-type-selector').select('C');
+
+      const temp = changeTempType(
+        Math.round(parseFloat(data.data.daily.data[0].temperatureHigh)),
+        'C',
+      );
+      cy.get('.high-temp').contains(temp);
+    });
+
+    it('switching from F to C changes the low temp from F to C', () => {
+      if (!isTesting) {
+        this.skip();
+      }
+      cy.get('.temp-type-selector').select('C');
+
+      const temp = changeTempType(
+        Math.round(parseFloat(data.data.daily.data[0].temperatureLow)),
+        'C',
+      );
+      cy.get('.low-temp').contains(temp);
+    });
   });
 });

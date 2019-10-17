@@ -70,7 +70,7 @@ describe('Cities landing page.', () => {
       );
     }
   });
-
+  // TODO: add tests for Fahrenheit-Celsius conversion dropdown
   it('button should be disabled once results come in', () => {
     cy.get('.get-my-weather-button').click();
     cy.get('.get-my-weather-button').then(elem =>
