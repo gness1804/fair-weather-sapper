@@ -15,6 +15,8 @@
   import slugify from '../../helpers/slugify';
   import LocalWeatherResults from '../../components/LocalWeatherResults.svelte';
   import sortAlpha from '../../helpers/sortAlpha';
+  import changeTempType from '../../helpers/changeTempType';
+  import { tempType } from '../../stores/mainStore';
 
   export let cities;
   export let citiesFromJSON;
@@ -229,8 +231,9 @@
       {iconSrc}
       {icon}
       {currentTempColor}
-      {currentTemp}
-      {summary} />
+      currentTemp={changeTempType(currentTemp, $tempType)}
+      {summary}
+      tempType={$tempType} />
   {:else if loading}
     <p>Loading...</p>
   {/if}

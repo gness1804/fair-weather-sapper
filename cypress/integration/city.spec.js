@@ -1,4 +1,5 @@
 const makeDateHumanReadable = require('../../src/helpers/makeDateHumanReadable');
+const changeTempType = require('../../src/helpers/changeTempType');
 
 describe('city page for Austin', () => {
   let data;
@@ -77,6 +78,53 @@ describe('city page for Austin', () => {
         timezone,
       );
       cy.get('.sunset-time').contains(time);
+    });
+  });
+
+  describe('Fahrenheit-Celsius conversion dropdown', () => {
+    it('switching from F to C changes the UI display from F to C', () => {
+      cy.get('.temp-type-selector').select('C');
+
+      cy.get('.temp-type-display').should('contain', 'C');
+    });
+
+    it('switching from F to C changes the main temp from F to C', function() {
+      if (!isTesting) {
+        this.skip();
+      }
+      cy.get('.temp-type-selector').select('C');
+
+      const temp = changeTempType(
+        Math.round(parseFloat(data.data.currently.temperature)),
+        'C',
+      );
+      cy.get('.current-temp').contains(temp);
+    });
+
+    it('switching from F to C changes the high temp from F to C', function() {
+      if (!isTesting) {
+        this.skip();
+      }
+      cy.get('.temp-type-selector').select('C');
+
+      const temp = changeTempType(
+        Math.round(parseFloat(data.data.daily.data[0].temperatureHigh)),
+        'C',
+      );
+      cy.get('.high-temp').contains(temp);
+    });
+
+    it('switching from F to C changes the low temp from F to C', function() {
+      if (!isTesting) {
+        this.skip();
+      }
+      cy.get('.temp-type-selector').select('C');
+
+      const temp = changeTempType(
+        Math.round(parseFloat(data.data.daily.data[0].temperatureLow)),
+        'C',
+      );
+      cy.get('.low-temp').contains(temp);
     });
   });
 });
