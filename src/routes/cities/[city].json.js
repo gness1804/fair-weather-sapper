@@ -7,6 +7,7 @@ import normalizeData from '../../helpers/normalizeData';
 import getTempColor from '../../data/getTempColor';
 import makeDateHumanReadable from '../../helpers/makeDateHumanReadable';
 import convertTemp from '../../helpers/convertTemp';
+import changeTempType from '../../helpers/changeTempType';
 
 const extendedCities = require('./extendedCityData.json');
 
@@ -96,11 +97,20 @@ export async function get(req, res) {
   result.icon = currently.icon;
   result.iconSrc = getIcon(currently.icon);
   result.currentTemp = convertTemp(currently.temperature);
+  result.currentTempCelsius = changeTempType(
+    convertTemp(currently.temperature),
+    'C',
+  );
   result.currentTempColor = getTempColor(currently.temperature);
   result.summary = currently.summary;
   result.precipProbability = currently.precipProbability;
   result.dailyHighTemp = convertTemp(temperatureHigh);
+  result.dailyHighTempCelsius = changeTempType(
+    convertTemp(temperatureHigh),
+    'C',
+  );
   result.dailyLowTemp = convertTemp(temperatureLow);
+  result.dailyLowTempCelsius = changeTempType(convertTemp(temperatureLow), 'C');
   result.dailyHighTempColor = getTempColor(temperatureHigh);
   result.dailyLowTempColor = getTempColor(temperatureLow);
   result.sunriseTime = makeDateHumanReadable(sunriseTime, timezone);

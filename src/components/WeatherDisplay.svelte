@@ -2,7 +2,6 @@
   import HighLowTempsContainer from './HighLowTempsContainer.svelte';
   import SunriseSunsetContainer from './SunriseSunsetContainer.svelte';
   import { tempType } from '../stores/mainStore';
-  import changeTempType from '../helpers/changeTempType';
 
   export let data = {};
 </script>
@@ -16,7 +15,7 @@
 
   <p class={`text-5xl text-${data.currentTempColor} mb-6`}>
     <span class="current-temp">
-      {changeTempType(data.currentTemp, $tempType)}
+      {$tempType === 'C' ? data.currentTempCelsius : data.currentTemp}
     </span>
     <span class="temp-type-display">&deg; {$tempType}</span>
   </p>
@@ -31,9 +30,9 @@
 
     <HighLowTempsContainer
       dailyHighTempColor={data.dailyHighTempColor}
-      dailyHighTemp={changeTempType(data.dailyHighTemp, $tempType)}
+      dailyHighTemp={$tempType === 'C' ? data.dailyHighTempCelsius : data.dailyHighTemp}
       dailyLowTempColor={data.dailyLowTempColor}
-      dailyLowTemp={changeTempType(data.dailyLowTemp, $tempType)} />
+      dailyLowTemp={$tempType === 'C' ? data.dailyLowTempCelsius : data.dailyLowTemp} />
 
     <SunriseSunsetContainer
       sunriseTime={data.sunriseTime}
