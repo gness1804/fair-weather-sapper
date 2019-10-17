@@ -1,4 +1,5 @@
 const makeDateHumanReadable = require('../../src/helpers/makeDateHumanReadable');
+const changeTempType = require('../../src/helpers/changeTempType');
 
 describe('city page for Austin', () => {
   let data;
@@ -87,6 +88,19 @@ describe('city page for Austin', () => {
       cy.get('.temp-type-display').should('contain', 'C');
     });
 
-    // TODO: add tests for changing the actual temperatures
+    it('switching from F to C changes the main temp from F to C', function() {
+      if (!isTesting) {
+        this.skip();
+      }
+      cy.get('.temp-type-selector').select('C');
+
+      const temp = changeTempType(
+        Math.round(parseFloat(data.data.currently.temperature)),
+        'C',
+      );
+      cy.get('.current-temp').contains(temp);
+    });
+
+    // TODO: add new tests for other temp displays
   });
 });
