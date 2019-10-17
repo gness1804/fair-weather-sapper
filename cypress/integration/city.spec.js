@@ -101,7 +101,7 @@ describe('city page for Austin', () => {
       cy.get('.current-temp').contains(temp);
     });
 
-    it('switching from F to C changes the high temp from F to C', () => {
+    it('switching from F to C changes the high temp from F to C', function() {
       if (!isTesting) {
         this.skip();
       }
@@ -114,7 +114,7 @@ describe('city page for Austin', () => {
       cy.get('.high-temp').contains(temp);
     });
 
-    it('switching from F to C changes the low temp from F to C', () => {
+    it('switching from F to C changes the low temp from F to C', function() {
       if (!isTesting) {
         this.skip();
       }
