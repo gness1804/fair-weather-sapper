@@ -1,3 +1,5 @@
+const changeTempType = require('../../src/helpers/changeTempType');
+
 describe('Cities landing page.', () => {
   const isTesting = Cypress.env('TESTING') === 'true';
 
@@ -70,7 +72,7 @@ describe('Cities landing page.', () => {
       );
     }
   });
-  // TODO: add tests for Fahrenheit-Celsius conversion dropdown
+
   it('button should be disabled once results come in', () => {
     cy.get('.get-my-weather-button').click();
     cy.get('.get-my-weather-button').then(elem =>
@@ -214,5 +216,48 @@ describe('Cities landing page.', () => {
     cy.get('.reset-all-button').click();
 
     cy.get('.cities-links a').should('have.length', 4);
+  });
+
+  describe('Fahrenheit-Celsius toggle', () => {
+    it('changing from F to C and then clicking on the Get Weather Button changes the display temp type from F to C', () => {
+      cy.get('.temp-type-selector').select('C');
+      cy.get('.get-my-weather-button').click();
+
+      cy.get('.current-temp-value-display').should('contain', 'C');
+    });
+
+    it('changing from F to C and then clicking on the Get Weather Button changes the actual temp from F to C', function() {
+      if (!isTesting) {
+        this.skip();
+      }
+
+      cy.get('.temp-type-selector').select('C');
+      cy.get('.get-my-weather-button').click();
+
+      const temp = changeTempType(
+        Math.round(parseFloat(data.data.currently.temperature)),
+        'C',
+      );
+
+      cy.get('.current-temp-value-display').should('contain', temp);
+    });
+
+    it('changing from F to C and then clicking on the Get Weather Button and then changing back to F should display temp in F', function() {
+      if (!isTesting) {
+        this.skip();
+      }
+
+      cy.get('.temp-type-selector').select('C');
+      cy.get('.get-my-weather-button').click();
+
+      cy.get('.temp-type-selector').select('F');
+
+      const temp = changeTempType(
+        Math.round(parseFloat(data.data.currently.temperature)),
+        'F',
+      );
+
+      cy.get('.current-temp-value-display').should('contain', temp);
+    });
   });
 });
