@@ -87,9 +87,9 @@
     </p>
     <ul class="countries-list hide absolute z-50 mt-0 h-0">
       {#each sortAlpha(countries) as { code, name }}
-        <li class="p-1" on:mouseover={handleMouseover}>
+        <li class="p-1 z-50 bg-white" on:mouseover={handleMouseover}>
           <a
-            class={`country-nav-link country-links-list-link ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
+            class={`country-nav-link country-links-list-link z-50 ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
             rel="preload"
             href={`${code.toLowerCase()}/custom`}>
             {name}
