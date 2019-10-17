@@ -13,17 +13,13 @@
 // the project's config changing)
 require('dotenv').config();
 
+// `on` is used to hook into various events Cypress emits
+// `config` is the resolved Cypress config
 module.exports = (on, config) => {
   config.env.TESTING = process.env.TESTING;
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
-  return config;
-};
 
-// see https://github.com/cypress-io/cypress/issues/2024
-// automatically opens Chrome dev tools on browser launch for 'cypress open'
-// eslint-disable-next-line no-unused-vars
-module.exports = (on, config) => {
+  // see https://github.com/cypress-io/cypress/issues/2024
+  // automatically opens Chrome dev tools on browser launch for 'cypress open'
   // eslint-disable-next-line consistent-return
   on('before:browser:launch', (browser = {}, args) => {
     if (
@@ -36,4 +32,5 @@ module.exports = (on, config) => {
       return args;
     }
   });
+  return config;
 };
