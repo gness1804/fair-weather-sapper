@@ -79,4 +79,14 @@ describe('city page for Austin', () => {
       cy.get('.sunset-time').contains(time);
     });
   });
+
+  describe('Fahrenheit-Celsius conversion dropdown', () => {
+    it('switching from F to C changes the UI display from F to C', () => {
+      cy.get('.temp-type-selector').select('C');
+
+      cy.get('.temp-type-display').should('contain', 'C');
+    });
+
+    // TODO: add tests for changing the actual temperatures
+  });
 });

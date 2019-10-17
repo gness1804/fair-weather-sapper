@@ -1,12 +1,7 @@
 <script>
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  import { stores } from '@sapper/app';
   import HighLowTempsContainer from './HighLowTempsContainer.svelte';
   import SunriseSunsetContainer from './SunriseSunsetContainer.svelte';
-
-  const { session } = stores();
-
-  const { tempType } = $session;
+  import { tempType } from '../stores/mainStore';
 
   export let data = {};
 </script>
@@ -20,7 +15,7 @@
 
   <p class={`text-5xl text-${data.currentTempColor} mb-6`}>
     <span class="current-temp">{data.currentTemp}</span>
-    &deg; {tempType}
+    <span class="temp-type-display">&deg; {$tempType}</span>
   </p>
 
   <p class="current-conditions-message mb-6">

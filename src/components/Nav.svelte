@@ -2,6 +2,8 @@
   import TestingBanner from './TestingBanner.svelte';
   import sortAlpha from '../helpers/sortAlpha';
 
+  import { tempType } from '../stores/mainStore';
+
   export let segment;
 
   const isTesting = process.env.TESTING === 'true';
@@ -27,6 +29,10 @@
     if (typeof document !== 'undefined') {
       document.querySelector('.countries-list').classList.add('hide');
     }
+  };
+
+  const handleOnChange = e => {
+    tempType.set(e.target.value);
   };
 </script>
 
@@ -63,6 +69,13 @@
       </a>
     </li>
   </ul>
+
+  <div class="temp-type-selector-wrapper">
+    <select on:change={handleOnChange} class="temp-type-selector">
+      <option value="F">&deg; F</option>
+      <option value="C">&deg; C</option>
+    </select>
+  </div>
 
   <div
     class="country-links-list-wrapper"
