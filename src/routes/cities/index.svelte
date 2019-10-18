@@ -9,9 +9,10 @@
 </script>
 
 <script>
-  import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
+  import axios from 'axios';
+  // eslint-disable-next-line import/no-extraneous-dependencies
   import slugify from '../../helpers/slugify';
   import LocalWeatherResults from '../../components/LocalWeatherResults.svelte';
   import sortAlpha from '../../helpers/sortAlpha';
@@ -53,6 +54,9 @@
       .post('/addPos', { lat: latitude, lng: longitude })
       .then(res => {
         if (res && res.data) {
+          // TODO: can put localDataIsPopulated here and have as bool
+          // can obj spread using a global obj
+          // handle case of 0 deg
           icon = res.data.icon;
           iconSrc = res.data.iconSrc;
           currentTemp = res.data.currentTemp;
@@ -99,6 +103,7 @@
   };
 
   const addCity = () => {
+    // TODO: maybe move to LS/SS
     if (!selectedCity) {
       alert('Error: you must enter a city name. Please try again.');
       return;

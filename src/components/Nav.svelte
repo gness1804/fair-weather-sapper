@@ -55,16 +55,18 @@
   <ul class="hero-links-left m-0 p-0">
     <li class="inline-block">
       <a
-        class={`nav-bar-link ${segment === undefined ? 'selected' : ''}`}
-        href=".">
+        class={`text-black block py-4 px-2 no-underline hover:underline hover:text-black hover:bg-gray-100 ${segment === undefined ? 'selected' : ''}`}
+        href="."
+        data-cy="nav-bar-link">
         home
       </a>
     </li>
     <li class="inline-block">
       <a
         rel="prefetch"
-        class={`nav-bar-link ${segment === 'cities' ? 'selected' : ''}`}
-        href="cities">
+        class={`text-black block py-4 px-2 no-underline hover:underline hover:text-black hover:bg-gray-100 ${segment === 'cities' ? 'selected' : ''}`}
+        href="cities"
+        data-cy="nav-bar-link">
         cities
       </a>
     </li>

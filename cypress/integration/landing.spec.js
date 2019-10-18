@@ -4,7 +4,7 @@ describe('App landing page', () => {
   });
 
   it('selected css styles for nav bar link should show up on this page', () => {
-    cy.get('.nav-bar-link')
+    cy.get('[data-cy=nav-bar-link]')
       .contains('home')
       .should('have.class', 'selected');
   });
@@ -39,18 +39,18 @@ describe('App landing page', () => {
   });
 
   it('navigates to /cities', () => {
-    cy.get('.nav-bar-link')
+    cy.get('[data-cy=nav-bar-link]')
       .contains('cities')
       .click();
     cy.url().should('include', '/cities');
   });
 
   it('going to another page and then clicking on the home nav link navigates to home', () => {
-    cy.get('.nav-bar-link')
+    cy.get('[data-cy=nav-bar-link]')
       .contains('cities')
       .click();
 
-    cy.get('.nav-bar-link')
+    cy.get('[data-cy=nav-bar-link]')
       .contains('home')
       .click();
 

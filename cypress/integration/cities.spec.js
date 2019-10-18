@@ -17,7 +17,7 @@ describe('Cities landing page.', () => {
   });
 
   it('selected css styles for nav bar link should show up on this page', () => {
-    cy.get('.nav-bar-link')
+    cy.get('[data-cy=nav-bar-link]')
       .contains('cities')
       .should('have.class', 'selected');
   });
