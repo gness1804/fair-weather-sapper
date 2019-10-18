@@ -10,22 +10,20 @@ describe('App landing page', () => {
   });
 
   it('has the correct <h1>', () => {
-    cy.get('#app')
-      .find('h1')
-      .then(elem => expect(elem).to.contain('Fair Weather'));
+    cy.get('h1').should('contain', 'Fair Weather');
   });
 
   it('list of countries should show up properly', () => {
-    cy.get('.countries-list')
+    cy.get('[data-cy=countries-list]')
       .should('be.hidden')
       .invoke('show');
-    cy.get('.countries-list li').should('have.length', 8);
-    cy.get('.countries-list').invoke('hide');
+    cy.get('[data-cy=countries-list] li').should('have.length', 8);
+    cy.get('[data-cy=countries-list]').invoke('hide');
   });
 
   it('clicking on a country link opens the /[country]/custom page for that country', () => {
-    cy.get('.countries-list').invoke('show');
-    cy.get('.countries-list li a')
+    cy.get('[data-cy=countries-list]').invoke('show');
+    cy.get('[data-cy=countries-list] li a')
       .contains('Mexico')
       .click();
 
@@ -35,7 +33,7 @@ describe('App landing page', () => {
       'Results for MX',
     );
     cy.get('.cities-result-table').should('exist');
-    cy.get('.countries-list').invoke('hide');
+    cy.get('[data-cy=countries-list]').invoke('hide');
   });
 
   it('navigates to /cities', () => {

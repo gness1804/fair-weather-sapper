@@ -7,7 +7,7 @@ describe('custom country and state search pages', () => {
 
     it('the country-specific link in the dropdown in the nav menu should be highlighted on this page', () => {
       cy.visit('/mx/custom');
-      cy.get('.countries-list').invoke('show');
+      cy.get('[data-cy=countries-list]').invoke('show');
       cy.get('.country-nav-link')
         .contains('Mexico')
         .should('have.class', 'selected-lite');
@@ -15,7 +15,7 @@ describe('custom country and state search pages', () => {
       cy.get('.country-nav-link')
         .contains('France')
         .should('not.have.class', 'selected-lite');
-      cy.get('.countries-list').invoke('hide');
+      cy.get('[data-cy=countries-list]').invoke('hide');
     });
 
     it('Should show the "Results For..." heading corresponding to the correct country', () => {
@@ -111,7 +111,7 @@ describe('custom country and state search pages', () => {
   describe('state custom page', () => {
     it('the country-specific link for US in the dropdown in the nav menu should be highlighted on this page', () => {
       cy.visit('/us/tx/custom');
-      cy.get('.countries-list').invoke('show');
+      cy.get('[data-cy=countries-list]').invoke('show');
       cy.get('.country-nav-link')
         .contains('United States')
         .should('have.class', 'selected-lite');
@@ -119,7 +119,7 @@ describe('custom country and state search pages', () => {
       cy.get('.country-nav-link')
         .contains('France')
         .should('not.have.class', 'selected-lite');
-      cy.get('.countries-list').invoke('hide');
+      cy.get('[data-cy=countries-list]').invoke('hide');
     });
 
     it('Should show the "Results For..." heading corresponding to the correct US state', () => {

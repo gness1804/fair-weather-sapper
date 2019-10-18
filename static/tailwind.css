@@ -62,10 +62,10 @@ tr:not(:first-child):nth-child(odd) {
   @apply underline;
 }
 
-.countries-list li:nth-child(odd) {
+ul[data-cy='countries-list'] li:nth-child(odd) {
   @apply bg-gray-200;
 }
 
-.countries-list li:nth-child(even) {
+ul[data-cy='countries-list'] li:nth-child(even) {
   @apply shadow;
 }

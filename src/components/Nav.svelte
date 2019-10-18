@@ -21,13 +21,17 @@
 
   const handleMouseover = () => {
     if (typeof document !== 'undefined') {
-      document.querySelector('.countries-list').classList.remove('hide');
+      document
+        .querySelector('ul[data-cy="countries-list"]')
+        .classList.remove('hide');
     }
   };
 
   const handleMouseout = () => {
     if (typeof document !== 'undefined') {
-      document.querySelector('.countries-list').classList.add('hide');
+      document
+        .querySelector('ul[data-cy="countries-list"]')
+        .classList.add('hide');
     }
   };
 
@@ -87,7 +91,7 @@
       class={`choose-a-country-label country-links-list-link ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}>
       Choose a Country:
     </p>
-    <ul class="countries-list hide absolute z-50 mt-0 h-0">
+    <ul class="hide absolute z-50 mt-0 h-0" data-cy="countries-list">
       {#each sortAlpha(countries) as { code, name }}
         <li class="p-1 z-50 bg-white" on:mouseover={handleMouseover}>
           <a
