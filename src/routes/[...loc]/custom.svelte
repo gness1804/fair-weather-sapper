@@ -2,11 +2,11 @@
   export async function preload({ params }) {
     const [country, state] = params.loc;
 
-    const countryRes = await this.fetch(`[..loc]/${country}.json`);
+    const countryRes = await this.fetch(`[...loc]/${country}.json`);
     const parsedCountryRes = await countryRes.json();
 
     if (state) {
-      const stateRes = await this.fetch(`[..loc]/st-${state}.json`);
+      const stateRes = await this.fetch(`[...loc]/st-${state}.json`);
       const parsedStateRes = await stateRes.json();
 
       if (countryRes.status === 200 && stateRes.status === 200) {
