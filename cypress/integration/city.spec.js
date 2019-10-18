@@ -25,7 +25,10 @@ describe('city page for Austin', () => {
     });
 
     it('should have the proper title', () => {
-      cy.contains('h2', 'Austin Weather');
+      cy.get('[data-cy=city-page-header]').should(
+        'have.text',
+        'Austin Weather',
+      );
     });
   });
 
@@ -38,12 +41,12 @@ describe('city page for Austin', () => {
 
     it('shows the correct current temperature', () => {
       const temp = Math.round(parseFloat(data.data.currently.temperature));
-      cy.get('.current-temp').contains(temp);
+      cy.get('[data-cy=current-temp]').contains(temp);
     });
 
     it('should display the current weather conditions.', () => {
       const conditions = data.data.currently.summary;
-      cy.get('.current-conditions-message').contains(
+      cy.get('[data-cy=current-conditions-message]').contains(
         `The weather is ${conditions}`,
       );
     });
@@ -52,14 +55,14 @@ describe('city page for Austin', () => {
       const temp = Math.round(
         parseFloat(data.data.daily.data[0].temperatureHigh),
       );
-      cy.get('.high-temp').contains(temp);
+      cy.get('[data-cy=high-temp]').contains(temp);
     });
 
     it('should display the low temp', () => {
       const temp = Math.round(
         parseFloat(data.data.daily.data[0].temperatureLow),
       );
-      cy.get('.low-temp').contains(temp);
+      cy.get('[data-cy=low-temp]').contains(temp);
     });
 
     it('should display the correct sunrise time', () => {
@@ -68,7 +71,7 @@ describe('city page for Austin', () => {
         data.data.daily.data[0].sunriseTime,
         timezone,
       );
-      cy.get('.sunrise-time').contains(time);
+      cy.get('[data-cy=sunrise-time]').contains(time);
     });
 
     it('should display the correct sunset time', () => {
@@ -77,7 +80,7 @@ describe('city page for Austin', () => {
         data.data.daily.data[0].sunsetTime,
         timezone,
       );
-      cy.get('.sunset-time').contains(time);
+      cy.get('[data-cy=sunset-time]').contains(time);
     });
   });
 
@@ -85,7 +88,7 @@ describe('city page for Austin', () => {
     it('switching from F to C changes the UI display from F to C', () => {
       cy.get('[data-cy=temp-type-selector]').select('C');
 
-      cy.get('.temp-type-display').should('contain', 'C');
+      cy.get('[data-cy=temp-type-display]').should('contain', 'C');
     });
 
     it('switching from F to C changes the main temp from F to C', function() {
@@ -98,7 +101,7 @@ describe('city page for Austin', () => {
         Math.round(parseFloat(data.data.currently.temperature)),
         'C',
       );
-      cy.get('.current-temp').contains(temp);
+      cy.get('[data-cy=current-temp]').contains(temp);
     });
 
     it('switching from F to C changes the high temp from F to C', function() {
@@ -111,7 +114,7 @@ describe('city page for Austin', () => {
         Math.round(parseFloat(data.data.daily.data[0].temperatureHigh)),
         'C',
       );
-      cy.get('.high-temp').contains(temp);
+      cy.get('[data-cy=high-temp]').contains(temp);
     });
 
     it('switching from F to C changes the low temp from F to C', function() {
@@ -124,7 +127,7 @@ describe('city page for Austin', () => {
         Math.round(parseFloat(data.data.daily.data[0].temperatureLow)),
         'C',
       );
-      cy.get('.low-temp').contains(temp);
+      cy.get('[data-cy=low-temp]').contains(temp);
     });
   });
 });

@@ -14,13 +14,13 @@
     class="my-0 mx-auto h-32 w-32" />
 
   <p class={`text-5xl text-${data.currentTempColor} mb-6`}>
-    <span class="current-temp">
+    <span data-cy="current-temp">
       {$tempType === 'C' ? data.currentTempCelsius : data.currentTemp}
     </span>
-    <span class="temp-type-display">&deg; {$tempType}</span>
+    <span data-cy="temp-type-display">&deg; {$tempType}</span>
   </p>
 
-  <p class="current-conditions-message mb-6">
+  <p class="mb-6" data-cy="current-conditions-message">
     The weather is {data.summary} with a {Math.round(data.precipProbability)}%
     chance of rain.
   </p>
