@@ -53,7 +53,9 @@
       Results for {stateName.toUpperCase()}, {country.toUpperCase()}
     </p>
   {:else}
-    <p class="country-results-for-message font-bold text-2xl text-center mb-6">
+    <p
+      class="font-bold text-2xl text-center mb-6"
+      data-cy="country-results-for-message">
       Results for {country.toUpperCase()}
     </p>
   {/if}

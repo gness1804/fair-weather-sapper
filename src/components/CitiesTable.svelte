@@ -3,7 +3,9 @@
   export let isAmerica = false;
 </script>
 
-<table class="cities-result-table border-2 border-gray-600 mx-auto my-0">
+<table
+  class="border-2 border-gray-600 mx-auto my-0"
+  data-cy="cities-result-table">
   <thead class="bg-gray-400">
     <tr>
       <th class="text-xl" colspan={isAmerica ? '4' : '3'}>Cities:</th>

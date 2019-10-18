@@ -20,7 +20,7 @@ describe('custom country and state search pages', () => {
 
     it('Should show the "Results For..." heading corresponding to the correct country', () => {
       cy.visit('/fr/custom');
-      cy.get('.country-results-for-message').should(
+      cy.get('[data-cy=country-results-for-message]').should(
         'have.text',
         'Results for FR',
       );
@@ -35,7 +35,7 @@ describe('custom country and state search pages', () => {
 
     it('should show the correct country data for the US', () => {
       cy.visit('/us/custom');
-      cy.get('.cities-result-table').should('exist');
+      cy.get('[data-cy=cities-result-table]').should('exist');
 
       cy.get('.cities-result-table-name').should('have.length', 7);
       cy.get('.cities-result-table-name')
@@ -56,7 +56,7 @@ describe('custom country and state search pages', () => {
 
     it('should show correct country data for France (FR)', () => {
       cy.visit('/fr/custom');
-      cy.get('.cities-result-table').should('exist');
+      cy.get('[data-cy=cities-result-table]').should('exist');
 
       cy.get('.cities-result-table-name').should('have.length', 2);
       cy.get('.cities-result-table-name')
@@ -138,7 +138,7 @@ describe('custom country and state search pages', () => {
 
     it('should show the correct state data for TX', () => {
       cy.visit('/us/tx/custom');
-      cy.get('.cities-result-table').should('exist');
+      cy.get('[data-cy=cities-result-table]').should('exist');
 
       cy.get('.cities-result-table-name').should('have.length', 2);
       cy.get('.cities-result-table-name')

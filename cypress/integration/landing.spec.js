@@ -28,11 +28,11 @@ describe('App landing page', () => {
       .click();
 
     cy.url().should('include', '/mx/custom');
-    cy.get('.country-results-for-message').should(
+    cy.get('[data-cy=country-results-for-message]').should(
       'have.text',
       'Results for MX',
     );
-    cy.get('.cities-result-table').should('exist');
+    cy.get('[data-cy=cities-result-table]').should('exist');
     cy.get('[data-cy=countries-list]').invoke('hide');
   });
 
