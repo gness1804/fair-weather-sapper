@@ -23,23 +23,23 @@ describe('Cities landing page.', () => {
   });
 
   it('contains a list of city links', () => {
-    cy.get('.cities-links a').should('have.length', 4);
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a').should('have.length', 4);
+    cy.get('[data-cy=cities-links] a')
       .first()
       .should('have.text', 'Austin');
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .eq(1)
       .should('have.text', 'Chicago');
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .eq(2)
       .should('have.text', 'London');
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .eq(3)
       .should('have.text', 'Paris');
   });
 
   it('clicking on the Austin link should go to the Austin page.', () => {
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .contains('Austin')
       .click();
 
@@ -47,7 +47,7 @@ describe('Cities landing page.', () => {
   });
 
   it('clicking on the Paris link should go to the Paris page.', () => {
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .contains('Paris')
       .click();
 
@@ -119,11 +119,11 @@ describe('Cities landing page.', () => {
 
     cy.get('.add-city-button').click();
 
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .contains('Detroit')
       .should('exist');
 
-    cy.get('.cities-links a').should('have.length', 5);
+    cy.get('[data-cy=cities-links] a').should('have.length', 5);
   });
 
   it('entering in a city etc. and then going to the link should go to the new city page for that city', () => {
@@ -131,7 +131,7 @@ describe('Cities landing page.', () => {
 
     cy.get('.add-city-button').click();
 
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .contains('Detroit')
       .click();
 
@@ -157,11 +157,11 @@ describe('Cities landing page.', () => {
     cy.get('.delete-city-button').click();
 
     // test if the city was actually removed
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .contains('Detroit')
       .should('not.exist');
 
-    cy.get('.cities-links a').should('have.length', 4);
+    cy.get('[data-cy=cities-links] a').should('have.length', 4);
   });
 
   it('user should be able to add a new city after adding and deleting one', () => {
@@ -173,11 +173,11 @@ describe('Cities landing page.', () => {
     cy.seedCity('Boston');
     cy.get('.add-city-button').click();
 
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .contains('Boston')
       .should('exist');
 
-    cy.get('.cities-links a').should('have.length', 5);
+    cy.get('[data-cy=cities-links] a').should('have.length', 5);
   });
 
   it('adding and deleting a city and then refreshing the page should keep the deleted city deleted; should not reappear', () => {
@@ -188,11 +188,11 @@ describe('Cities landing page.', () => {
 
     cy.reload();
 
-    cy.get('.cities-links a')
+    cy.get('[data-cy=cities-links] a')
       .contains('Detroit')
       .should('not.exist');
 
-    cy.get('.cities-links a').should('have.length', 4);
+    cy.get('[data-cy=cities-links] a').should('have.length', 4);
   });
 
   it('Reset to Defaults button should be hidden without any user-added cities and then enabled with user-added cities', () => {
@@ -211,11 +211,11 @@ describe('Cities landing page.', () => {
     cy.seedCity('Munich');
     cy.get('.add-city-button').click();
 
-    cy.get('.cities-links a').should('have.length', 6);
+    cy.get('[data-cy=cities-links] a').should('have.length', 6);
 
     cy.get('.reset-all-button').click();
 
-    cy.get('.cities-links a').should('have.length', 4);
+    cy.get('[data-cy=cities-links] a').should('have.length', 4);
   });
 
   describe('Fahrenheit-Celsius toggle', () => {

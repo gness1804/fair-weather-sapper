@@ -214,7 +214,7 @@
     </button>
   </div>
 
-  <ul class="cities-links mb-12">
+  <ul class="mb-12" data-cy="cities-links">
     {#each sortAlpha(cities) as { slug, name, id }}
       <li class="mb-4 text-xl">
         <a rel="prefetch" title={name} href="cities/{slug}">{name}</a>
