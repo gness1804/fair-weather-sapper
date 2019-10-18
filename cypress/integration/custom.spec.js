@@ -76,7 +76,7 @@ describe('custom country and state search pages', () => {
         .first()
         .click();
       cy.url().should('include', '/cities/austin');
-      cy.get('.city-page-header')
+      cy.get('[data-cy=city-page-header]')
         .should('exist')
         .and('have.text', 'Austin Weather');
     });
@@ -89,7 +89,7 @@ describe('custom country and state search pages', () => {
         .click();
 
       cy.url().should('include', '/cities/detroit');
-      cy.get('.city-page-header')
+      cy.get('[data-cy=city-page-header]')
         .should('exist')
         .and('have.text', 'Detroit Weather');
     });
@@ -163,7 +163,7 @@ describe('custom country and state search pages', () => {
         .click();
 
       cy.url().should('include', '/cities/chicago');
-      cy.get('.city-page-header')
+      cy.get('[data-cy=city-page-header]')
         .should('exist')
         .and('have.text', 'Chicago Weather');
     });

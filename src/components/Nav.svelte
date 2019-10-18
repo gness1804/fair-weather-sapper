@@ -77,7 +77,7 @@
   </ul>
 
   <div class="temp-type-selector-wrapper">
-    <select on:change={handleOnChange} class="temp-type-selector">
+    <select on:change={handleOnChange} data-cy="temp-type-selector">
       <option value="F">&deg; F</option>
       <option value="C">&deg; C</option>
     </select>

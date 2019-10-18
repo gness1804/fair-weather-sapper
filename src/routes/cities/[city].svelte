@@ -21,7 +21,7 @@
 </svelte:head>
 
 <div class="text-center">
-  <h2 class="city-page-header font-bold text-gray-600 text-3xl mb-8">
+  <h2 class="font-bold text-gray-600 text-3xl mb-8" data-cy="city-page-header">
     {data.name} Weather
   </h2>
 

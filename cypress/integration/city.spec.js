@@ -83,7 +83,7 @@ describe('city page for Austin', () => {
 
   describe('Fahrenheit-Celsius conversion dropdown', () => {
     it('switching from F to C changes the UI display from F to C', () => {
-      cy.get('.temp-type-selector').select('C');
+      cy.get('[data-cy=temp-type-selector]').select('C');
 
       cy.get('.temp-type-display').should('contain', 'C');
     });
@@ -92,7 +92,7 @@ describe('city page for Austin', () => {
       if (!isTesting) {
         this.skip();
       }
-      cy.get('.temp-type-selector').select('C');
+      cy.get('[data-cy=temp-type-selector]').select('C');
 
       const temp = changeTempType(
         Math.round(parseFloat(data.data.currently.temperature)),
@@ -105,7 +105,7 @@ describe('city page for Austin', () => {
       if (!isTesting) {
         this.skip();
       }
-      cy.get('.temp-type-selector').select('C');
+      cy.get('[data-cy=temp-type-selector]').select('C');
 
       const temp = changeTempType(
         Math.round(parseFloat(data.data.daily.data[0].temperatureHigh)),
@@ -118,7 +118,7 @@ describe('city page for Austin', () => {
       if (!isTesting) {
         this.skip();
       }
-      cy.get('.temp-type-selector').select('C');
+      cy.get('[data-cy=temp-type-selector]').select('C');
 
       const temp = changeTempType(
         Math.round(parseFloat(data.data.daily.data[0].temperatureLow)),

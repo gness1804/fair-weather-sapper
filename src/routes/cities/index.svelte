@@ -170,6 +170,7 @@
       <label for="city-input" class="mr-3">
         <input
           id="city-input"
+          data-cy="city-input"
           class={showCandidateCitiesError ? 'error-box' : ''}
           type="text"
           list="cities-list"
@@ -178,22 +179,22 @@
           on:blur={showCandidateCities}
           bind:value={enteredCity} />
       </label>
-      <datalist id="cities-list">
-        {#each sortAlpha(citiesFromJSON) as city}
-          <option value={city.name}>{city.name}</option>
+      <datalist id="cities-list" data-cy="cities-list">
+        {#each sortAlpha(citiesFromJSON) as { name }}
+          <option value={name}>{name}</option>
         {/each}
       </datalist>
       {#if showCandidateCitiesError}
-        <p class="candidate-cities-error-message text-red-600">
+        <p class="text-red-600" data-cy="candidate-cities-error-message">
           Error: invalid city. Please select one from the list in the input
           field.
         </p>
       {/if}
 
       {#if candidateCities.length > 0}
-        <select class="candidate-cities-select" bind:value={selectedCity}>
+        <select bind:value={selectedCity} data-cy="candidate-cities-select">
           {#each candidateCities as candidate}
-            <option class="candidate-option" value={candidate}>
+            <option value={candidate} data-cy="candidate-option">
               {candidate.name} - {candidate.country}
             </option>
           {/each}
@@ -202,12 +203,12 @@
     </div>
     <button
       on:click={addCity}
-      class="add-city-button"
+      data-cy="add-city-button"
       disabled={!enteredCity || showCandidateCitiesError}>
       Add
     </button>
     <button
-      class="reset-all-button"
+      data-cy="reset-all-button"
       on:click={resetCities}
       disabled={!thereAreUserEnteredCities}>
       Reset to Defaults
@@ -221,7 +222,8 @@
         {#if String(id).length > 2}
           <span
             on:click={() => deleteCity(id)}
-            class="delete-city-button cursor-pointer text-red-700"
+            class="cursor-pointer text-red-700"
+            data-cy="delete-city-button"
             title={`Delete ${name}`}>
             X
           </span>
@@ -232,7 +234,8 @@
 
   <button
     on:click={getWeather}
-    class="get-my-weather-button mb-10"
+    class="mb-10"
+    data-cy="get-my-weather-button"
     disabled={localDataIsPopulated}>
     Get My Weather
   </button>
