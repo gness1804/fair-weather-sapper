@@ -30,14 +30,7 @@ export async function get(req, res) {
     return;
   }
 
-  let newLinks = links;
-  const { cities: citiesFromServer } = req.app.locals;
-
-  if (citiesFromServer.length > 0) {
-    newLinks = [...newLinks, ...citiesFromServer];
-  }
-
-  newLinks = normalizeData([...extendedCities, ...newLinks]);
+  const newLinks = normalizeData([...extendedCities, ...links]);
 
   const { lat, lng } = newLinks.filter(link => link.slug === city)[0].geocoords;
   const { name } = newLinks.filter(link => link.slug === city)[0];

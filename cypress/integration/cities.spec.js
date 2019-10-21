@@ -125,6 +125,24 @@ describe('Cities landing page.', () => {
     cy.get('[data-cy=cities-links] a').should('have.length', 5);
   });
 
+  it('new city should persist after reload and allow for addition of another city', () => {
+    cy.seedCity('Detroit');
+
+    cy.get('[data-cy=add-city-button]').click();
+
+    cy.reload();
+
+    cy.get('[data-cy=cities-links] a')
+      .contains('Detroit')
+      .should('exist');
+
+    cy.get('[data-cy=cities-links] a').should('have.length', 5);
+
+    cy.seedCity('Blacksburg');
+    cy.get('[data-cy=add-city-button]').click();
+    cy.get('[data-cy=cities-links] a').should('have.length', 6);
+  });
+
   it('entering in a city etc. and then going to the link should go to the new city page for that city', () => {
     cy.seedCity('Detroit');
 

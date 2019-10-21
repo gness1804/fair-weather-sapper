@@ -18,13 +18,7 @@ const getNameAndSlug = arr =>
   });
 
 export function get(req, res) {
-  const { cities } = req.app.locals;
-
-  let content = getNameAndSlug(cityLinks);
-  if (cities.length > 0) {
-    const formattedCities = getNameAndSlug(cities);
-    content = [...content, ...formattedCities];
-  }
+  const content = getNameAndSlug(cityLinks);
 
   const citiesFromJSONWithIds = citiesFromJSON.map(city =>
     Object.assign({}, city, { id: v4() }),

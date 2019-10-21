@@ -9,6 +9,8 @@
 </script>
 
 <script>
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  import { onMount } from 'svelte';
   import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import slugify from '../../helpers/slugify';
@@ -18,6 +20,8 @@
 
   export let cities;
   export let citiesFromJSON;
+
+  let citiesToShow = [];
 
   let loading = false;
 
@@ -30,9 +34,7 @@
   let localWeatherData = {};
   let localDataIsPopulated = false;
 
-  $: thereAreUserEnteredCities = cities.find(
-    _city => String(_city.id).length > 2,
-  );
+  $: thereAreUserEnteredCities = citiesToShow.length > 4;
 
   const success = position => {
     const { latitude } = position.coords;
@@ -97,7 +99,6 @@
   };
 
   const addCity = () => {
-    // TODO: maybe move to LS/SS
     if (!selectedCity) {
       alert('Error: you must enter a city name. Please try again.');
       return;
@@ -113,31 +114,44 @@
         lng,
       },
     };
-    cities = [...cities, newCityObj];
+
     enteredCity = '';
     selectedCity = null;
     candidateCities = [];
-    axios.post('/addCities', { city: newCityObj }).catch(err => {
-      // eslint-disable-next-line no-console
-      console.error(`Error adding a new city: ${err}`);
-    });
+
+    const userCities = JSON.parse(localStorage.getItem('userCities'));
+    if (userCities) {
+      citiesToShow = [...cities, ...userCities, newCityObj];
+      localStorage.setItem(
+        'userCities',
+        JSON.stringify([...userCities, newCityObj]),
+      );
+    } else {
+      citiesToShow = [...cities, newCityObj];
+      localStorage.setItem('userCities', JSON.stringify([newCityObj]));
+    }
   };
 
   const deleteCity = id => {
-    axios.post('/deleteCity', { id }).catch(err => {
-      // eslint-disable-next-line no-console
-      console.error(`Error deleting a city: ${err}`);
-    });
-    cities = cities.filter(_city => _city.id !== id);
+    const userCities = JSON.parse(localStorage.getItem('userCities'));
+    const filteredUserCities = userCities.filter(city => city.id !== id);
+    citiesToShow = [...cities, ...filteredUserCities];
+    localStorage.setItem('userCities', JSON.stringify(filteredUserCities));
   };
 
   const resetCities = () => {
-    axios.post('/resetCities').catch(err => {
-      // eslint-disable-next-line no-console
-      console.error(`Error deleting all cities: ${err}`);
-    });
-    cities = cities.filter(_city => String(_city.id).length <= 2);
+    localStorage.setItem('userCities', undefined);
+    citiesToShow = [...cities];
   };
+
+  onMount(() => {
+    const userCities = JSON.parse(localStorage.getItem('userCities'));
+    if (userCities) {
+      citiesToShow = [...cities, ...userCities];
+    } else {
+      citiesToShow = [...cities];
+    }
+  });
 </script>
 
 <svelte:head>
@@ -200,7 +214,7 @@
   </div>
 
   <ul class="mb-12" data-cy="cities-links">
-    {#each sortAlpha(cities) as { slug, name, id }}
+    {#each sortAlpha(citiesToShow) as { slug, name, id }}
       <li class="mb-4 text-xl">
         <a rel="prefetch" title={name} href="cities/{slug}">{name}</a>
         {#if String(id).length > 2}
