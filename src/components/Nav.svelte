@@ -21,13 +21,17 @@
 
   const handleMouseover = () => {
     if (typeof document !== 'undefined') {
-      document.querySelector('.countries-list').classList.remove('hide');
+      document
+        .querySelector('ul[data-cy="countries-list"]')
+        .classList.remove('hide');
     }
   };
 
   const handleMouseout = () => {
     if (typeof document !== 'undefined') {
-      document.querySelector('.countries-list').classList.add('hide');
+      document
+        .querySelector('ul[data-cy="countries-list"]')
+        .classList.add('hide');
     }
   };
 
@@ -55,41 +59,43 @@
   <ul class="hero-links-left m-0 p-0">
     <li class="inline-block">
       <a
-        class={`nav-bar-link ${segment === undefined ? 'selected' : ''}`}
-        href=".">
+        class={`text-black block py-4 px-2 no-underline hover:underline hover:text-black hover:bg-gray-100 ${segment === undefined ? 'selected' : ''}`}
+        href="."
+        data-cy="nav-bar-link">
         home
       </a>
     </li>
     <li class="inline-block">
       <a
         rel="prefetch"
-        class={`nav-bar-link ${segment === 'cities' ? 'selected' : ''}`}
-        href="cities">
+        class={`text-black block py-4 px-2 no-underline hover:underline hover:text-black hover:bg-gray-100 ${segment === 'cities' ? 'selected' : ''}`}
+        href="cities"
+        data-cy="nav-bar-link">
         cities
       </a>
     </li>
   </ul>
 
-  <div class="temp-type-selector-wrapper">
-    <select on:change={handleOnChange} class="temp-type-selector">
-      <option value="F">&deg; F</option>
-      <option value="C">&deg; C</option>
-    </select>
-  </div>
+  <select on:change={handleOnChange} data-cy="temp-type-selector">
+    <option value="F">&deg; F</option>
+    <option value="C">&deg; C</option>
+  </select>
 
   <div
-    class="country-links-list-wrapper"
+    class="hover:cursor-pointer"
     on:mouseover={handleMouseover}
     on:mouseout={handleMouseout}>
     <p
-      class={`choose-a-country-label country-links-list-link ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}>
+      class={`hover:underline ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}
+      data-cy="choose-a-country-label">
       Choose a Country:
     </p>
-    <ul class="countries-list hide absolute z-50 mt-0 h-0">
+    <ul class="hide absolute z-50 mt-0 h-0" data-cy="countries-list">
       {#each sortAlpha(countries) as { code, name }}
         <li class="p-1 z-50 bg-white" on:mouseover={handleMouseover}>
           <a
-            class={`country-nav-link country-links-list-link z-50 ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
+            class={`hover:underline z-50 ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
+            data-cy="country-nav-link"
             rel="preload"
             href={`${code.toLowerCase()}/custom`}>
             {name}

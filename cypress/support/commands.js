@@ -15,18 +15,13 @@ import fakeLocation from './helpers/fakeLocation';
 
 // sets up the /cities landing page tests
 Cypress.Commands.add('seedCitiesPage', () => {
-  cy.request({
-    url: '/resetCities',
-    failOnStatusCode: false,
-    method: 'POST',
-  });
   cy.visit('/cities', fakeLocation(48, 2));
-  sessionStorage.clear();
+  localStorage.clear();
 });
 
 // enters in Detroit for city on cities page
 Cypress.Commands.add('seedCity', city => {
-  cy.get('#city-input')
+  cy.get('[data-cy=city-input]')
     .type(city)
     .blur();
 });

@@ -17,7 +17,10 @@ const seedData = async () => {
   let errorCount = 0;
   let errorMessage = 'There was a problem writing file data.';
 
-  links = normalizeData([...links, ...extendedCities]);
+  links = normalizeData([
+    ...links,
+    ...extendedCities.filter(city => city.name !== 'Harare'), // exclude Harare because it's our zero degrees case.
+  ]);
   // eslint-disable-next-line no-unused-vars
   for (const link of links) {
     const {

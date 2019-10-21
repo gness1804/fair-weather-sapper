@@ -4,9 +4,9 @@ import normalizeData from '../../helpers/normalizeData';
 const extendedCities = require('../cities/extendedCityData.json');
 
 export function get(req, res) {
-  const { state } = req.params;
+  const [country, state] = req.params.loc;
 
-  if (!state) {
+  if (!country) {
     res.writeHead(404, {
       'Content-Type': 'application/json',
     });
@@ -19,9 +19,15 @@ export function get(req, res) {
     return;
   }
 
-  const filteredCities = normalizeData([...origCities, ...extendedCities])
-    .filter(city => city.country.toLowerCase() === 'us')
-    .filter(city => city.state.toLowerCase() === state.toLowerCase());
+  let filteredCities = normalizeData([...origCities, ...extendedCities]).filter(
+    city => city.country.toLowerCase() === country.toLowerCase(),
+  );
+
+  if (state) {
+    filteredCities = filteredCities.filter(
+      city => city.state.toLowerCase() === state.toLowerCase(),
+    );
+  }
 
   res.writeHead(200, {
     'Content-Type': 'application/json',

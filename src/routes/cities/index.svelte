@@ -9,9 +9,10 @@
 </script>
 
 <script>
-  import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import { onMount } from 'svelte';
+  import axios from 'axios';
+  // eslint-disable-next-line import/no-extraneous-dependencies
   import slugify from '../../helpers/slugify';
   import LocalWeatherResults from '../../components/LocalWeatherResults.svelte';
   import sortAlpha from '../../helpers/sortAlpha';
@@ -20,14 +21,9 @@
   export let cities;
   export let citiesFromJSON;
 
-  let loading = false;
+  let citiesToShow = [];
 
-  let icon;
-  let iconSrc;
-  let currentTemp;
-  let currentTempCelsius;
-  let currentTempColor;
-  let summary;
+  let loading = false;
 
   let candidateCities = [];
   let selectedCity;
@@ -35,16 +31,10 @@
   let enteredCity;
   let showCandidateCitiesError = false;
 
-  $: localDataIsPopulated =
-    icon &&
-    iconSrc &&
-    currentTemp &&
-    currentTempCelsius &&
-    currentTempColor &&
-    summary;
-  $: thereAreUserEnteredCities = cities.find(
-    _city => String(_city.id).length > 2,
-  );
+  let localWeatherData = {};
+  let localDataIsPopulated = false;
+
+  $: thereAreUserEnteredCities = citiesToShow.length > 4;
 
   const success = position => {
     const { latitude } = position.coords;
@@ -53,14 +43,24 @@
       .post('/addPos', { lat: latitude, lng: longitude })
       .then(res => {
         if (res && res.data) {
-          icon = res.data.icon;
-          iconSrc = res.data.iconSrc;
-          currentTemp = res.data.currentTemp;
-          currentTempCelsius = res.data.currentTempCelsius;
-          currentTempColor = res.data.currentTempColor;
-          summary = res.data.summary;
+          const {
+            icon,
+            iconSrc,
+            currentTemp,
+            currentTempCelsius,
+            currentTempColor,
+            summary,
+          } = res.data;
 
-          sessionStorage.setItem('showLocalWeather', 'true');
+          localWeatherData = {
+            icon,
+            iconSrc,
+            currentTemp,
+            currentTempCelsius,
+            currentTempColor,
+            summary,
+          };
+          localDataIsPopulated = true;
         }
         loading = false;
       })
@@ -114,37 +114,42 @@
         lng,
       },
     };
-    cities = [...cities, newCityObj];
+
     enteredCity = '';
     selectedCity = null;
     candidateCities = [];
-    axios.post('/addCities', { city: newCityObj }).catch(err => {
-      // eslint-disable-next-line no-console
-      console.error(`Error adding a new city: ${err}`);
-    });
+
+    const userCities = JSON.parse(localStorage.getItem('userCities'));
+    if (userCities) {
+      citiesToShow = [...cities, ...userCities, newCityObj];
+      localStorage.setItem(
+        'userCities',
+        JSON.stringify([...userCities, newCityObj]),
+      );
+    } else {
+      citiesToShow = [...cities, newCityObj];
+      localStorage.setItem('userCities', JSON.stringify([newCityObj]));
+    }
   };
 
   const deleteCity = id => {
-    axios.post('/deleteCity', { id }).catch(err => {
-      // eslint-disable-next-line no-console
-      console.error(`Error deleting a city: ${err}`);
-    });
-    cities = cities.filter(_city => _city.id !== id);
+    const userCities = JSON.parse(localStorage.getItem('userCities'));
+    const filteredUserCities = userCities.filter(city => city.id !== id);
+    citiesToShow = [...cities, ...filteredUserCities];
+    localStorage.setItem('userCities', JSON.stringify(filteredUserCities));
   };
 
   const resetCities = () => {
-    axios.post('/resetCities').catch(err => {
-      // eslint-disable-next-line no-console
-      console.error(`Error deleting all cities: ${err}`);
-    });
-    cities = cities.filter(_city => String(_city.id).length <= 2);
+    localStorage.setItem('userCities', undefined);
+    citiesToShow = [...cities];
   };
 
-  onMount(async () => {
-    const showLocalWeather =
-      sessionStorage.getItem('showLocalWeather') === 'true';
-    if (showLocalWeather) {
-      await getWeather();
+  onMount(() => {
+    const userCities = JSON.parse(localStorage.getItem('userCities'));
+    if (userCities) {
+      citiesToShow = [...cities, ...userCities];
+    } else {
+      citiesToShow = [...cities];
     }
   });
 </script>
@@ -153,18 +158,17 @@
   <title>Cities</title>
 </svelte:head>
 
-<div class="cities text-center">
+<div class="text-center">
   <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
   <h3 class="mb-6 text-xl">Add New City:</h3>
 
-  <div class="location-input-container mb-12">
-    <div
-      class="location-input-container-top-inputs flex flex-row justify-center
-      items-center mb-4">
+  <div class="mb-12">
+    <div class="flex flex-row justify-center items-center mb-4">
       <label for="city-input" class="mr-3">
         <input
           id="city-input"
+          data-cy="city-input"
           class={showCandidateCitiesError ? 'error-box' : ''}
           type="text"
           list="cities-list"
@@ -173,22 +177,22 @@
           on:blur={showCandidateCities}
           bind:value={enteredCity} />
       </label>
-      <datalist id="cities-list">
-        {#each sortAlpha(citiesFromJSON) as city}
-          <option value={city.name}>{city.name}</option>
+      <datalist id="cities-list" data-cy="cities-list">
+        {#each sortAlpha(citiesFromJSON) as { name }}
+          <option value={name}>{name}</option>
         {/each}
       </datalist>
       {#if showCandidateCitiesError}
-        <p class="candidate-cities-error-message text-red-600">
+        <p class="text-red-600" data-cy="candidate-cities-error-message">
           Error: invalid city. Please select one from the list in the input
           field.
         </p>
       {/if}
 
       {#if candidateCities.length > 0}
-        <select class="candidate-cities-select" bind:value={selectedCity}>
+        <select bind:value={selectedCity} data-cy="candidate-cities-select">
           {#each candidateCities as candidate}
-            <option class="candidate-option" value={candidate}>
+            <option value={candidate} data-cy="candidate-option">
               {candidate.name} - {candidate.country}
             </option>
           {/each}
@@ -197,26 +201,27 @@
     </div>
     <button
       on:click={addCity}
-      class="add-city-button"
+      data-cy="add-city-button"
       disabled={!enteredCity || showCandidateCitiesError}>
       Add
     </button>
     <button
-      class="reset-all-button"
+      data-cy="reset-all-button"
       on:click={resetCities}
       disabled={!thereAreUserEnteredCities}>
       Reset to Defaults
     </button>
   </div>
 
-  <ul class="cities-links mb-12">
-    {#each sortAlpha(cities) as { slug, name, id }}
+  <ul class="mb-12" data-cy="cities-links">
+    {#each sortAlpha(citiesToShow) as { slug, name, id }}
       <li class="mb-4 text-xl">
         <a rel="prefetch" title={name} href="cities/{slug}">{name}</a>
         {#if String(id).length > 2}
           <span
             on:click={() => deleteCity(id)}
-            class="delete-city-button cursor-pointer text-red-700"
+            class="cursor-pointer text-red-700"
+            data-cy="delete-city-button"
             title={`Delete ${name}`}>
             X
           </span>
@@ -227,19 +232,14 @@
 
   <button
     on:click={getWeather}
-    class="get-my-weather-button mb-10"
+    class="mb-10"
+    data-cy="get-my-weather-button"
     disabled={localDataIsPopulated}>
     Get My Weather
   </button>
 
   {#if localDataIsPopulated}
-    <LocalWeatherResults
-      {iconSrc}
-      {icon}
-      {currentTempColor}
-      currentTemp={$tempType === 'C' ? currentTempCelsius : currentTemp}
-      {summary}
-      tempType={$tempType} />
+    <LocalWeatherResults {...localWeatherData} tempType={$tempType} />
   {:else if loading}
     <p>Loading...</p>
   {/if}

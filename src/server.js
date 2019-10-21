@@ -15,26 +15,10 @@ const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
 const app = express();
-app.locals.cities = [];
 
 app
   .use(bodyParser.json())
   .post('/addPos', getCurrentLocData)
-  .post('/addCities', (req, res, next) => {
-    const { city } = req.body;
-    app.locals.cities = [...app.locals.cities, city];
-    return next();
-  })
-  .post('/deleteCity', (req, res, next) => {
-    const { id } = req.body;
-    const filteredCities = app.locals.cities.filter(city => city.id !== id);
-    app.locals.cities = filteredCities;
-    return next();
-  })
-  .post('/resetCities', (req, res, next) => {
-    app.locals.cities = [];
-    return next();
-  })
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
