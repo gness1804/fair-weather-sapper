@@ -61,3 +61,23 @@ ul[data-cy='countries-list'] li:nth-child(odd) {
 ul[data-cy='countries-list'] li:nth-child(even) {
   @apply shadow;
 }
+
+.t-cold {
+  @apply text-cold;
+}
+
+.t-cool {
+  @apply text-cool;
+}
+
+.t-ideal {
+  @apply text-ideal;
+}
+
+.t-hot {
+  @apply text-hot;
+}
+
+.t-boiling {
+  @apply text-boiling;
+}

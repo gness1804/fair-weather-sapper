@@ -1,5 +1,6 @@
 const makeDateHumanReadable = require('../../src/helpers/makeDateHumanReadable');
 const changeTempType = require('../../src/helpers/changeTempType');
+const getTempColor = require('../../src/data/getTempColor');
 
 describe('city page for Austin', () => {
   let data;
@@ -63,6 +64,26 @@ describe('city page for Austin', () => {
         parseFloat(data.data.daily.data[0].temperatureLow),
       );
       cy.get('[data-cy=low-temp]').contains(temp);
+    });
+
+    it('high temp should display in the correct color', () => {
+      const temp = Math.round(
+        parseFloat(data.data.daily.data[0].temperatureHigh),
+      );
+      const color = getTempColor(temp);
+
+      cy.get('[data-cy=high-temp-wrapper]').should('have.class', `t-${color}`);
+    });
+
+    // TODO: add test for main temp having correct color
+
+    it('low temp should display in the correct color', () => {
+      const temp = Math.round(
+        parseFloat(data.data.daily.data[0].temperatureLow),
+      );
+      const color = getTempColor(temp);
+
+      cy.get('[data-cy=low-temp-wrapper]').should('have.class', `t-${color}`);
     });
 
     it('should display the correct sunrise time', () => {
