@@ -6,37 +6,35 @@
   export let data = {};
 </script>
 
-<div class="weather-display">
-  <img
-    src={data.iconSrc}
-    alt={data.icon}
-    title={data.icon}
-    class="my-0 mx-auto h-32 w-32" />
+<img
+  src={data.iconSrc}
+  alt={data.icon}
+  title={data.icon}
+  class="my-0 mx-auto h-32 w-32" />
 
-  <p class={`text-5xl text-${data.currentTempColor} mb-6`}>
-    <span data-cy="current-temp">
-      {$tempType === 'C' ? data.currentTempCelsius : data.currentTemp}
-    </span>
-    <span data-cy="temp-type-display">&deg; {$tempType}</span>
-  </p>
+<p class={`text-5xl text-${data.currentTempColor} mb-6`}>
+  <span data-cy="current-temp">
+    {$tempType === 'C' ? data.currentTempCelsius : data.currentTemp}
+  </span>
+  <span data-cy="temp-type-display">&deg; {$tempType}</span>
+</p>
 
-  <p class="mb-6" data-cy="current-conditions-message">
-    The weather is {data.summary} with a {Math.round(data.precipProbability)}%
-    chance of rain.
-  </p>
+<p class="mb-6" data-cy="current-conditions-message">
+  The weather is {data.summary} with a {Math.round(data.precipProbability)}%
+  chance of rain.
+</p>
 
-  <div class="today-container my-0 mx-auto w-most md:w-half">
-    <h3 class="text-2xl mb-6">Today:</h3>
+<div class="my-0 mx-auto w-most md:w-half">
+  <h3 class="text-2xl mb-6">Today:</h3>
 
-    <HighLowTempsContainer
-      dailyHighTempColor={data.dailyHighTempColor}
-      dailyHighTemp={$tempType === 'C' ? data.dailyHighTempCelsius : data.dailyHighTemp}
-      dailyLowTempColor={data.dailyLowTempColor}
-      dailyLowTemp={$tempType === 'C' ? data.dailyLowTempCelsius : data.dailyLowTemp} />
+  <HighLowTempsContainer
+    dailyHighTempColor={data.dailyHighTempColor}
+    dailyHighTemp={$tempType === 'C' ? data.dailyHighTempCelsius : data.dailyHighTemp}
+    dailyLowTempColor={data.dailyLowTempColor}
+    dailyLowTemp={$tempType === 'C' ? data.dailyLowTempCelsius : data.dailyLowTemp} />
 
-    <SunriseSunsetContainer
-      sunriseTime={data.sunriseTime}
-      sunsetTime={data.sunsetTime} />
+  <SunriseSunsetContainer
+    sunriseTime={data.sunriseTime}
+    sunsetTime={data.sunsetTime} />
 
-  </div>
 </div>

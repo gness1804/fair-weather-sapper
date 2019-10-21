@@ -47,35 +47,32 @@
   <title>{country.toUpperCase()}</title>
 </svelte:head>
 
-<div class="custom-page">
-  {#if stateName}
-    <p
-      class="font-bold text-2xl text-center mb-6"
-      data-cy="state-results-for-message">
-      Results for {stateName.toUpperCase()}, {country.toUpperCase()}
-    </p>
+{#if stateName}
+  <p
+    class="font-bold text-2xl text-center mb-6"
+    data-cy="state-results-for-message">
+    Results for {stateName.toUpperCase()}, {country.toUpperCase()}
+  </p>
+{:else}
+  <p
+    class="font-bold text-2xl text-center mb-6"
+    data-cy="country-results-for-message">
+    Results for {country.toUpperCase()}
+  </p>
+{/if}
+
+{#if stateName}
+  {#if stateData.length > 0}
+    <CitiesTable isAmerica data={stateData} />
   {:else}
-    <p
-      class="font-bold text-2xl text-center mb-6"
-      data-cy="country-results-for-message">
-      Results for {country.toUpperCase()}
+    <p class="text-red-600" data-cy="state-error-message">
+      Error: invalid state name. Please try again.
     </p>
   {/if}
-
-  {#if stateName}
-    {#if stateData.length > 0}
-      <CitiesTable isAmerica data={stateData} />
-    {:else}
-      <p class="text-red-600" data-cy="state-error-message">
-        Error: invalid state name. Please try again.
-      </p>
-    {/if}
-  {:else if countryData.length > 0}
-    <CitiesTable {isAmerica} data={countryData} />
-  {:else}
-    <p class="text-red-600" data-cy="country-error-message">
-      Error: invalid country name. Please try again.
-    </p>
-  {/if}
-
-</div>
+{:else if countryData.length > 0}
+  <CitiesTable {isAmerica} data={countryData} />
+{:else}
+  <p class="text-red-600" data-cy="country-error-message">
+    Error: invalid country name. Please try again.
+  </p>
+{/if}

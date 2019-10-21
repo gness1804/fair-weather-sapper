@@ -54,10 +54,6 @@ tr:not(:first-child):nth-child(odd) {
   @apply hidden;
 }
 
-.country-links-list-wrapper:hover {
-  @apply cursor-pointer;
-}
-
 ul[data-cy='countries-list'] li:nth-child(odd) {
   @apply bg-gray-200;
 }

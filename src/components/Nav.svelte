@@ -76,15 +76,13 @@
     </li>
   </ul>
 
-  <div class="temp-type-selector-wrapper">
-    <select on:change={handleOnChange} data-cy="temp-type-selector">
-      <option value="F">&deg; F</option>
-      <option value="C">&deg; C</option>
-    </select>
-  </div>
+  <select on:change={handleOnChange} data-cy="temp-type-selector">
+    <option value="F">&deg; F</option>
+    <option value="C">&deg; C</option>
+  </select>
 
   <div
-    class="country-links-list-wrapper"
+    class="hover:cursor-pointer"
     on:mouseover={handleMouseover}
     on:mouseout={handleMouseout}>
     <p

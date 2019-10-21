@@ -158,15 +158,13 @@
   <title>Cities</title>
 </svelte:head>
 
-<div class="cities text-center">
+<div class="text-center">
   <h2 class="text-center text-3xl font-bold mb-10">Cities</h2>
 
   <h3 class="mb-6 text-xl">Add New City:</h3>
 
-  <div class="location-input-container mb-12">
-    <div
-      class="location-input-container-top-inputs flex flex-row justify-center
-      items-center mb-4">
+  <div class="mb-12">
+    <div class="flex flex-row justify-center items-center mb-4">
       <label for="city-input" class="mr-3">
         <input
           id="city-input"
