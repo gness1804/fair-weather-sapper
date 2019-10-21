@@ -9,8 +9,6 @@
 </script>
 
 <script>
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  import { onMount } from 'svelte';
   import axios from 'axios';
   // eslint-disable-next-line import/no-extraneous-dependencies
   import slugify from '../../helpers/slugify';
@@ -53,7 +51,6 @@
             summary,
           } = res.data;
 
-          sessionStorage.setItem('showLocalWeather', 'true');
           localWeatherData = {
             icon,
             iconSrc,
@@ -142,14 +139,6 @@
     });
     cities = cities.filter(_city => String(_city.id).length <= 2);
   };
-
-  onMount(async () => {
-    const showLocalWeather =
-      sessionStorage.getItem('showLocalWeather') === 'true';
-    if (showLocalWeather) {
-      await getWeather();
-    }
-  });
 </script>
 
 <svelte:head>
