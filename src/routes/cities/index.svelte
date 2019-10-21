@@ -41,7 +41,6 @@
       .post('/addPos', { lat: latitude, lng: longitude })
       .then(res => {
         if (res && res.data) {
-          // TODO: handle case of 0 deg
           const {
             icon,
             iconSrc,
