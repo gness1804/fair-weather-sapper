@@ -82,6 +82,37 @@ describe('city page for Austin', () => {
       );
       cy.get('[data-cy=sunset-time]').contains(time);
     });
+
+    describe('case of zero degrees', () => {
+      let _data;
+      before(() => {
+        cy.fixture('zeroDegrees').then(res => (_data = res)); // data for Harare, which is the zero degrees case.
+      });
+
+      beforeEach(() => {
+        cy.visit('/cities/harare');
+      });
+
+      // all three temps for Harare mock are 0 degrees F
+      it('shows correct display for current temp', () => {
+        const temp = Math.round(parseFloat(_data.data.currently.temperature));
+        cy.get('[data-cy=current-temp]').contains(temp);
+      });
+
+      it('should display the high temp', () => {
+        const temp = Math.round(
+          parseFloat(_data.data.daily.data[0].temperatureHigh),
+        );
+        cy.get('[data-cy=high-temp]').contains(temp);
+      });
+
+      it('should display the low temp', () => {
+        const temp = Math.round(
+          parseFloat(_data.data.daily.data[0].temperatureLow),
+        );
+        cy.get('[data-cy=low-temp]').contains(temp);
+      });
+    });
   });
 
   describe('Fahrenheit-Celsius conversion dropdown', () => {
