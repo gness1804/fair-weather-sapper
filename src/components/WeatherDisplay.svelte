@@ -12,7 +12,14 @@
   title={data.icon}
   class="my-0 mx-auto h-32 w-32" />
 
-<p class={`text-5xl text-${data.currentTempColor} mb-6`}>
+<p
+  class="text-5xl mb-6"
+  data-cy="current-temp-wrapper"
+  class:t-cold={data.currentTempColor === 'cold'}
+  class:t-cool={data.currentTempColor === 'cool'}
+  class:t-ideal={data.currentTempColor === 'ideal'}
+  class:t-hot={data.currentTempColor === 'hot'}
+  class:t-boiling={data.currentTempColor === 'boiling'}>
   <span data-cy="current-temp">
     {$tempType === 'C' ? data.currentTempCelsius : data.currentTemp}
   </span>

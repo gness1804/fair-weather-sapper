@@ -66,6 +66,16 @@ describe('city page for Austin', () => {
       cy.get('[data-cy=low-temp]').contains(temp);
     });
 
+    it('the current temperature should display in the correct color', () => {
+      const temp = Math.round(parseFloat(data.data.currently.temperature));
+      const color = getTempColor(temp);
+
+      cy.get('[data-cy=current-temp-wrapper]').should(
+        'have.class',
+        `t-${color}`,
+      );
+    });
+
     it('high temp should display in the correct color', () => {
       const temp = Math.round(
         parseFloat(data.data.daily.data[0].temperatureHigh),
@@ -74,8 +84,6 @@ describe('city page for Austin', () => {
 
       cy.get('[data-cy=high-temp-wrapper]').should('have.class', `t-${color}`);
     });
-
-    // TODO: add test for main temp having correct color
 
     it('low temp should display in the correct color', () => {
       const temp = Math.round(
