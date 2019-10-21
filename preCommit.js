@@ -1,5 +1,5 @@
 const util = require('util');
-const { readFile } = require('fs');
+const { readFile, existsSync } = require('fs');
 const { exec } = require('child_process');
 
 const promisifiedExec = util.promisify(exec);
@@ -43,9 +43,6 @@ const checkFile = (fileName, data) =>
     if (data.match(/debugger/g) && data.match(/debugger/g).length) {
       reject(resetAndExit(`Error: debugger in ${fileName}. Exiting.`));
     }
-    // if (data.match(/console/g) && data.match(/console/g).length) {
-    //   reject(resetAndExit(`Error: console statement in ${fileName}. Exiting.`));
-    // }
     if (data.match(/it.only/g) && data.match(/it.only/g).length) {
       reject(resetAndExit(`Error: it.only in ${fileName}. Exiting.`));
     }
@@ -67,7 +64,7 @@ const loopThroughFiles = files => {
   /* eslint-disable no-unused-vars */
   for (const file of files) {
     /* eslint-enable no-unused-vars */
-    if (file) {
+    if (file && existsSync(file)) {
       promisifiedReadFile(file, 'utf-8').then(fileData =>
         checkFile(file, fileData),
       );
