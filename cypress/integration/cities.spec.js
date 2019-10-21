@@ -1,4 +1,5 @@
 const changeTempType = require('../../src/helpers/changeTempType');
+const getTempColor = require('../../src/data/getTempColor');
 
 describe('Cities landing page.', () => {
   const isTesting = Cypress.env('TESTING') === 'true';
@@ -69,6 +70,21 @@ describe('Cities landing page.', () => {
     );
     cy.get('[data-cy=conditions-display]').then(elem =>
       cy.get(elem).contains(conditions),
+    );
+  });
+
+  it('the current temperature should display in the correct color when the user clicks on the Get My Weather button', function() {
+    if (!isTesting) {
+      this.skip();
+    }
+    const temp = Math.round(parseFloat(data.data.currently.temperature));
+    const color = getTempColor(temp);
+
+    cy.get('[data-cy=get-my-weather-button]').click();
+
+    cy.get('[data-cy=current-temp-value-display]').should(
+      'have.class',
+      `t-${color}`,
     );
   });
 
