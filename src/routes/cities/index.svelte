@@ -23,26 +23,15 @@
 
   let loading = false;
 
-  let icon;
-  let iconSrc;
-  let currentTemp;
-  let currentTempCelsius;
-  let currentTempColor;
-  let summary;
-
   let candidateCities = [];
   let selectedCity;
 
   let enteredCity;
   let showCandidateCitiesError = false;
 
-  $: localDataIsPopulated =
-    icon &&
-    iconSrc &&
-    currentTemp &&
-    currentTempCelsius &&
-    currentTempColor &&
-    summary;
+  let localWeatherData = {};
+  let localDataIsPopulated = false;
+
   $: thereAreUserEnteredCities = cities.find(
     _city => String(_city.id).length > 2,
   );
@@ -54,17 +43,26 @@
       .post('/addPos', { lat: latitude, lng: longitude })
       .then(res => {
         if (res && res.data) {
-          // TODO: can put localDataIsPopulated here and have as bool
-          // can obj spread using a global obj
-          // handle case of 0 deg
-          icon = res.data.icon;
-          iconSrc = res.data.iconSrc;
-          currentTemp = res.data.currentTemp;
-          currentTempCelsius = res.data.currentTempCelsius;
-          currentTempColor = res.data.currentTempColor;
-          summary = res.data.summary;
+          // TODO: handle case of 0 deg
+          const {
+            icon,
+            iconSrc,
+            currentTemp,
+            currentTempCelsius,
+            currentTempColor,
+            summary,
+          } = res.data;
 
           sessionStorage.setItem('showLocalWeather', 'true');
+          localWeatherData = {
+            icon,
+            iconSrc,
+            currentTemp,
+            currentTempCelsius,
+            currentTempColor,
+            summary,
+          };
+          localDataIsPopulated = true;
         }
         loading = false;
       })
@@ -239,13 +237,7 @@
   </button>
 
   {#if localDataIsPopulated}
-    <LocalWeatherResults
-      {iconSrc}
-      {icon}
-      {currentTempColor}
-      currentTemp={$tempType === 'C' ? currentTempCelsius : currentTemp}
-      {summary}
-      tempType={$tempType} />
+    <LocalWeatherResults {...localWeatherData} tempType={$tempType} />
   {:else if loading}
     <p>Loading...</p>
   {/if}
