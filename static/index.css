@@ -8725,10 +8725,6 @@ tr:not(:first-child):nth-child(odd) {
   cursor: pointer;
 }
 
-.country-links-list-link:hover {
-  text-decoration: underline;
-}
-
 ul[data-cy='countries-list'] li:nth-child(odd) {
   background-color: #edf2f7;
 }

@@ -23,24 +23,22 @@
 
     {#each data as { name, state, slug, geocoords: { lat, lng } }}
       <tr>
-        <td class="cities-result-table-name">
-          <a
-            class="cities-result-table-name-link-wrapper"
-            href={`/cities/${slug}`}>
+        <td data-cy="cities-result-table-name">
+          <a data-cy="cities-result-table-name-link" href={`/cities/${slug}`}>
             {name}
           </a>
         </td>
         {#if isAmerica}
-          <td class="cities-result-table-state">
+          <td data-cy="cities-result-table-state">
             <a
-              class="cities-result-table-state-link-wrapper"
+              data-cy="cities-result-table-state-link"
               href={`/us/${state.toLowerCase()}/custom`}>
               {state}
             </a>
           </td>
         {/if}
-        <td class="cities-result-table-lat">{Number(lat).toFixed(2)}</td>
-        <td class="cities-result-table-lng">{Number(lng).toFixed(2)}</td>
+        <td>{Number(lat).toFixed(2)}</td>
+        <td>{Number(lng).toFixed(2)}</td>
       </tr>
     {/each}
   </tbody>

@@ -49,7 +49,9 @@
 
 <div class="custom-page">
   {#if stateName}
-    <p class="state-results-for-message font-bold text-2xl text-center mb-6">
+    <p
+      class="font-bold text-2xl text-center mb-6"
+      data-cy="state-results-for-message">
       Results for {stateName.toUpperCase()}, {country.toUpperCase()}
     </p>
   {:else}
@@ -64,14 +66,14 @@
     {#if stateData.length > 0}
       <CitiesTable isAmerica data={stateData} />
     {:else}
-      <p class="state-error-message text-red-600">
+      <p class="text-red-600" data-cy="state-error-message">
         Error: invalid state name. Please try again.
       </p>
     {/if}
   {:else if countryData.length > 0}
     <CitiesTable {isAmerica} data={countryData} />
   {:else}
-    <p class="country-error-message text-red-600">
+    <p class="text-red-600" data-cy="country-error-message">
       Error: invalid country name. Please try again.
     </p>
   {/if}

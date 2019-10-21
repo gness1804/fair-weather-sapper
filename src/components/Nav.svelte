@@ -88,14 +88,16 @@
     on:mouseover={handleMouseover}
     on:mouseout={handleMouseout}>
     <p
-      class={`choose-a-country-label country-links-list-link ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}>
+      class={`hover:underline ${/^[a-z]{2}$/.test(segment) ? 'selected-lite' : ''}`}
+      data-cy="choose-a-country-label">
       Choose a Country:
     </p>
     <ul class="hide absolute z-50 mt-0 h-0" data-cy="countries-list">
       {#each sortAlpha(countries) as { code, name }}
         <li class="p-1 z-50 bg-white" on:mouseover={handleMouseover}>
           <a
-            class={`country-nav-link country-links-list-link z-50 ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
+            class={`hover:underline z-50 ${segment === code.toLowerCase() ? 'selected-lite' : ''}`}
+            data-cy="country-nav-link"
             rel="preload"
             href={`${code.toLowerCase()}/custom`}>
             {name}
