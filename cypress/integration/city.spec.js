@@ -6,10 +6,8 @@ describe('city page for Austin', () => {
   let data;
   const isTesting = Cypress.env('TESTING') === 'true';
 
-  const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
-
   before(() => {
-    cy.readFile(cityDataFile).then(contents => {
+    cy.fixture('weatherDataMain').then(contents => {
       data = contents;
     });
   });

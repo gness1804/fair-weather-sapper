@@ -17,6 +17,8 @@ const seedData = async () => {
   let errorCount = 0;
   let errorMessage = 'There was a problem writing file data.';
 
+  const cypressSeedFile = './cypress/fixtures/weatherDataMain.json';
+
   links = normalizeData([
     ...links,
     ...extendedCities.filter(city => city.name !== 'Harare'), // exclude Harare because it's our zero degrees case.
@@ -34,6 +36,13 @@ const seedData = async () => {
       const data = await axios.get(
         `https://api.darksky.net/forecast/${process.env.DARK_SKY_KEY}/${lat},${lng}`,
       );
+      if (city === 'austin') {
+        await promisifiedWriteFile(
+          cypressSeedFile,
+          JSON.stringify({ data: data.data }),
+        );
+        await promisifiedExec(`npm run prettier:spec ${cypressSeedFile}`);
+      }
       await promisifiedWriteFile(file, JSON.stringify({ data: data.data }));
       await promisifiedExec(`npm run prettier:spec ${file}`);
     } catch (error) {
