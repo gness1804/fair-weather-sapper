@@ -5,10 +5,9 @@ describe('Cities landing page.', () => {
   const isTesting = Cypress.env('TESTING') === 'true';
 
   let data;
-  const cityDataFile = './src/routes/cities/_cityStaticData/austin.json';
 
   before(() => {
-    cy.readFile(cityDataFile).then(contents => {
+    cy.fixture('weatherDataMain').then(contents => {
       data = contents;
     });
   });
